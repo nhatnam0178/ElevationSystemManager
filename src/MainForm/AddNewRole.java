@@ -44,18 +44,18 @@ public class AddNewRole extends JFrame {
 	 */
 	public AddNewRole() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 332, 151);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JLabel lblRoleName = new JLabel("Role Name: ");
-		lblRoleName.setBounds(10, 11, 66, 20);
+		lblRoleName.setBounds(7, 45, 66, 20);
 		contentPane.add(lblRoleName);
 
 		txtRole = new JTextField();
-		txtRole.setBounds(86, 11, 86, 20);
+		txtRole.setBounds(83, 45, 223, 20);
 		contentPane.add(txtRole);
 		txtRole.setColumns(10);
 
@@ -73,7 +73,7 @@ public class AddNewRole extends JFrame {
 
 			}
 		});
-		btnOk.setBounds(86, 70, 89, 23);
+		btnOk.setBounds(115, 76, 89, 23);
 		contentPane.add(btnOk);
 
 		JButton btnCancel = new JButton("Cancel");
@@ -82,7 +82,11 @@ public class AddNewRole extends JFrame {
 				dispose();
 			}
 		});
-		btnCancel.setBounds(220, 70, 89, 23);
+		btnCancel.setBounds(217, 76, 89, 23);
 		contentPane.add(btnCancel);
+		
+		JLabel lblAddNewRole = new JLabel("ADD NEW ROLE ACCOUNT");
+		lblAddNewRole.setBounds(115, 11, 135, 14);
+		contentPane.add(lblAddNewRole);
 	}
 }

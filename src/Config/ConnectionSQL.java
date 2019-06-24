@@ -10,7 +10,7 @@ import java.sql.Statement;
 
 public final class ConnectionSQL {
 	private static String url = helper.FileHelper.getConnectionString("bin\\App.xml");
-
+	public Connection conn;
 	public static Connection Connect() {
 		try {
 			Connection conn;
@@ -25,6 +25,37 @@ public final class ConnectionSQL {
 		}
 		return null;
 
+	}
+
+	public ResultSet Query(String strQuery) {
+		Statement stmt;
+		try {
+			
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(strQuery);
+			return rs;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	public ResultSet Query(String str, String[] params) {
+		PreparedStatement stmt;
+		try {
+			stmt = conn.prepareStatement(str);
+			for (int i = 0; i < params.length; i++) {
+				stmt.setString(i + 1, params[i]);
+
+			}
+			ResultSet rs = stmt.executeQuery();
+			return rs;
+		} catch (Exception e) {
+			e.getStackTrace();
+			return null;
+		}
 	}
 
 	public static ResultSet CallProc(String storeName) {

@@ -6,4 +6,5 @@ public final class RoleDAO {
 		boolean kq = Config.ConnectionSQL.CallProcExec("sp_insert_ROLE", params);
 		return kq;
 	}
+	
 }
