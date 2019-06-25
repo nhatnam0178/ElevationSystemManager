@@ -79,11 +79,33 @@ public class Account {
 		return address;
 	}
 
+	private int role_id;
+
+// role_id
+	public void setrole_id(int value) {
+		role_id = value;
+	}
+
+	public int getrole_id() {
+		return role_id;
+	}
+
+	private int department_id;
+
+// department_id
+	public void setdepartment_id(int value) {
+		department_id = value;
+	}
+
+	public int getdepartment_id() {
+		return department_id;
+	}
+
 	public Account() {
-	};
+	}
 
 	public Account(String username, String password, String name, boolean gender, String email, String phone,
-			String address) {
+			String address, int role_id, int department_id) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -92,6 +114,8 @@ public class Account {
 		this.email = email;
 		this.phone = phone;
 		this.address = address;
-	}
+		this.role_id = role_id;
+		this.department_id = department_id;
+	};
 
 }

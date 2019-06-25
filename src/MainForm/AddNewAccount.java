@@ -1,11 +1,13 @@
 package MainForm;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import DAO.AccountDAO;
+import entities.Account;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -21,6 +23,10 @@ public class AddNewAccount extends JFrame {
 	private JTextField txtName;
 	private JTextField txtPhone;
 	private JTextField txtAddress;
+	private MyComboBox cbGender = new MyComboBox();
+	private MyComboRole cbRole = new MyComboRole();
+	private MyComboDepart cbDepartment = new MyComboDepart();
+	private JTextField txtEmail;
 
 	/**
 	 * Launch the application.
@@ -43,14 +49,14 @@ public class AddNewAccount extends JFrame {
 	 */
 	public AddNewAccount() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 344, 416);
+		setBounds(100, 100, 344, 460);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JLabel lblInputNewInfo = new JLabel("INPUT NEW INFO ACCOUNT");
-		lblInputNewInfo.setBounds(108, 11, 147, 14);
+		lblInputNewInfo.setBounds(108, 11, 171, 14);
 		contentPane.add(lblInputNewInfo);
 
 		JLabel lblName = new JLabel("Username:");
@@ -78,11 +84,11 @@ public class AddNewAccount extends JFrame {
 		contentPane.add(lblNewLabel_3);
 
 		JLabel lblRole = new JLabel("Role: ");
-		lblRole.setBounds(10, 255, 46, 14);
+		lblRole.setBounds(10, 290, 46, 14);
 		contentPane.add(lblRole);
 
 		JLabel lblNewLabel_4 = new JLabel("Department: ");
-		lblNewLabel_4.setBounds(10, 292, 67, 14);
+		lblNewLabel_4.setBounds(10, 327, 67, 14);
 		contentPane.add(lblNewLabel_4);
 
 		JButton btnCancel = new JButton("Cancel");
@@ -91,15 +97,48 @@ public class AddNewAccount extends JFrame {
 				dispose();
 			}
 		});
-		btnCancel.setBounds(208, 343, 89, 23);
+		btnCancel.setBounds(230, 387, 89, 23);
 		contentPane.add(btnCancel);
 
 		JButton btnOk = new JButton("OK");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				String username = txtName.getText();
+				String password = txtPassword.getText();
+				String name = txtName.getText();
+				boolean gender = false;
+				String obj = (String) cbGender.getSelectedItem();
+				if (obj == "Male") {
+					gender = true;
+				}
+				String phone = txtPhone.getText();
+				String address = txtAddress.getText();
+				String email = txtEmail.getText();
+				int role_id = 2;
+				String obj1 = (String) cbRole.getSelectedItem();
+				if (obj1 == "Admin") {
+					role_id = 1;
+				}
+				int department_id = 0;
+				if (cbDepartment.equals("Services")) {
+					department_id = 1;
+				} else if (cbDepartment.equals("Complain")) {
+					department_id = 2;
+				} else {
+					department_id = 3;
+				}
+				try {
+					AccountDAO ad = new AccountDAO();
+					ad.insertAccount(username, password, name, gender, email, phone, address,role_id,
+							department_id);
+					dispose();
+				} catch (Exception e) {
+					SystemForm.myArea.append(e.toString());
+				}
+
 			}
 		});
-		btnOk.setBounds(59, 343, 89, 23);
+		btnOk.setBounds(131, 387, 89, 23);
 		contentPane.add(btnOk);
 
 		txtUsername = new JTextField();
@@ -127,16 +166,47 @@ public class AddNewAccount extends JFrame {
 		contentPane.add(txtAddress);
 		txtAddress.setColumns(10);
 
-		JComboBox cbRole = new JComboBox();
-		cbRole.setBounds(87, 252, 147, 20);
+		MyComboRole cbRole = new MyComboRole();
+		cbRole.setBounds(87, 287, 147, 20);
 		contentPane.add(cbRole);
 
-		JComboBox cbDepartment = new JComboBox();
-		cbDepartment.setBounds(87, 289, 147, 20);
+		MyComboDepart cbDepartment = new MyComboDepart();
+		cbDepartment.setBounds(87, 324, 147, 20);
 		contentPane.add(cbDepartment);
 
-		JComboBox cbGender = new JComboBox();
+		MyComboBox cbGender = new MyComboBox();
 		cbGender.setBounds(87, 142, 147, 20);
 		contentPane.add(cbGender);
+
+		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setBounds(10, 255, 46, 14);
+		contentPane.add(lblEmail);
+
+		txtEmail = new JTextField();
+		txtEmail.setBounds(87, 252, 232, 20);
+		contentPane.add(txtEmail);
+		txtEmail.setColumns(10);
+	}
+}
+
+class MyComboBox extends JComboBox {
+	public MyComboBox() {
+		addItem("Male");
+		addItem("Female");
+	}
+}
+
+class MyComboDepart extends JComboBox {
+	public MyComboDepart() {
+		addItem("Services");
+		addItem("Complain");
+		addItem("Other");
+	}
+}
+
+class MyComboRole extends JComboBox {
+	public MyComboRole() {
+		addItem("Admin");
+		addItem("Employee");
 	}
 }

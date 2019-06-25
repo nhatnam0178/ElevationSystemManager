@@ -26,6 +26,7 @@ import javax.swing.JToolBar;
 
 import Config.ConnectionSQL;
 import Models.AccountTable;
+import Models.AccountView;
 
 import javax.swing.JSplitPane;
 import javax.swing.event.ChangeListener;
@@ -68,8 +69,6 @@ public class SystemForm {
 	private SystemForm() {
 		ElevationSystemFrame = new JFrame();
 		ElevationSystemFrame.setBounds(100, 100, 1280, 720);
-		ConnectionSQL conn = new ConnectionSQL();
-		conn.Connect();
 		Container cp = ElevationSystemFrame.getContentPane();
 		myTables[0] = new AccountTable();
 		myTables[1] = null;
@@ -175,20 +174,19 @@ class myToolbar extends JToolBar {
 		add(searchBtn);
 
 //Event		
-//		addBtn.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//
-//				switch (tabbed.getSelectedIndex()) {
-//				case 0:
-//					(new AddNewAccount()).setVisible(true);
-//					break;
-//				
-//				default:
-//					break;
-//				}
-//
-//			}
-//		});
+		addBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				switch (tabbed.getSelectedIndex()) {
+				case 0:
+					(new AddNewAccount()).setVisible(true);
+	
+				default:
+					break;
+				}
+
+			}
+		});
 //		editBtn.addActionListener(new ActionListener() {
 //			public void actionPerformed(ActionEvent e) {
 //
