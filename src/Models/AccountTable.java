@@ -8,39 +8,40 @@ import javax.swing.JTable;
 
 import Config.ConnectionSQL;
 import Config.ConvertTableToArrayList;
+import MainForm.SystemForm;
 
 public class AccountTable extends JPanel {
-	private JTable myTableAccount;
+	JTable myTableAccount;
 	ConvertTableToArrayList cvTable;
 	ResultSet rs;
-	private JScrollPane mySpane;
-	ConnectionSQL conn;
+	JScrollPane mySpane;
 
 	/**
 	 * Create the panel.
 	 */
-	public AccountTable(ConnectionSQL conn) {
+	public AccountTable() {
 		try {
+			ConnectionSQL conn = new ConnectionSQL();
 			conn.Connect();
-			cvTable = new ConvertTableToArrayList(rs);
-			String query = "Select * from Account";
+			String query = "Select * from ACCOUNT";
 			rs = conn.Query(query);
 			cvTable = new ConvertTableToArrayList(rs);
 			myTableAccount = new JTable(cvTable);
-			myTableAccount.setBounds(225, 5, 0, 0);
 			add(myTableAccount);
 			mySpane = new JScrollPane(myTableAccount, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			add(mySpane);
-			add(myTableAccount);
 		} catch (Exception e) {
-			e.getStackTrace();
+			SystemForm.myArea.append(e.toString());
 		}
 
 	}
 
 	public void ChangeModel() {
-		rs = conn.Query("Select * from Account");
+		ConnectionSQL conn = new ConnectionSQL();
+		conn.Connect();
+		String qr = "Select * from ACCOUNT";
+		rs = conn.Query(qr);
 		cvTable = new ConvertTableToArrayList(rs);
 		myTableAccount.setModel(cvTable);
 	}

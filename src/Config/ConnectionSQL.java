@@ -27,11 +27,11 @@ public final class ConnectionSQL {
 
 	}
 
-	public ResultSet Query(String strQuery) {
+	public static ResultSet Query(String strQuery) {
 		Statement stmt;
 		try {
 			
-			stmt = conn.createStatement();
+			stmt = Connect().createStatement();
 			ResultSet rs = stmt.executeQuery(strQuery);
 			return rs;
 		} catch (SQLException e) {

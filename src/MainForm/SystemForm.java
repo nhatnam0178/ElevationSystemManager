@@ -31,10 +31,10 @@ import javax.swing.JSplitPane;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
-public class SystemForm extends JFrame {
+public class SystemForm {
 
 	private JFrame ElevationSystemFrame;
-	private static ConnectionSQL conn;
+	public static ConnectionSQL conn;
 	public static JTextArea myArea = new JTextArea(1, 1);
 	private JScrollPane myControlArea = new JScrollPane(myArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 			JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -44,7 +44,7 @@ public class SystemForm extends JFrame {
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu mFile = new JMenu("File");
-	public myStart start = new myStart();
+//	public myStart start = new myStart();
 
 	/**
 	 * Launch the application.
@@ -68,9 +68,10 @@ public class SystemForm extends JFrame {
 	private SystemForm() {
 		ElevationSystemFrame = new JFrame();
 		ElevationSystemFrame.setBounds(100, 100, 1280, 720);
-
+		ConnectionSQL conn = new ConnectionSQL();
+		conn.Connect();
 		Container cp = ElevationSystemFrame.getContentPane();
-		myTables[0] = new AccountTable(conn);
+		myTables[0] = new AccountTable();
 		myTables[1] = null;
 		myTables[2] = null;
 		myTables[3] = null;
@@ -107,18 +108,7 @@ public class SystemForm extends JFrame {
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 //
 		JToolBar myToolbar = new myToolbar(tabbedPane, ElevationSystemFrame, conn);
-		tabbedPane.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
-				switch (tabbedPane.getSelectedIndex()) {
-				case 0:
-					((AccountTable) (myTables[0])).ChangeModel();
-					break;
 
-				default:
-					break;
-				}
-			}
-		});
 		tabbedPane.addTab("Account", mySps[0]);
 		tabbedPane.addTab("Client", mySps[1]);
 		tabbedPane.addTab("Product Elevation", mySps[2]);
@@ -130,6 +120,17 @@ public class SystemForm extends JFrame {
 		tabbedPane.addTab("Status Order", mySps[8]);
 		tabbedPane.addTab("Role Account", mySps[9]);
 
+		tabbedPane.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				switch (tabbedPane.getSelectedIndex()) {
+				case 0:
+					((AccountTable) (myTables[0])).ChangeModel();
+					break;
+				default:
+					break;
+				}
+			}
+		});
 //
 		mySplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, tabbedPane, myControlArea);
 		cp.add(myToolbar, BorderLayout.NORTH);
@@ -174,20 +175,20 @@ class myToolbar extends JToolBar {
 		add(searchBtn);
 
 //Event		
-		addBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				switch (tabbed.getSelectedIndex()) {
-				case 0:
-					(new AddNewAccount()).setVisible(true);
-					break;
-				
-				default:
-					break;
-				}
-
-			}
-		});
+//		addBtn.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//
+//				switch (tabbed.getSelectedIndex()) {
+//				case 0:
+//					(new AddNewAccount()).setVisible(true);
+//					break;
+//				
+//				default:
+//					break;
+//				}
+//
+//			}
+//		});
 //		editBtn.addActionListener(new ActionListener() {
 //			public void actionPerformed(ActionEvent e) {
 //
