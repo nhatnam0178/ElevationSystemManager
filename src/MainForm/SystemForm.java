@@ -2,6 +2,7 @@ package MainForm;
 
 import java.awt.EventQueue;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +17,7 @@ import java.awt.Container;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTabbedPane;
-
+import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
 import javax.swing.Icon;
@@ -26,7 +27,9 @@ import javax.swing.JToolBar;
 
 import Config.ConnectionSQL;
 import Models.AccountTable;
-import Models.AccountView;
+import Models.ClientView;
+import Models.QueryTableModel;
+import Models.RoleTable;
 
 import javax.swing.JSplitPane;
 import javax.swing.event.ChangeListener;
@@ -39,13 +42,14 @@ public class SystemForm {
 	public static JTextArea myArea = new JTextArea(1, 1);
 	private JScrollPane myControlArea = new JScrollPane(myArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 			JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-	private JSplitPane mySplitPane;
+	private JSplitPane jSplitPane;
 	private JPanel[] myTables = new JPanel[10];
 	private JScrollPane[] mySps = new JScrollPane[10];
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu mFile = new JMenu("File");
 //	public myStart start = new myStart();
+	QueryTableModel qtm;
 
 	/**
 	 * Launch the application.
@@ -71,7 +75,7 @@ public class SystemForm {
 		ElevationSystemFrame.setBounds(100, 100, 1280, 720);
 		Container cp = ElevationSystemFrame.getContentPane();
 		myTables[0] = new AccountTable();
-		myTables[1] = null;
+		myTables[1] = new ClientView();
 		myTables[2] = null;
 		myTables[3] = null;
 		myTables[4] = null;
@@ -79,7 +83,7 @@ public class SystemForm {
 		myTables[6] = null;
 		myTables[7] = null;
 		myTables[8] = null;
-		myTables[9] = null;
+		myTables[9] = new RoleTable();
 //
 		cp.add(menuBar, BorderLayout.NORTH);
 
@@ -125,15 +129,23 @@ public class SystemForm {
 				case 0:
 					((AccountTable) (myTables[0])).ChangeModel();
 					break;
+				case 1:
+					myTables[1].setVisible(true);
+					break;
+				case 2:
+					myTables[2].setVisible(true);
+					break;
+				case 9:
+					((RoleTable) (myTables[9])).ChangeModel();
 				default:
 					break;
 				}
 			}
 		});
 //
-		mySplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, tabbedPane, myControlArea);
+		jSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, tabbedPane, myControlArea);
 		cp.add(myToolbar, BorderLayout.NORTH);
-		cp.add(mySplitPane);
+		cp.add(jSplitPane);
 
 		ElevationSystemFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ElevationSystemFrame.setTitle("ELEVATION SYSTEM MANAGER");
@@ -172,7 +184,6 @@ class myToolbar extends JToolBar {
 		add(viewDetailBtn);
 		add(reportBtn);
 		add(searchBtn);
-
 //Event		
 		addBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -180,34 +191,27 @@ class myToolbar extends JToolBar {
 				switch (tabbed.getSelectedIndex()) {
 				case 0:
 					(new AddNewAccount()).setVisible(true);
-	
+
 				default:
 					break;
 				}
 
 			}
 		});
-//		editBtn.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//
-//				switch (tabbed.getSelectedIndex()) {
-//				case 0:
-//					break;
-//				case 1:
-//					break;
-//				case 2:
-//					break;
-//				case 3:
-//					break;
-//				case 4:
-//					break;
-//
-//				default:
-//					break;
-//				}
-//
-//			}
-//		});
+		editBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				switch (tabbed.getSelectedIndex()) {
+				case 0:
+
+					break;
+
+				default:
+					break;
+				}
+
+			}
+		});
 //		deleteBtn.addActionListener(new ActionListener() {
 //			public void actionPerformed(ActionEvent e) {
 //

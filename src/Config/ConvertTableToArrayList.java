@@ -4,6 +4,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -44,8 +47,16 @@ abstract class myResultTableModel extends AbstractTableModel {
 	public ResultSet getResultSet() {
 		return rs;
 	}
-
 }
+
+/**
+ * Convert the ResultSet to a List of Maps, where each Map represents a row with
+ * columnNames and columValues
+ * 
+ * @param rs
+ * @return
+ * @throws SQLException
+ */
 
 public class ConvertTableToArrayList extends myResultTableModel {
 	private ArrayList myData;

@@ -10,5 +10,5 @@ public final class AccountDAO {
 		boolean kq = ConnectionSQL.CallProcExec("sp_insert_ACCOUNT", params);
 		return kq;
 	}
-
+	
 }

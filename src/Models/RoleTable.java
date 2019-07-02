@@ -10,8 +10,8 @@ import Config.ConnectionSQL;
 import Config.ConvertTableToArrayList;
 import MainForm.SystemForm;
 
-public class AccountTable extends JPanel {
-	JTable myTableAccount;
+public class RoleTable extends JPanel {
+	JTable myTableRole;
 	ConvertTableToArrayList cvTable;
 	ResultSet rs;
 	JScrollPane mySpane;
@@ -19,33 +19,33 @@ public class AccountTable extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AccountTable() {
+	public RoleTable() {
+
 		try {
 			ConnectionSQL conn = new ConnectionSQL();
 			conn.Connect();
-			String query = "Select * from ACCOUNT";
+			String query = "Select * from ROLE";
 			rs = conn.Query(query);
 			cvTable = new ConvertTableToArrayList(rs);
-			myTableAccount = new JTable(cvTable);
+			myTableRole = new JTable(cvTable);
 
-			add(myTableAccount);
+			add(myTableRole);
 
-			mySpane = new JScrollPane(myTableAccount, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+			mySpane = new JScrollPane(myTableRole, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			add(mySpane);
 		} catch (Exception e) {
 			SystemForm.myArea.append(e.toString());
 		}
-
 	}
 
 	public void ChangeModel() {
 		ConnectionSQL conn = new ConnectionSQL();
 		conn.Connect();
-		String qr = "Select * from ACCOUNT";
+		String qr = "Select * from ROLE";
 		rs = conn.Query(qr);
 		cvTable = new ConvertTableToArrayList(rs);
-		myTableAccount.setModel(cvTable);
+		myTableRole.setModel(cvTable);
 	}
 
 }
