@@ -34,14 +34,17 @@ import Models.RoleTable;
 import javax.swing.JSplitPane;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.ScrollPaneConstants;
+import java.awt.Component;
+import java.awt.Dimension;
 
 public class SystemForm {
 
 	private JFrame ElevationSystemFrame;
 	public static ConnectionSQL conn;
 	public static JTextArea myArea = new JTextArea(1, 1);
-	private JScrollPane myControlArea = new JScrollPane(myArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+	private JScrollPane myControlArea = new JScrollPane(myArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	private JSplitPane jSplitPane;
 	private JPanel[] myTables = new JPanel[10];
 	private JScrollPane[] mySps = new JScrollPane[10];
@@ -70,7 +73,11 @@ public class SystemForm {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private SystemForm() {
+	public SystemForm() {
+		myArea.setTabSize(1);
+		myArea.setPreferredSize(new Dimension(22, 1));
+		myArea.setMinimumSize(new Dimension(22, 1));
+		myArea.setMaximumSize(new Dimension(22, 1));
 		ElevationSystemFrame = new JFrame();
 		ElevationSystemFrame.setBounds(100, 100, 1280, 720);
 		Container cp = ElevationSystemFrame.getContentPane();
@@ -158,82 +165,20 @@ public class SystemForm {
 class myToolbar extends JToolBar {
 	public myToolbar(final JTabbedPane tabbed, final JFrame root, final ConnectionSQL conn) {
 		// setLayout(null);
-		Icon AddImag = new ImageIcon("../ElevationSystemManager/src/icons/create.png");
-		Icon EditImag = new ImageIcon("../ElevationSystemManager/src/icons/edit.png");
-		Icon DeleteImag = new ImageIcon("../ElevationSystemManager/src/icons/delete.png");
-		Icon ViewImag = new ImageIcon("../ElevationSystemManager/src/icons/link.png");
 		Icon SearchImag = new ImageIcon("../ElevationSystemManager/src/icons/search.png");
 		Icon reportImag = new ImageIcon("../ElevationSystemManager/src/icons/report.png");
 
-		addBtn = new JButton("ADD", AddImag);
-		editBtn = new JButton("EDIT", EditImag);
 		searchBtn = new JButton("SEARCH", SearchImag);
 
-		deleteBtn = new JButton("DELETE", DeleteImag);
-		viewDetailBtn = new JButton("View Detail", ViewImag);
 		reportBtn = new JButton("Report", reportImag);
-		addBtn.setAlignmentY(CENTER_ALIGNMENT);
+
 		searchBtn.setAlignmentY(CENTER_ALIGNMENT);
-		editBtn.setAlignmentY(CENTER_ALIGNMENT);
-		deleteBtn.setAlignmentY(CENTER_ALIGNMENT);
-		viewDetailBtn.setAlignmentY(CENTER_ALIGNMENT);
+
 		reportBtn.setAlignmentY(CENTER_ALIGNMENT);
 
-		add(addBtn);
-		add(editBtn);
-		add(deleteBtn);
-		add(viewDetailBtn);
 		add(reportBtn);
 		add(searchBtn);
-//Event		
-		addBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 
-				switch (tabbed.getSelectedIndex()) {
-				case 0:
-					(new AddNewAccount()).setVisible(true);
-
-				default:
-					break;
-				}
-
-			}
-		});
-		editBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				switch (tabbed.getSelectedIndex()) {
-				case 0:
-
-					break;
-
-				default:
-					break;
-				}
-
-			}
-		});
-//		deleteBtn.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//
-//				switch (tabbed.getSelectedIndex()) {
-//				case 0:
-//					break;
-//				case 1:
-//					break;
-//				case 2:
-//					break;
-//				case 3:
-//					break;
-//				case 4:
-//					break;
-//
-//				default:
-//					break;
-//				}
-//
-//			}
-//		});
 //		searchBtn.addActionListener(new ActionListener() {
 //			public void actionPerformed(ActionEvent e) {
 //

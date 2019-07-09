@@ -46,7 +46,7 @@ public final class ConnectionSQL {
 		PreparedStatement stmt;
 		try {
 			
-			stmt = conn.prepareStatement(str);
+			stmt = Connect().prepareStatement(str);
 			for (int i = 0; i < params.length; i++) {
 				stmt.setString(i + 1, params[i]);
 
@@ -130,7 +130,7 @@ public final class ConnectionSQL {
 	}
 
 	/**
-	 * tra ve 1 gia tri
+	 *
 	 * 
 	 * @param storeName
 	 * @param parameters

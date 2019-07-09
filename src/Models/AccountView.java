@@ -1,6 +1,7 @@
 package Models;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -9,20 +10,23 @@ import Config.BindingArrayList;
 import Config.ConnectionSQL;
 import Config.ConvertTableToArrayList;
 import DAO.AccountDAO;
-import MainForm.EditAccount;
 import MainForm.SystemForm;
 import entities.Account;
+import javafx.scene.layout.Background;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SpringLayout;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
@@ -34,6 +38,7 @@ public class AccountView extends JPanel {
 	ConnectionSQL conn = new ConnectionSQL();
 	BindingArrayList bdata;
 	entities.Accounts accs = new entities.Accounts();
+	static int idEdit;
 
 	/**
 	 * Create the panel.
@@ -44,7 +49,7 @@ public class AccountView extends JPanel {
 
 		JPanel panelGird = new JPanel();
 		add(panelGird);
-		panelGird.setLayout(new GridLayout(14, 1, 0, 10));
+		panelGird.setLayout(new GridLayout(1, 1));
 		String strQuery = "SELECT * FROM ACCOUNT";
 		//
 		rs = ConnectionSQL.Query(strQuery);
@@ -57,6 +62,7 @@ public class AccountView extends JPanel {
 				accItem.setname(rs.getString("NAME"));
 				accItem.setgender(rs.getBoolean("GENDER"));
 				accItem.setemail(rs.getString("EMAIL"));
+				accItem.setphone(rs.getString("PHONE"));
 				accItem.setaddress(rs.getString("ADDRESS"));
 				accItem.setrole_id(rs.getInt("ROLE_ID"));
 				accItem.setdepartment_id(rs.getInt("DEPARTMENT_ID"));
@@ -68,13 +74,15 @@ public class AccountView extends JPanel {
 		}
 
 		JScrollPane scrollPaneGird = new JScrollPane();
-		scrollPaneGird.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPaneGird.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPaneGird.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPaneGird.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPaneGird.setAutoscrolls(true);
 		panelGird.add(scrollPaneGird);
+		panelGird.revalidate();
 
 		//
 		JPanel pnlHeader = new JPanel();
+
 		pnlHeader.setBorder(new LineBorder(Color.CYAN));
 		JLabel lblSTTj = new JLabel("STT");
 		JLabel lblUsernamej = new JLabel("USERNAME");
@@ -82,12 +90,13 @@ public class AccountView extends JPanel {
 		JLabel lblNamej = new JLabel("NAME");
 		JLabel lblGenderj = new JLabel("GENDER");
 		JLabel lblEmailj = new JLabel("EMAIL");
+		JLabel lblPhonej = new JLabel("PHONE");
 		JLabel lblAddressj = new JLabel("ADDRESS");
 		JLabel lblRolej = new JLabel("ROLE_ID");
 		JLabel lblDepartmentj = new JLabel("DEPARTMENT_ID");
 		JLabel lblAction = new JLabel("ACTION");
 
-		pnlHeader.setLayout(new GridLayout(0, 10, 0, 0));
+		pnlHeader.setLayout(new GridLayout(1, 1));
 
 		pnlHeader.add(lblSTTj);
 		pnlHeader.add(lblUsernamej);
@@ -95,6 +104,7 @@ public class AccountView extends JPanel {
 		pnlHeader.add(lblNamej);
 		pnlHeader.add(lblGenderj);
 		pnlHeader.add(lblEmailj);
+		pnlHeader.add(lblPhonej);
 		pnlHeader.add(lblAddressj);
 		pnlHeader.add(lblRolej);
 		pnlHeader.add(lblDepartmentj);
@@ -103,17 +113,25 @@ public class AccountView extends JPanel {
 		scrollPaneGird.setColumnHeaderView(pnlHeader);
 		JPanel pnlData = new JPanel();
 
-		pnlData.getAutoscrolls();
+		pnlData.setAutoscrolls(true);
 		scrollPaneGird.setViewportView(pnlData);
-		pnlData.setLayout(new GridLayout(accs.size(), 12, 0, 0));
+		pnlData.setLayout(new GridLayout(accs.size(), 1));
 		int stt = 1;
 		for (Account account : accs) {
 
 			JPanel pnlItem = new JPanel();
-			pnlItem.setLayout(new GridLayout(1, 0, 0, 1));
+			pnlItem.setLayout(new GridLayout(1, 1));
+			pnlItem.setPreferredSize(new Dimension(10, 10));
 
+			if (stt % 2 == 0) {
+				pnlItem.setBackground(Color.WHITE);
+			} else {
+				pnlItem.setBackground(Color.CYAN);
+
+			}
 			JLabel lblSTT = new JLabel();
 			lblSTT.setText(String.valueOf(stt));
+
 			pnlItem.add(lblSTT);
 			JLabel lblUserName = new JLabel();
 			lblUserName.setText(account.getusername());
@@ -165,11 +183,11 @@ public class AccountView extends JPanel {
 			int intDepartment = account.getdepartment_id();
 
 			if (intDepartment == 1) {
-				lblRole.setText("SERVICES");
+				lblDepartment.setText("SERVICES");
 			} else if (idRole == 2) {
-				lblRole.setText("COMPLAIN");
+				lblDepartment.setText("COMPLAIN");
 			} else {
-				lblRole.setText("Order");
+				lblDepartment.setText("Order");
 			}
 			pnlItem.add(lblDepartment);
 			// add new Panel Action
@@ -178,20 +196,21 @@ public class AccountView extends JPanel {
 			JButton editBtn = new JButton("EditAccount");
 			editBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					
-					EditAccount edc = new EditAccount();
+					idEdit = account.getId();
+					EditAccount edc = new EditAccount(idEdit);
 					edc.setVisible(true);
-					
+
 				}
 			});
 			//
 			JButton deleteBtn = new JButton("Delete");
+			deleteBtn.setSize(editBtn.getSize());
 			deleteBtn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					DAO.AccountDAO acc = new AccountDAO();
 					int result = JOptionPane.showConfirmDialog(scrollPaneGird,
-							"Delete Account:" + "_" + account.getusername() + "-" + "Are You Sure?",
+							"Delete Account : " + " ' " + account.getusername() + " ' " + " , " + " Are You Sure?",
 							"Delete a Account?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.YES_OPTION) {
 						try {
@@ -208,16 +227,11 @@ public class AccountView extends JPanel {
 
 				}
 			});
-			//
-			JButton detailBtn = new JButton("Detail");
-			detailBtn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-				}
-			});
+
 			stt++;
 			acPanel.add(editBtn);
 			acPanel.add(deleteBtn);
-			acPanel.add(detailBtn);
+
 			pnlItem.add(acPanel);
 			//
 			pnlData.add(pnlItem);
@@ -258,4 +272,11 @@ public class AccountView extends JPanel {
 
 	}
 
+}
+
+class MyComboAction extends JComboBox {
+	public MyComboAction() {
+		addItem("Edit");
+		addItem("Delete");
+	}
 }
