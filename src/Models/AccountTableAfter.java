@@ -10,7 +10,7 @@ import Config.ConnectionSQL;
 import Config.ConvertTableToArrayList;
 import MainForm.SystemForm;
 
-public class AccountTable extends JPanel {
+public class AccountTableAfter extends JPanel {
 	JTable myTableAccount;
 	ConvertTableToArrayList cvTable;
 	ResultSet rs;
@@ -19,7 +19,7 @@ public class AccountTable extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AccountTable() {
+	public AccountTableAfter() {
 		try {
 			ConnectionSQL conn = new ConnectionSQL();
 			conn.Connect();

@@ -45,6 +45,7 @@ public final class ConnectionSQL {
 	public ResultSet Query(String str, String[] params) {
 		PreparedStatement stmt;
 		try {
+			
 			stmt = conn.prepareStatement(str);
 			for (int i = 0; i < params.length; i++) {
 				stmt.setString(i + 1, params[i]);

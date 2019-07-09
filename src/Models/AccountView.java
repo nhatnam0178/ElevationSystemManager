@@ -2,11 +2,15 @@ package Models;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Config.BindingArrayList;
 import Config.ConnectionSQL;
 import Config.ConvertTableToArrayList;
+import DAO.AccountDAO;
+import MainForm.EditAccount;
+import MainForm.SystemForm;
 import entities.Account;
 
 import java.awt.BorderLayout;
@@ -22,8 +26,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Dimension;
 
-public class ClientView extends JPanel {
+public class AccountView extends JPanel {
 	ConvertTableToArrayList mdModel;
 	ResultSet rs;
 	ConnectionSQL conn = new ConnectionSQL();
@@ -33,12 +38,13 @@ public class ClientView extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ClientView() {
+	public AccountView() {
+
 		setLayout(new BorderLayout(0, 0));
 
 		JPanel panelGird = new JPanel();
 		add(panelGird);
-		panelGird.setLayout(new GridLayout(0, 2, 0, 0));
+		panelGird.setLayout(new GridLayout(14, 1, 0, 10));
 		String strQuery = "SELECT * FROM ACCOUNT";
 		//
 		rs = ConnectionSQL.Query(strQuery);
@@ -64,43 +70,51 @@ public class ClientView extends JPanel {
 		JScrollPane scrollPaneGird = new JScrollPane();
 		scrollPaneGird.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPaneGird.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPaneGird.setAutoscrolls(true);
 		panelGird.add(scrollPaneGird);
 
 		//
 		JPanel pnlHeader = new JPanel();
 		pnlHeader.setBorder(new LineBorder(Color.CYAN));
+		JLabel lblSTTj = new JLabel("STT");
+		JLabel lblUsernamej = new JLabel("USERNAME");
+		JLabel lblPasswordj = new JLabel("PASSWORD");
+		JLabel lblNamej = new JLabel("NAME");
+		JLabel lblGenderj = new JLabel("GENDER");
+		JLabel lblEmailj = new JLabel("EMAIL");
+		JLabel lblAddressj = new JLabel("ADDRESS");
+		JLabel lblRolej = new JLabel("ROLE_ID");
+		JLabel lblDepartmentj = new JLabel("DEPARTMENT_ID");
+		JLabel lblAction = new JLabel("ACTION");
 
-		JLabel lblAcc = new JLabel("Account");
-		JLabel lblPass = new JLabel("Password");
-		JLabel lblNameh = new JLabel("Name");
-		JLabel lblGenderh = new JLabel("Gender");
-		JLabel lblEmailh = new JLabel("Email");
-		JLabel lblAddressh = new JLabel("Address");
-		JLabel lblRoleh = new JLabel("Role");
-		JLabel lblDeparth = new JLabel("Department");
-		JLabel lblAction = new JLabel("Action");
-		pnlHeader.setLayout(new GridLayout(1, 0, 1, 1));
+		pnlHeader.setLayout(new GridLayout(0, 10, 0, 0));
 
-		pnlHeader.add(lblAcc);
-		pnlHeader.add(lblPass);
-		pnlHeader.add(lblNameh);
-		pnlHeader.add(lblGenderh);
-		pnlHeader.add(lblEmailh);
-		pnlHeader.add(lblAddressh);
-		pnlHeader.add(lblRoleh);
-		pnlHeader.add(lblDeparth);
+		pnlHeader.add(lblSTTj);
+		pnlHeader.add(lblUsernamej);
+		pnlHeader.add(lblPasswordj);
+		pnlHeader.add(lblNamej);
+		pnlHeader.add(lblGenderj);
+		pnlHeader.add(lblEmailj);
+		pnlHeader.add(lblAddressj);
+		pnlHeader.add(lblRolej);
+		pnlHeader.add(lblDepartmentj);
 		pnlHeader.add(lblAction);
 		//
 		scrollPaneGird.setColumnHeaderView(pnlHeader);
 		JPanel pnlData = new JPanel();
 
-		pnlData.setBounds(200, 200, 400, 400);
+		pnlData.getAutoscrolls();
 		scrollPaneGird.setViewportView(pnlData);
-		pnlData.setLayout(new GridLayout(accs.size(), 0, 1, 1));
-
+		pnlData.setLayout(new GridLayout(accs.size(), 12, 0, 0));
+		int stt = 1;
 		for (Account account : accs) {
+
 			JPanel pnlItem = new JPanel();
-			pnlItem.setLayout(new GridLayout(1, 0, 1, 1));
+			pnlItem.setLayout(new GridLayout(1, 0, 0, 1));
+
+			JLabel lblSTT = new JLabel();
+			lblSTT.setText(String.valueOf(stt));
+			pnlItem.add(lblSTT);
 			JLabel lblUserName = new JLabel();
 			lblUserName.setText(account.getusername());
 			pnlItem.add(lblUserName);
@@ -161,16 +175,37 @@ public class ClientView extends JPanel {
 			// add new Panel Action
 			JPanel acPanel = new JPanel();
 
-			JButton editBtn = new JButton("Edit");
+			JButton editBtn = new JButton("EditAccount");
 			editBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					System.out.println("---> " + account.getId());
+					
+					EditAccount edc = new EditAccount();
+					edc.setVisible(true);
+					
 				}
 			});
 			//
 			JButton deleteBtn = new JButton("Delete");
 			deleteBtn.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
+					DAO.AccountDAO acc = new AccountDAO();
+					int result = JOptionPane.showConfirmDialog(scrollPaneGird,
+							"Delete Account:" + "_" + account.getusername() + "-" + "Are You Sure?",
+							"Delete a Account?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (result == JOptionPane.YES_OPTION) {
+						try {
+							acc.delAccount(account.getId());
+							panelGird.revalidate();
+							panelGird.repaint();
+						} catch (Exception e) {
+							SystemForm.myArea.append(e.toString());
+						}
+
+					} else if (result == JOptionPane.NO_OPTION) {
+						revalidate();
+					}
+
 				}
 			});
 			//
@@ -179,17 +214,19 @@ public class ClientView extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 				}
 			});
-
+			stt++;
 			acPanel.add(editBtn);
 			acPanel.add(deleteBtn);
 			acPanel.add(detailBtn);
 			pnlItem.add(acPanel);
 			//
 			pnlData.add(pnlItem);
+			pnlData.revalidate();
+			pnlData.repaint();
 
 		}
-		pnlData.revalidate();
-		pnlData.repaint();
+		panelGird.revalidate();
+		panelGird.repaint();
 
 //		for (int i = 0; i < numpnl; i++) {
 //			JPanel pnlItem = new JPanel();

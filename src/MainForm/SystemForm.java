@@ -26,8 +26,8 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 
 import Config.ConnectionSQL;
-import Models.AccountTable;
-import Models.ClientView;
+import Models.AccountTableAfter;
+import Models.AccountView;
 import Models.QueryTableModel;
 import Models.RoleTable;
 
@@ -74,8 +74,8 @@ public class SystemForm {
 		ElevationSystemFrame = new JFrame();
 		ElevationSystemFrame.setBounds(100, 100, 1280, 720);
 		Container cp = ElevationSystemFrame.getContentPane();
-		myTables[0] = new AccountTable();
-		myTables[1] = new ClientView();
+		myTables[0] = new AccountView();
+		myTables[1] = new AccountView();
 		myTables[2] = null;
 		myTables[3] = null;
 		myTables[4] = null;
@@ -127,7 +127,7 @@ public class SystemForm {
 			public void stateChanged(ChangeEvent arg0) {
 				switch (tabbedPane.getSelectedIndex()) {
 				case 0:
-					((AccountTable) (myTables[0])).ChangeModel();
+					myTables[0].setVisible(true);
 					break;
 				case 1:
 					myTables[1].setVisible(true);
@@ -150,6 +150,7 @@ public class SystemForm {
 		ElevationSystemFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ElevationSystemFrame.setTitle("ELEVATION SYSTEM MANAGER");
 		ElevationSystemFrame.getContentPane().setVisible(true);
+		ElevationSystemFrame.revalidate();
 	}
 
 }
