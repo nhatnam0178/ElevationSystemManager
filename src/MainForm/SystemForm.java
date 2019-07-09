@@ -28,6 +28,7 @@ import javax.swing.JToolBar;
 import Config.ConnectionSQL;
 import Models.AccountTableAfter;
 import Models.AccountView;
+import Models.ClientView;
 import Models.QueryTableModel;
 import Models.RoleTable;
 
@@ -76,13 +77,12 @@ public class SystemForm {
 	public SystemForm() {
 		myArea.setTabSize(1);
 		myArea.setPreferredSize(new Dimension(22, 1));
-		myArea.setMinimumSize(new Dimension(22, 1));
-		myArea.setMaximumSize(new Dimension(22, 1));
+
 		ElevationSystemFrame = new JFrame();
 		ElevationSystemFrame.setBounds(100, 100, 1280, 720);
 		Container cp = ElevationSystemFrame.getContentPane();
 		myTables[0] = new AccountView();
-		myTables[1] = new AccountView();
+		myTables[1] = new ClientView();
 		myTables[2] = null;
 		myTables[3] = null;
 		myTables[4] = null;

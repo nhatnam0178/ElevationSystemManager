@@ -12,21 +12,16 @@ import Config.ConvertTableToArrayList;
 import DAO.AccountDAO;
 import MainForm.SystemForm;
 import entities.Account;
-import javafx.scene.layout.Background;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SpringLayout;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
@@ -131,7 +126,7 @@ public class AccountView extends JPanel {
 			}
 			JLabel lblSTT = new JLabel();
 			lblSTT.setText(String.valueOf(stt));
-
+			
 			pnlItem.add(lblSTT);
 			JLabel lblUserName = new JLabel();
 			lblUserName.setText(account.getusername());
@@ -193,7 +188,7 @@ public class AccountView extends JPanel {
 			// add new Panel Action
 			JPanel acPanel = new JPanel();
 
-			JButton editBtn = new JButton("EditAccount");
+			JButton editBtn = new JButton("Edit     ");
 			editBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					idEdit = account.getId();
@@ -204,7 +199,6 @@ public class AccountView extends JPanel {
 			});
 			//
 			JButton deleteBtn = new JButton("Delete");
-			deleteBtn.setSize(editBtn.getSize());
 			deleteBtn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {

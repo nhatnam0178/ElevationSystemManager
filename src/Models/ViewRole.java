@@ -1,4 +1,4 @@
-package MainForm;
+package Models;
 
 import javax.swing.JPanel;
 

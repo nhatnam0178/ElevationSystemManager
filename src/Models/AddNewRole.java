@@ -1,4 +1,4 @@
-package MainForm;
+package Models;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

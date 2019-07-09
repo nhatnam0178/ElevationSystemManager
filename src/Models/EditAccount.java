@@ -18,15 +18,19 @@ import DAO.AccountDAO;
 import MainForm.SystemForm;
 
 public class EditAccount extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtUsername;
 	private JTextField txtPassword;
 	private JTextField txtName;
 	private JTextField txtPhone;
 	private JTextField txtAddress;
-	private MyComboBox cbGender = new MyComboBox();
-	private MyComboRole cbRole = new MyComboRole();
-	private MyComboDepart cbDepartment = new MyComboDepart();
+	private MyComboBoxs cbGender = new MyComboBoxs();
+	private MyComboRoles cbRole = new MyComboRoles();
+	private MyComboDeparts cbDepartment = new MyComboDeparts();
 	private JTextField txtEmail;
 	static int idEdit;
 
@@ -85,15 +89,15 @@ public class EditAccount extends JFrame {
 		contentPane.add(txtAddress);
 		txtAddress.setColumns(10);
 
-		MyComboRole cbRole = new MyComboRole();
+		MyComboRoles cbRole = new MyComboRoles();
 		cbRole.setBounds(87, 287, 147, 20);
 		contentPane.add(cbRole);
 
-		MyComboDepart cbDepartment = new MyComboDepart();
+		MyComboDeparts cbDepartment = new MyComboDeparts();
 		cbDepartment.setBounds(87, 324, 147, 20);
 		contentPane.add(cbDepartment);
 
-		MyComboBox cbGender = new MyComboBox();
+		MyComboBoxs cbGender = new MyComboBoxs();
 		cbGender.setBounds(87, 142, 147, 20);
 		contentPane.add(cbGender);
 
@@ -243,23 +247,37 @@ public class EditAccount extends JFrame {
 
 }
 
-class MyComboBox extends JComboBox {
-	public MyComboBox() {
+class MyComboBoxs extends JComboBox {
+	/**
+	 * 
+	 */
+	
+
+	public MyComboBoxs() {
 		addItem("Male");
 		addItem("Female");
 	}
 }
 
-class MyComboDepart extends JComboBox {
-	public MyComboDepart() {
+class MyComboDeparts extends JComboBox {
+	/**
+	 * 
+	 */
+	
+	public MyComboDeparts() {
 		addItem("Services");
 		addItem("Complain");
 		addItem("Other");
 	}
 }
 
-class MyComboRole extends JComboBox {
-	public MyComboRole() {
+class MyComboRoles extends JComboBox {
+	/**
+	 * 
+	 */
+	
+
+	public MyComboRoles() {
 		addItem("Admin");
 		addItem("Employee");
 	}

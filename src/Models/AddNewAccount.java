@@ -1,4 +1,4 @@
-package MainForm;
+package Models;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import DAO.AccountDAO;
+import MainForm.SystemForm;
 import entities.Account;
 
 import javax.swing.JLabel;
