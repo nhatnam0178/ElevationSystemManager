@@ -29,6 +29,7 @@ import Config.ConnectionSQL;
 import Models.AccountTableAfter;
 import Models.AccountView;
 import Models.ClientView;
+import Models.ProductView;
 import Models.QueryTableModel;
 import Models.RoleTable;
 
@@ -83,7 +84,7 @@ public class SystemForm {
 		Container cp = ElevationSystemFrame.getContentPane();
 		myTables[0] = new AccountView();
 		myTables[1] = new ClientView();
-		myTables[2] = null;
+		myTables[2] = new ProductView();
 		myTables[3] = null;
 		myTables[4] = null;
 		myTables[5] = null;

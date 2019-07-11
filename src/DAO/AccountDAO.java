@@ -15,7 +15,7 @@ public final class AccountDAO {
 
 	public boolean delAccount(int id) {
 		String[] params = { String.valueOf(id) };
-		boolean kq = ConnectionSQL.CallProcExec("sp_delete_account_by_id", params);
+		boolean kq = ConnectionSQL.CallProcExec("sp_delete_ACCOUNT_by_id", params);
 
 		return kq;
 	}
@@ -32,7 +32,7 @@ public final class AccountDAO {
 	public ResultSet findbyId(int id) {
 		String[] params = { String.valueOf(id) };
 		
-		ResultSet rs = ConnectionSQL.CallProc("sp_find_account_by_id",params);
+		ResultSet rs = ConnectionSQL.CallProc("sp_find_ACCOUNT_by_id",params);
 
 		return rs;
 	}

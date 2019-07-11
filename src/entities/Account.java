@@ -113,9 +113,10 @@ public class Account {
 	public Account() {
 	}
 
-	public Account(String username, String password, String name, boolean gender, String email, String phone,
+	public Account(int id, String username, String password, String name, boolean gender, String email, String phone,
 			String address, int role_id, int department_id) {
 		super();
+		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.name = name;
@@ -125,6 +126,8 @@ public class Account {
 		this.address = address;
 		this.role_id = role_id;
 		this.department_id = department_id;
-	};
+	}
+
+	
 
 }
