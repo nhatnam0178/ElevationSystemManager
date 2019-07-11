@@ -26,12 +26,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 public class AccountView extends JPanel {
-	ConvertTableToArrayList mdModel;
+
 	ResultSet rs;
 	ConnectionSQL conn = new ConnectionSQL();
-	BindingArrayList bdata;
 	entities.Accounts accs = new entities.Accounts();
 	static int idEdit;
 
@@ -71,9 +71,7 @@ public class AccountView extends JPanel {
 		JScrollPane scrollPaneGird = new JScrollPane();
 		scrollPaneGird.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPaneGird.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPaneGird.setAutoscrolls(true);
 		panelGird.add(scrollPaneGird);
-		panelGird.revalidate();
 
 		//
 		JPanel pnlHeader = new JPanel();
@@ -108,9 +106,8 @@ public class AccountView extends JPanel {
 		scrollPaneGird.setColumnHeaderView(pnlHeader);
 		JPanel pnlData = new JPanel();
 
-		pnlData.setAutoscrolls(true);
 		scrollPaneGird.setViewportView(pnlData);
-		pnlData.setLayout(new GridLayout(accs.size(), 1));
+		pnlData.setLayout(new GridLayout(accs.size(), 0));
 		int stt = 1;
 		for (Account account : accs) {
 
@@ -126,7 +123,7 @@ public class AccountView extends JPanel {
 			}
 			JLabel lblSTT = new JLabel();
 			lblSTT.setText(String.valueOf(stt));
-			
+
 			pnlItem.add(lblSTT);
 			JLabel lblUserName = new JLabel();
 			lblUserName.setText(account.getusername());
@@ -229,12 +226,10 @@ public class AccountView extends JPanel {
 			pnlItem.add(acPanel);
 			//
 			pnlData.add(pnlItem);
-			pnlData.revalidate();
-			pnlData.repaint();
 
 		}
-		panelGird.revalidate();
-		panelGird.repaint();
+		repaint();
+		revalidate();
 
 //		for (int i = 0; i < numpnl; i++) {
 //			JPanel pnlItem = new JPanel();
@@ -266,11 +261,4 @@ public class AccountView extends JPanel {
 
 	}
 
-}
-
-class MyComboAction extends JComboBox {
-	public MyComboAction() {
-		addItem("Edit");
-		addItem("Delete");
-	}
 }

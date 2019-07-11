@@ -2,10 +2,7 @@ package MainForm;
 
 import java.awt.EventQueue;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -26,7 +23,6 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 
 import Config.ConnectionSQL;
-import Models.AccountTableAfter;
 import Models.AccountView;
 import Models.ClientView;
 import Models.ProductView;
@@ -53,8 +49,8 @@ public class SystemForm {
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu mFile = new JMenu("File");
-//	public myStart start = new myStart();
-	QueryTableModel qtm;
+	public myStart start = new myStart();
+	
 
 	/**
 	 * Launch the application.

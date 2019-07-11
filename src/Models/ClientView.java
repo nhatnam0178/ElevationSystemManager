@@ -30,8 +30,8 @@ public class ClientView extends JPanel {
 		panelGird.setLayout(new GridLayout(1, 1));
 		add(panelGird);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setAutoscrolls(true);
 		panelGird.add(scrollPane);
 //Jpanel Header
@@ -77,31 +77,31 @@ public class ClientView extends JPanel {
 		JPanel panelData = new JPanel();
 		// addPanel
 		scrollPane.setViewportView(panelData);
-		panelData.setLayout(new GridLayout(clients.size() + 5, 0));
+		panelData.setLayout(new GridLayout(clients.size() +5, 0));
 		int stt = 1;
-		for (Client items : clients) {
+		for (Client item : clients) {
 			JPanel pnlItem = new JPanel();
-			pnlItem.setLayout(new GridLayout(1, 1));
+			pnlItem.setLayout(new GridLayout(1, 0));
 			pnlItem.setPreferredSize(new Dimension(10, 10));
 
 			JLabel lbStt = new JLabel();
 			lbStt.setText(String.valueOf(stt));
 			pnlItem.add(lbStt);
 			JLabel lbName = new JLabel();
-			lbName.setText(items.getname());
+			lbName.setText(item.getname());
 			pnlItem.add(lbName);
 			JLabel lbPhone = new JLabel();
-			lbPhone.setText(items.getphone());
+			lbPhone.setText(item.getphone());
 			pnlItem.add(lbPhone);
 			JLabel lbAddress = new JLabel();
-			lbAddress.setText(items.getaddress());
+			lbAddress.setText(item.getaddress());
 			pnlItem.add(lbAddress);
 			JLabel lbCompany = new JLabel();
-			lbCompany.setText(items.getcompany_name());
+			lbCompany.setText(item.getcompany_name());
 			pnlItem.add(lbCompany);
 			// add new Panel Action
 			JPanel acPanel = new JPanel();
-
+			acPanel.setLayout(new GridLayout(1, 1));
 			JButton editBtn = new JButton("Edit");
 			editBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -136,17 +136,16 @@ public class ClientView extends JPanel {
 				}
 			});
 
-			stt++;
 			acPanel.add(editBtn);
 			acPanel.add(deleteBtn);
 
 			pnlItem.add(acPanel);
 			//
 			panelData.add(pnlItem);
-			panelData.revalidate();
-			panelData.repaint();
-
+			stt++;
 		}
+		repaint();
+		revalidate();
 	}
 
 }

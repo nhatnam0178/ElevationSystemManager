@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Product_Elevation {
 	private int id;
-	
+
 	public int getId() {
 		return id;
 	}
@@ -68,30 +68,32 @@ public class Product_Elevation {
 		return warranty;
 	}
 
-	private int warranty_expire_date;
+	private Date warranty_expire_date;
 
 // warranty_expire_date
-	public void setwarranty_expire_date(int value) {
-		warranty_expire_date = value;
-	}
 
-	public int getwarranty_expire_date() {
+	public Date getwarranty_expire_date() {
 		return warranty_expire_date;
 	}
 
-	public Product_Elevation(String name, String type, double price, Date date_of_order, int warranty,
-			int warranty_expire_date) {
+	public void setwarranty_expire_date(Date value) {
+		this.warranty_expire_date = value;
+	}
+
+	public Product_Elevation() {
+
+	}
+
+	public Product_Elevation(int id, String name, String type, double price, Date date_of_order, int warranty,
+			Date warranty_expire_date) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.type = type;
 		this.price = price;
 		this.date_of_order = date_of_order;
 		this.warranty = warranty;
 		this.warranty_expire_date = warranty_expire_date;
-	}
-
-	public Product_Elevation() {
-		super();
 	}
 
 }

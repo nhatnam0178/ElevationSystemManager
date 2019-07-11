@@ -9,8 +9,11 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import Config.ConnectionSQL;
 import entities.Product_Elevation;
@@ -20,8 +23,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 public class ProductView extends JPanel {
-	private JPanel panelData;
 	entities.Product_Elevations products = new Product_Elevations();
+	ConnectionSQL conn = new ConnectionSQL();
 
 	/**
 	 * Create the panel.
@@ -30,19 +33,17 @@ public class ProductView extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 
 		JPanel panelGird = new JPanel();
-		add(panelGird, BorderLayout.NORTH);
+		add(panelGird);
 		panelGird.setLayout(new GridLayout(1, 1));
 
 		JScrollPane scrollPane = new JScrollPane();
+
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		panelGird.add(scrollPane);
 
 		JPanel panelHeader = new JPanel();
 		panelHeader.setLayout(new GridLayout(1, 1));
-
-		panelData = new JPanel();
-		panelData.setLayout(new GridLayout(1, 1));
-
-		scrollPane.setColumnHeaderView(panelHeader);
 
 		JLabel lblNewLabel = new JLabel("STT");
 		panelHeader.add(lblNewLabel);
@@ -68,7 +69,10 @@ public class ProductView extends JPanel {
 		JLabel lblNewLabel_7 = new JLabel("Action");
 		panelHeader.add(lblNewLabel_7);
 
+		scrollPane.setColumnHeaderView(panelHeader);
+		JPanel panelData = new JPanel();
 		scrollPane.setViewportView(panelData);
+		panelData.setLayout(new GridLayout(products.size()+9, 0));
 		// Load Data
 		String strQuery = "SELECT * FROM PRODUCT_ELEVATION";
 		ResultSet rs = ConnectionSQL.Query(strQuery);
@@ -81,7 +85,7 @@ public class ProductView extends JPanel {
 				pro.setprice(rs.getDouble("PRICE"));
 				pro.setdate_of_order(rs.getDate("DATE_OF_ORDER"));
 				pro.setwarranty(rs.getInt("WARRANTY"));
-				pro.setwarranty_expire_date(1);
+				pro.setwarranty_expire_date(rs.getDate("WARRANTY_EXPIRE_DATE"));
 
 				products.add(pro);
 			}
@@ -89,36 +93,45 @@ public class ProductView extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		int stt = 1;
 		for (Product_Elevation item : products) {
 			JPanel pnlItem = new JPanel();
 			pnlItem.setLayout(new GridLayout(1, 1));
 			pnlItem.setPreferredSize(new Dimension(10, 10));
+
 			JLabel lbStt = new JLabel();
 			lbStt.setText(String.valueOf(stt));
 			pnlItem.add(lbStt);
+
 			JLabel lbName = new JLabel();
 			lbName.setText(item.getname());
 			pnlItem.add(lbName);
+
 			JLabel lbType = new JLabel();
 			lbType.setText(item.gettype());
 			pnlItem.add(lbType);
+
 			JLabel lbPrice = new JLabel();
 			lbPrice.setText(String.valueOf(item.getprice()));
 			pnlItem.add(lbPrice);
+
 			JLabel lbDateofOrder = new JLabel();
 			lbDateofOrder.setText(item.getdate_of_order().toString());
 			pnlItem.add(lbDateofOrder);
+
 			JLabel lbWarranty = new JLabel();
 			lbWarranty.setText(String.valueOf(item.getwarranty()));
 			pnlItem.add(lbWarranty);
-//			JLabel lbWarrantyExpire = new JLabel();
-//			lbWarrantyExpire.setText(item.getwarranty_expire_date());
-//			pnlItem.add(lbWarrantyExpire);
+
+			JLabel lbWarrantyExpire = new JLabel();
+			lbWarrantyExpire.setText(item.getwarranty_expire_date().toString());
+			pnlItem.add(lbWarrantyExpire);
+
 			// add new Panel Action
 			JPanel acPanel = new JPanel();
 
-			JButton editBtn = new JButton("Edit");
+			JButton editBtn = new JButton("Edit     ");
 			editBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 ////					idEdit = account.getId();
@@ -159,10 +172,9 @@ public class ProductView extends JPanel {
 			pnlItem.add(acPanel);
 			//
 			panelData.add(pnlItem);
-			panelData.revalidate();
-			panelData.repaint();
-
 		}
-	}
+		repaint();
 
+		revalidate();
+	}
 }
