@@ -3,25 +3,35 @@ package entities;
 import java.util.Date;
 
 public class Orders {
-	private Client client_id;
+	private int id;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	private int client_id;
 
 	// client_id
-	public void setclient_id(Client value) {
+	public void setclient_id(int value) {
 		client_id = value;
 	}
 
-	public Client getclient_id() {
+	public int getclient_id() {
 		return client_id;
 	}
 
-	private Account account_id;
+	private int account_id;
 
 	// account_id
-	public void setaccount_id(Account value) {
+	public void setaccount_id(int value) {
 		account_id = value;
 	}
 
-	public Account getaccount_id() {
+	public int getaccount_id() {
 		return account_id;
 	}
 
@@ -69,19 +79,19 @@ public class Orders {
 		return date_of_complete;
 	}
 
-	private Status_Order status;
+	private int status;
 
 	// status
-	public void setstatus(Status_Order value) {
+	public void setstatus(int value) {
 		status = value;
 	}
 
-	public Status_Order getstatus() {
+	public int getstatus() {
 		return status;
 	}
 
-	public Orders(Client client_id, Account account_id, double total_price, Date date_of_order,
-			Date date_of_system_installed, Date date_of_complete, Status_Order status) {
+	public Orders(int client_id, int account_id, double total_price, Date date_of_order, Date date_of_system_installed,
+			Date date_of_complete, int status) {
 		super();
 		this.client_id = client_id;
 		this.account_id = account_id;

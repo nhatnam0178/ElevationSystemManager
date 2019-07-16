@@ -1,4 +1,4 @@
-package Models;
+package Models.Views;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -11,6 +11,7 @@ import Config.ConnectionSQL;
 import Config.ConvertTableToArrayList;
 import DAO.AccountDAO;
 import MainForm.SystemForm;
+import Models.CRUD.EditAccount;
 import entities.Account;
 
 import java.awt.BorderLayout;
@@ -209,7 +210,7 @@ public class AccountView extends JPanel {
 							panelGird.revalidate();
 							panelGird.repaint();
 						} catch (Exception e) {
-							SystemForm.myArea.append(e.toString());
+							System.out.println(e.getStackTrace());
 						}
 
 					} else if (result == JOptionPane.NO_OPTION) {
@@ -228,36 +229,8 @@ public class AccountView extends JPanel {
 			pnlData.add(pnlItem);
 
 		}
-		repaint();
-		revalidate();
-
-//		for (int i = 0; i < numpnl; i++) {
-//			JPanel pnlItem = new JPanel();
-//			pnlItem.setLayout(new FlowLayout());
-//			pnlData.add(pnlItem);
-//			JButton btnItem = new JButton();
-//			JLabel lbAdd = new JLabel("a" + i);
-//			btnItem.setText("Delete");
-//			btnItem.addActionListener(new ActionListener() {
-//
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					// TODO Auto-generated method stub
-//
-//					JButton btn = (JButton) e.getSource();
-//					JPanel pnlParrent = (JPanel) btn.getParent();
-//					pnlData.remove(pnlParrent);
-//					pnlData.revalidate();
-//					pnlData.repaint();
-//				}
-//			});
-//			pnlItem.add(btnItem);
-//			pnlItem.add(lbAdd);
-//		}
-//
-//		pnlData.revalidate();
-//		pnlData.repaint();
-//	}
+		panelGird.repaint();
+		panelGird.revalidate();
 
 	}
 

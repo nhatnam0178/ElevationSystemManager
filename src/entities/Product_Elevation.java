@@ -46,14 +46,14 @@ public class Product_Elevation {
 		return price;
 	}
 
-	private Date date_of_order;
+	private String date_of_order;
 
 // date_of_order
-	public void setdate_of_order(Date value) {
+	public void setdate_of_order(String value) {
 		date_of_order = value;
 	}
 
-	public Date getdate_of_order() {
+	public String getdate_of_order() {
 		return date_of_order;
 	}
 
@@ -68,15 +68,15 @@ public class Product_Elevation {
 		return warranty;
 	}
 
-	private Date warranty_expire_date;
+	private String warranty_expire_date;
 
 // warranty_expire_date
 
-	public Date getwarranty_expire_date() {
+	public String getwarranty_expire_date() {
 		return warranty_expire_date;
 	}
 
-	public void setwarranty_expire_date(Date value) {
+	public void setwarranty_expire_date(String value) {
 		this.warranty_expire_date = value;
 	}
 
@@ -84,8 +84,8 @@ public class Product_Elevation {
 
 	}
 
-	public Product_Elevation(int id, String name, String type, double price, Date date_of_order, int warranty,
-			Date warranty_expire_date) {
+	public Product_Elevation(int id, String name, String type, double price, String date_of_order, int warranty,
+			String warranty_expire_date) {
 		super();
 		this.id = id;
 		this.name = name;

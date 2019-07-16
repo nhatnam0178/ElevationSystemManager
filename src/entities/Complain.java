@@ -3,25 +3,25 @@ package entities;
 import java.util.Date;
 
 public class Complain {
-	private Orders order_id;
+	private int order_id;
 
 	// order_id
-	public void setorder_id(Orders value) {
+	public void setorder_id(int value) {
 		order_id = value;
 	}
 
-	public Orders getorder_id() {
+	public int getorder_id() {
 		return order_id;
 	}
 
-	private Account account_id;
+	private int account_id;
 
 	// account_id
-	public void setaccount_id(Account value) {
+	public void setaccount_id(int value) {
 		account_id = value;
 	}
 
-	public Account getaccount_id() {
+	public int getaccount_id() {
 		return account_id;
 	}
 
@@ -58,14 +58,14 @@ public class Complain {
 		return date_complain;
 	}
 
-	private Status_Complain status_id;
+	private int status_id;
 
 // status_id
-	public void setstatus_id(Status_Complain value) {
+	public void setstatus_id(int value) {
 		status_id = value;
 	}
 
-	public Status_Complain getstatus_id() {
+	public int getstatus_id() {
 		return status_id;
 	}
 
@@ -80,8 +80,8 @@ public class Complain {
 		return technician_person;
 	}
 
-	public Complain(Orders order_id, Account account_id, boolean is_chargeable, String problem, Date date_complain,
-			Status_Complain status_id, String technician_person) {
+	public Complain(int order_id, int account_id, boolean is_chargeable, String problem, Date date_complain,
+			int status_id, String technician_person) {
 		super();
 		this.order_id = order_id;
 		this.account_id = account_id;

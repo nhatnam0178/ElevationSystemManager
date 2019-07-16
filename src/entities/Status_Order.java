@@ -1,6 +1,16 @@
 package entities;
 
 public class Status_Order {
+	private int id;
+
+	// id
+	public void setid(int value) {
+		id = value;
+	}
+
+	public int getid() {
+		return id;
+	}
 	private String name;
 
 // name

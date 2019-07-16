@@ -1,4 +1,4 @@
-package Models;
+package Models.Views;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -77,7 +77,7 @@ public class ClientView extends JPanel {
 		JPanel panelData = new JPanel();
 		// addPanel
 		scrollPane.setViewportView(panelData);
-		panelData.setLayout(new GridLayout(clients.size() +5, 0));
+		panelData.setLayout(new GridLayout(clients.size() +10, 1));
 		int stt = 1;
 		for (Client item : clients) {
 			JPanel pnlItem = new JPanel();

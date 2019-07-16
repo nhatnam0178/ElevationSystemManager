@@ -5,7 +5,7 @@ import Config.ConnectionSQL;
 public final class ClientDAO {
 	public boolean insertClient(String name, String phone, String address, String company_name) {
 		String[] params = { name, phone, address, company_name };
-		boolean kq = ConnectionSQL.CallProcExec("sp_insert_Cient", params);
+		boolean kq = ConnectionSQL.CallProcExec("sp_insert_Client", params);
 		return kq;
 	}
 

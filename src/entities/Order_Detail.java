@@ -3,25 +3,25 @@ package entities;
 import java.util.Date;
 
 public class Order_Detail {
-	private Orders order_id;
+	private int order_id;
 
 	// order_id
-	public void setorder_id(Orders value) {
-		order_id = value;
+	public void setorder_id(int i) {
+		order_id = i;
 	}
 
-	public Orders getorder_id() {
+	public int getorder_id() {
 		return order_id;
 	}
 
-	private Product_Elevation product_id;
+	private int product_id;
 
 	// product_id
-	public void setproduct_id(Product_Elevation value) {
+	public void setproduct_id(int value) {
 		product_id = value;
 	}
 
-	public Product_Elevation getproduct_id() {
+	public int getproduct_id() {
 		return product_id;
 	}
 
@@ -69,7 +69,7 @@ public class Order_Detail {
 		return warranty_expire_date;
 	}
 
-	public Order_Detail(Orders order_id, Product_Elevation product_id, int num_of_system_installed, double price,
+	public Order_Detail(int order_id, int product_id, int num_of_system_installed, double price,
 			int warranty_period, Date warranty_expire_date) {
 		super();
 		this.order_id = order_id;

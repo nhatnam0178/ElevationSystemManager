@@ -1,4 +1,4 @@
-package Models;
+package Models.CRUD;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -90,11 +90,14 @@ public class EditAccount extends JFrame {
 		txtAddress.setColumns(10);
 
 		MyComboRoles cbRole = new MyComboRoles();
+		cbRole.setEditable(false);
 		cbRole.setBounds(87, 287, 147, 20);
+
 		contentPane.add(cbRole);
 
 		MyComboDeparts cbDepartment = new MyComboDeparts();
 		cbDepartment.setBounds(87, 324, 147, 20);
+		cbDepartment.setEditable(false);
 		contentPane.add(cbDepartment);
 
 		MyComboBoxs cbGender = new MyComboBoxs();
@@ -231,11 +234,12 @@ public class EditAccount extends JFrame {
 				}
 				try {
 					AccountDAO acc = new AccountDAO();
-					acc.editAccount(String.valueOf(idEdit), password, name, gender, email, phone, address, role_id, department_id);
-					SystemForm.myArea.append("Edit Complete");
-					dispose();
+					if (acc.editAccount(password, name, gender, email, phone, address, role_id, department_id,
+							String.valueOf(idEdit), username) == true) {
+						setVisible(false);
+					}
 				} catch (Exception e) {
-					SystemForm.myArea.append(e.toString());
+					System.out.println(e.getStackTrace());
 				}
 
 			}
@@ -251,7 +255,6 @@ class MyComboBoxs extends JComboBox {
 	/**
 	 * 
 	 */
-	
 
 	public MyComboBoxs() {
 		addItem("Male");
@@ -263,7 +266,7 @@ class MyComboDeparts extends JComboBox {
 	/**
 	 * 
 	 */
-	
+
 	public MyComboDeparts() {
 		addItem("Services");
 		addItem("Complain");
@@ -275,7 +278,6 @@ class MyComboRoles extends JComboBox {
 	/**
 	 * 
 	 */
-	
 
 	public MyComboRoles() {
 		addItem("Admin");

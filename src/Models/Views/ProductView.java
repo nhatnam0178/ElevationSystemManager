@@ -1,4 +1,4 @@
-package Models;
+package Models.Views;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import Config.ConnectionSQL;
+import Models.CRUD.EditAccount;
 import entities.Product_Elevation;
 import entities.Product_Elevations;
 
@@ -25,6 +26,7 @@ import javax.swing.JLabel;
 public class ProductView extends JPanel {
 	entities.Product_Elevations products = new Product_Elevations();
 	ConnectionSQL conn = new ConnectionSQL();
+	static int idEdit;
 
 	/**
 	 * Create the panel.
@@ -72,8 +74,9 @@ public class ProductView extends JPanel {
 		scrollPane.setColumnHeaderView(panelHeader);
 		JPanel panelData = new JPanel();
 		scrollPane.setViewportView(panelData);
-		panelData.setLayout(new GridLayout(products.size()+9, 0));
+		panelData.setLayout(new GridLayout(products.size()+9 ,1));
 		// Load Data
+		
 		String strQuery = "SELECT * FROM PRODUCT_ELEVATION";
 		ResultSet rs = ConnectionSQL.Query(strQuery);
 		try {
@@ -83,9 +86,9 @@ public class ProductView extends JPanel {
 				pro.setname(rs.getString("NAME"));
 				pro.settype(rs.getString("TYPE"));
 				pro.setprice(rs.getDouble("PRICE"));
-				pro.setdate_of_order(rs.getDate("DATE_OF_ORDER"));
+				pro.setdate_of_order(rs.getString("DATE_OF_ORDER"));
 				pro.setwarranty(rs.getInt("WARRANTY"));
-				pro.setwarranty_expire_date(rs.getDate("WARRANTY_EXPIRE_DATE"));
+				pro.setwarranty_expire_date(rs.getString("WARRANTY_EXPIRE_DATE"));
 
 				products.add(pro);
 			}
@@ -117,7 +120,7 @@ public class ProductView extends JPanel {
 			pnlItem.add(lbPrice);
 
 			JLabel lbDateofOrder = new JLabel();
-			lbDateofOrder.setText(item.getdate_of_order().toString());
+			lbDateofOrder.setText(item.getdate_of_order());
 			pnlItem.add(lbDateofOrder);
 
 			JLabel lbWarranty = new JLabel();
@@ -125,7 +128,7 @@ public class ProductView extends JPanel {
 			pnlItem.add(lbWarranty);
 
 			JLabel lbWarrantyExpire = new JLabel();
-			lbWarrantyExpire.setText(item.getwarranty_expire_date().toString());
+			lbWarrantyExpire.setText(item.getwarranty_expire_date());
 			pnlItem.add(lbWarrantyExpire);
 
 			// add new Panel Action
@@ -134,9 +137,9 @@ public class ProductView extends JPanel {
 			JButton editBtn = new JButton("Edit     ");
 			editBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-////					idEdit = account.getId();
-//					EditAccount edc = new EditAccount(idEdit);
-//					edc.setVisible(true);
+					idEdit = item.getId();
+					EditAccount edc = new EditAccount(idEdit);
+					edc.setVisible(true);
 
 				}
 			});
@@ -145,23 +148,7 @@ public class ProductView extends JPanel {
 			deleteBtn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-//					DAO.AccountDAO acc = new AccountDAO();
-//					int result = JOptionPane.showConfirmDialog(scrollPaneGird,
-//							"Delete Account : " + " ' " + account.getusername() + " ' " + " , " + " Are You Sure?",
-//							"Delete a Account?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-//					if (result == JOptionPane.YES_OPTION) {
-//						try {
-//							acc.delAccount(account.getId());
-//							panelGird.revalidate();
-//							panelGird.repaint();
-//						} catch (Exception e) {
-//							SystemForm.myArea.append(e.toString());
-//						}
-//
-//					} else if (result == JOptionPane.NO_OPTION) {
-//						revalidate();
-//					}
-//
+					
 				}
 			});
 

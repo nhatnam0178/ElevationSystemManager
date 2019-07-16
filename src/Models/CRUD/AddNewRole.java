@@ -1,4 +1,4 @@
-package Models;
+package Models.CRUD;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -44,7 +44,7 @@ public class AddNewRole extends JFrame {
 	 */
 	public AddNewRole() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 332, 151);
+		setBounds(100, 100, 332, 176);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -73,18 +73,18 @@ public class AddNewRole extends JFrame {
 
 			}
 		});
-		btnOk.setBounds(115, 76, 89, 23);
+		btnOk.setBounds(118, 103, 89, 23);
 		contentPane.add(btnOk);
 
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				setVisible(false);
 			}
 		});
-		btnCancel.setBounds(217, 76, 89, 23);
+		btnCancel.setBounds(217, 103, 89, 23);
 		contentPane.add(btnCancel);
-		
+
 		JLabel lblAddNewRole = new JLabel("ADD NEW ROLE ACCOUNT");
 		lblAddNewRole.setBounds(115, 11, 135, 14);
 		contentPane.add(lblAddNewRole);
