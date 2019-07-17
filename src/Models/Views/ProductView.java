@@ -16,12 +16,15 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import Config.ConnectionSQL;
+import DAO.AccountDAO;
+import DAO.ProductElevationDAO;
 import Models.CRUD.EditAccount;
 import entities.Product_Elevation;
 import entities.Product_Elevations;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class ProductView extends JPanel {
 	entities.Product_Elevations products = new Product_Elevations();
@@ -74,9 +77,9 @@ public class ProductView extends JPanel {
 		scrollPane.setColumnHeaderView(panelHeader);
 		JPanel panelData = new JPanel();
 		scrollPane.setViewportView(panelData);
-		panelData.setLayout(new GridLayout(products.size()+9 ,1));
+		panelData.setLayout(new GridLayout(products.size() + 9, 1));
 		// Load Data
-		
+
 		String strQuery = "SELECT * FROM PRODUCT_ELEVATION";
 		ResultSet rs = ConnectionSQL.Query(strQuery);
 		try {
@@ -148,7 +151,23 @@ public class ProductView extends JPanel {
 			deleteBtn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					
+					DAO.ProductElevationDAO proDAO = new ProductElevationDAO();
+					int result = JOptionPane.showConfirmDialog(scrollPane,
+							"Delete Account : " + " ' " + item.getname() + " ' " + " , " + " Are You Sure?",
+							"Delete a Account?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (result == JOptionPane.YES_OPTION) {
+						try {
+							proDAO.delAccount(item.getId());
+							panelGird.revalidate();
+							panelGird.repaint();
+						} catch (Exception e) {
+							System.out.println(e.getStackTrace());
+						}
+
+					} else if (result == JOptionPane.NO_OPTION) {
+						revalidate();
+					}
+
 				}
 			});
 

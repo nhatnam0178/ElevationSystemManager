@@ -84,9 +84,9 @@ public class OrderView extends JPanel {
 				itemO.setclient_id(rs.getInt("CLIENT_ID"));
 				itemO.setaccount_id(rs.getInt("ACCOUNT_ID"));
 				itemO.settotal_price(rs.getDouble("TOTAL_PRICE"));
-				itemO.setdate_of_order(rs.getDate("DATE_OF_ORDER"));
-				itemO.setdate_of_system_installed(rs.getDate("DATE_OF_SYSTEM_INSTALLED"));
-				itemO.setdate_of_complete(rs.getDate("DATE_OF_COMPLETE"));
+				itemO.setdate_of_order(rs.getString("DATE_OF_ORDER"));
+				itemO.setdate_of_system_installed(rs.getString("DATE_OF_SYSTEM_INSTALLED"));
+				itemO.setdate_of_complete(rs.getString("DATE_OF_COMPLETE"));
 				itemO.setstatus(rs.getInt("STATUS_ID"));
 
 				orderList.add(itemO);
@@ -136,8 +136,8 @@ public class OrderView extends JPanel {
 			// add new Panel Action
 			JPanel acPanel = new JPanel();
 			acPanel.setLayout(new GridLayout(1, 1));
-			JButton editBtn = new JButton("ChangeStatus");
-			editBtn.addActionListener(new ActionListener() {
+			JButton changeStatus = new JButton("ChangeStatus");
+			changeStatus.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 ////							idEdit = account.getId();
 //							EditAccount edc = new EditAccount(idEdit);
@@ -146,8 +146,8 @@ public class OrderView extends JPanel {
 				}
 			});
 			//
-			JButton deleteBtn = new JButton("Detail");
-			deleteBtn.addActionListener(new ActionListener() {
+			JButton detailBtn = new JButton("Detail");
+			detailBtn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					DAO.OrderDetailDAO detai = new OrderDetailDAO();
@@ -157,10 +157,13 @@ public class OrderView extends JPanel {
 				}
 			});
 
-			acPanel.add(editBtn);
-			acPanel.add(deleteBtn);
+			acPanel.add(changeStatus);
+			JPanel acPanel1 = new JPanel();
+			acPanel1.setLayout(new GridLayout(1, 1));
+			acPanel1.add(detailBtn);
 			stt++;
 			pnlItem.add(acPanel);
+			pnlItem.add(acPanel1);
 			panelData.add(pnlItem);
 		}
 		repaint();

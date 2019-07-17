@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 
 import Config.BindingArrayList;
 import Config.ConnectionSQL;
-import Config.ConvertTableToArrayList;
 import DAO.AccountDAO;
 import MainForm.SystemForm;
 import Models.CRUD.EditAccount;
@@ -108,7 +107,7 @@ public class AccountView extends JPanel {
 		JPanel pnlData = new JPanel();
 
 		scrollPaneGird.setViewportView(pnlData);
-		pnlData.setLayout(new GridLayout(accs.size(), 0));
+		pnlData.setLayout(new GridLayout(accs.size(), 1));
 		int stt = 1;
 		for (Account account : accs) {
 
@@ -222,6 +221,7 @@ public class AccountView extends JPanel {
 
 			stt++;
 			acPanel.add(editBtn);
+			
 			acPanel.add(deleteBtn);
 
 			pnlItem.add(acPanel);

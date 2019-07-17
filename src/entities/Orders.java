@@ -46,36 +46,36 @@ public class Orders {
 		return total_price;
 	}
 
-	private Date date_of_order;
+	private String date_of_order;
 
 	// date_of_order
-	public void setdate_of_order(Date value) {
+	public void setdate_of_order(String value) {
 		date_of_order = value;
 	}
 
-	public Date getdate_of_order() {
+	public String getdate_of_order() {
 		return date_of_order;
 	}
 
-	private Date date_of_system_installed;
+	private String date_of_system_installed;
 
 	// date_of_system_installed
-	public void setdate_of_system_installed(Date value) {
+	public void setdate_of_system_installed(String value) {
 		date_of_system_installed = value;
 	}
 
-	public Date getdate_of_system_installed() {
+	public String getdate_of_system_installed() {
 		return date_of_system_installed;
 	}
 
-	private Date date_of_complete;
+	private String date_of_complete;
 
 	// date_of_complete
-	public void setdate_of_complete(Date value) {
+	public void setdate_of_complete(String value) {
 		date_of_complete = value;
 	}
 
-	public Date getdate_of_complete() {
+	public String getdate_of_complete() {
 		return date_of_complete;
 	}
 
@@ -90,8 +90,8 @@ public class Orders {
 		return status;
 	}
 
-	public Orders(int client_id, int account_id, double total_price, Date date_of_order, Date date_of_system_installed,
-			Date date_of_complete, int status) {
+	public Orders(int client_id, int account_id, double total_price, String date_of_order,
+			String date_of_system_installed, String date_of_complete, int status) {
 		super();
 		this.client_id = client_id;
 		this.account_id = account_id;

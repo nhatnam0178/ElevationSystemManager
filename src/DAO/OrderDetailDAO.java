@@ -8,11 +8,11 @@ import entities.Orders;
 import entities.Product_Elevation;
 
 public final class OrderDetailDAO {
-	public boolean insertOrderDetail(Orders order_id, Product_Elevation product_id, int num_of_system_installed,
-			double price, int warranty_period, Date warranty_expire_date) {
+	public boolean insertOrderDetail(int order_id, int product_id, int num_of_system_installed,
+			double price, int warranty_period, String warranty_expire_date) {
 		String[] params = { String.valueOf(order_id), String.valueOf(product_id),
 				String.valueOf(num_of_system_installed), String.valueOf(price), String.valueOf(warranty_period),
-				String.valueOf(warranty_expire_date) };
+				warranty_expire_date };
 		boolean kq = ConnectionSQL.CallProcExec("sp_insert_Order_Detail", params);
 		return kq;
 

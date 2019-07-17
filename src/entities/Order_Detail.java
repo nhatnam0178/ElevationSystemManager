@@ -58,19 +58,19 @@ public class Order_Detail {
 		return warranty_period;
 	}
 
-	private Date warranty_expire_date;
+	private String warranty_expire_date;
 
 	// warranty_expire_date
-	public void setwarranty_expire_date(Date value) {
+	public void setwarranty_expire_date(String value) {
 		warranty_expire_date = value;
 	}
 
-	public Date getwarranty_expire_date() {
+	public String getwarranty_expire_date() {
 		return warranty_expire_date;
 	}
 
-	public Order_Detail(int order_id, int product_id, int num_of_system_installed, double price,
-			int warranty_period, Date warranty_expire_date) {
+	public Order_Detail(int order_id, int product_id, int num_of_system_installed, double price, int warranty_period,
+			String warranty_expire_date) {
 		super();
 		this.order_id = order_id;
 		this.product_id = product_id;

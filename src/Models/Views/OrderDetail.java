@@ -105,7 +105,7 @@ public class OrderDetail extends JDialog {
 				ord.setnum_of_system_installed(rs.getInt("NUM_OF_SYSTEM_INSTALLED"));
 				ord.setprice(rs.getDouble("PRICE"));
 				ord.setwarranty_period(rs.getInt("WARRANTY_PERIOD"));
-				ord.setwarranty_expire_date(rs.getDate("WARRANTY_EXPIRE_DATE"));
+				ord.setwarranty_expire_date(rs.getString("WARRANTY_EXPIRE_DATE"));
 
 			}
 		} catch (SQLException e) {
