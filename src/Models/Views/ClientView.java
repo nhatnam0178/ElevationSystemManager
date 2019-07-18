@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import Config.ConnectionSQL;
+import Models.CRUD.EditClient;
 import entities.Client;
 import entities.Clients;
 import java.awt.Component;
@@ -23,6 +24,7 @@ import java.awt.Component;
 public class ClientView extends JPanel {
 	entities.Clients clients = new Clients();
 	ConnectionSQL conn = new ConnectionSQL();
+	static int idEdit;
 
 	public ClientView() {
 		setLayout(new BorderLayout(0, 0));
@@ -77,7 +79,7 @@ public class ClientView extends JPanel {
 		JPanel panelData = new JPanel();
 		// addPanel
 		scrollPane.setViewportView(panelData);
-		panelData.setLayout(new GridLayout(clients.size() +10, 1));
+		panelData.setLayout(new GridLayout(clients.size() + 10, 1));
 		int stt = 1;
 		for (Client item : clients) {
 			JPanel pnlItem = new JPanel();
@@ -105,9 +107,9 @@ public class ClientView extends JPanel {
 			JButton editBtn = new JButton("Edit");
 			editBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-////					idEdit = account.getId();
-//					EditAccount edc = new EditAccount(idEdit);
-//					edc.setVisible(true);
+					idEdit = item.getId();
+					EditClient edcl = new EditClient(idEdit);
+					edcl.setVisible(true);
 
 				}
 			});

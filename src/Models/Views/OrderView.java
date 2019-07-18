@@ -53,6 +53,8 @@ public class OrderView extends JPanel {
 
 		JLabel lblClientID = new JLabel("Client ID");
 		panelHeader.add(lblClientID);
+		JLabel lblAccountID = new JLabel("Account ID");
+		panelHeader.add(lblAccountID);
 
 		JLabel lblTotal = new JLabel("Total Price");
 		panelHeader.add(lblTotal);

@@ -4,6 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -29,7 +30,7 @@ public class DepartmentView extends JPanel {
 	 */
 	public DepartmentView() {
 		setLayout(new BorderLayout(0, 0));
-
+		setBounds(new Rectangle(0, 0, 500, 400));
 		JPanel panelGird = new JPanel();
 		add(panelGird);
 		panelGird.setLayout(new GridLayout(1, 1));
@@ -110,18 +111,19 @@ public class DepartmentView extends JPanel {
 			pnlItem.add(acPanel);
 			panelData.add(pnlItem);
 		}
-
+		validate();
+		repaint();
 	}
 
-	@Override
-	public void repaint() {
-		// TODO Auto-generated method stub
-		super.repaint();
-	}
-
-	@Override
-	public void revalidate() {
-		// TODO Auto-generated method stub
-		super.revalidate();
-	}
+//	@Override
+//	public void repaint() {
+//		// TODO Auto-generated method stub
+//		super.repaint();
+//	}
+//
+//	@Override
+//	public void revalidate() {
+//		// TODO Auto-generated method stub
+//		super.revalidate();
+//	}
 }

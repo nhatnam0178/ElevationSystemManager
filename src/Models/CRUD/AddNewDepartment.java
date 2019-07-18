@@ -12,11 +12,14 @@ import DAO.DepartmentDAO;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.Font;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AddNewDepartment extends JFrame {
+public class AddNewDepartment extends JDialog{
 
 	private JPanel contentPane;
 	private JTextField textName;
@@ -24,24 +27,25 @@ public class AddNewDepartment extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddNewDepartment frame = new AddNewDepartment();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					AddNewDepartment frame = new AddNewDepartment();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public AddNewDepartment() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public AddNewDepartment(JFrame root) {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 305, 152);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -79,6 +83,8 @@ public class AddNewDepartment extends JFrame {
 					DAO.DepartmentDAO depDao = new DepartmentDAO();
 					depDao.insertDepartment(name);
 					setVisible(false);
+					dispose();
+					
 				} catch (Exception e2) {
 					System.out.println(e2.getStackTrace());
 				}

@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import DAO.AccountDAO;
 import MainForm.SystemForm;
+import Models.Views.AccountView;
 
 public class EditAccount extends JFrame {
 	/**
@@ -236,7 +237,9 @@ public class EditAccount extends JFrame {
 					AccountDAO acc = new AccountDAO();
 					if (acc.editAccount(password, name, gender, email, phone, address, role_id, department_id,
 							String.valueOf(idEdit), username) == true) {
-						setVisible(false);
+						AccountView accv = new AccountView();
+						accv.reloadDataView();
+						dispose();
 					}
 				} catch (Exception e) {
 					System.out.println(e.getStackTrace());

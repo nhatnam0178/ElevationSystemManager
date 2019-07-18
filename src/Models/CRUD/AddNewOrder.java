@@ -263,9 +263,8 @@ public class AddNewOrder extends JFrame {
 					orDAO.insertOrders(client_Id, account_ID, Double.parseDouble(textTotalPrice.getText()),
 							String.valueOf(textDateOrder.getText()), String.valueOf(textDateInstall.getText()),
 							String.valueOf(textDateComplete.getText()), status_ID);
-					
-					
-					int idPut =0;
+
+					int idPut = 0;
 					AddNewOrderDetail adDetail = new AddNewOrderDetail(idPut);
 					adDetail.setVisible(true);
 					dispose();
