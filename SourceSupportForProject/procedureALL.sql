@@ -144,7 +144,7 @@ DROP PROCEDURE sp_update_ACCOUNT
 GO
 
  CREATE PROCEDURE sp_update_ACCOUNT
-@in_USERNAME varchar(100),
+
 @in_PASSWORD varchar(100),
 @in_NAME nvarchar(250),
 @in_GENDER bit,
@@ -152,25 +152,17 @@ GO
 @in_PHONE varchar(12),
 @in_ADDRESS varchar(250),
 @in_ROLE_ID int,
-@in_DEPARTMENT_ID int ,
+@in_DEPARTMENT_ID int,
 @p_ID int,
-@p_USERNAME varchar(100),
-@p_PASSWORD varchar(100),
-@p_NAME nvarchar(250),
-@p_GENDER bit,
-@p_EMAIL varchar(250),
-@p_PHONE varchar(12),
-@p_ADDRESS varchar(250),
-@p_ROLE_ID int,
-@p_DEPARTMENT_ID int 
+@p_USERNAME varchar(100)
+
 AS
 BEGIN
-	UPDATE [dbo].ACCOUNT SET USERNAME=@in_USERNAME,[PASSWORD]=@in_PASSWORD,[NAME]=@in_NAME,GENDER=@in_GENDER,EMAIL=@in_EMAIL,PHONE=@in_PHONE,ADDRESS=@in_ADDRESS,ROLE_ID=@in_ROLE_ID,DEPARTMENT_ID=@in_DEPARTMENT_ID 
-	WHERE ID=@p_ID AND USERNAME=@p_USERNAME AND PASSWORD=@p_PASSWORD AND NAME=@p_NAME AND GENDER=@p_GENDER AND EMAIL=@p_EMAIL AND PHONE=@p_PHONE AND ADDRESS=@p_ADDRESS AND ROLE_ID=@p_ROLE_ID AND DEPARTMENT_ID=@p_DEPARTMENT_ID
+	UPDATE [dbo].ACCOUNT SET [PASSWORD]=@in_PASSWORD,[NAME]=@in_NAME,GENDER=@in_GENDER,EMAIL=@in_EMAIL,PHONE=@in_PHONE,ADDRESS=@in_ADDRESS,ROLE_ID=@in_ROLE_ID,DEPARTMENT_ID=@in_DEPARTMENT_ID 
+	WHERE ID=@p_ID and USERNAME=@p_USERNAME
 
 END
 GO
-
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_insert_CLIENT')AND type in (N'P', N'PC'))
 DROP PROCEDURE sp_insert_CLIENT
 GO
@@ -193,20 +185,15 @@ DROP PROCEDURE sp_update_CLIENT
 GO
 
  CREATE PROCEDURE sp_update_CLIENT
-@in_NAME varchar(250),
-@in_PHONE varchar(12),
-@in_ADDRESS varchar(250),
-@in_COMPANY_NAME varchar(250) ,
-@p_ID int,
-@p_NAME varchar(250),
-@p_PHONE varchar(12),
-@p_ADDRESS varchar(250),
-@p_COMPANY_NAME varchar(250) 
+@_NAME varchar(250),
+@_PHONE varchar(12),
+@_ADDRESS varchar(250),
+@_COMPANY_NAME varchar(250) ,
+@p_ID int
 AS
 BEGIN
-
-	UPDATE [dbo].CLIENT SET [NAME]=@in_NAME,PHONE=@in_PHONE,ADDRESS=@in_ADDRESS,COMPANY_NAME=@in_COMPANY_NAME 
-	WHERE ID=@p_ID AND NAME=@p_NAME AND PHONE=@p_PHONE AND ADDRESS=@p_ADDRESS AND COMPANY_NAME=@p_COMPANY_NAME
+	UPDATE [dbo].CLIENT SET NAME=@_NAME,PHONE=@_PHONE,ADDRESS=@_ADDRESS,COMPANY_NAME=@_COMPANY_NAME 
+	WHERE ID=@p_ID
 
 END
 GO
@@ -314,15 +301,20 @@ GO
 @in_DATE_OF_ORDER date,
 @in_DATE_OF_SYSTEM_INSTALLED date,
 @in_DATE_OF_COMPLETE date,
-@in_STATUS_ID int  
+@in_STATUS_ID int ,
+@outValue int output 
 AS
 BEGIN
 
 	Insert into ORDERS (CLIENT_ID,ACCOUNT_ID,TOTAL_PRICE,DATE_OF_ORDER,DATE_OF_SYSTEM_INSTALLED,DATE_OF_COMPLETE,STATUS_ID)
+	OUTPUT @outValue=INSERTED.ID
 	values(@in_CLIENT_ID,@in_ACCOUNT_ID,@in_TOTAL_PRICE,@in_DATE_OF_ORDER,@in_DATE_OF_SYSTEM_INSTALLED,@in_DATE_OF_COMPLETE,@in_STATUS_ID)
 
 END
 GO
+
+
+
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_update_ORDERS')AND type in (N'P', N'PC'))
 DROP PROCEDURE sp_update_ORDERS
@@ -406,6 +398,21 @@ BEGIN
 END
 GO
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_find_Department_by_id')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_find_Department_by_id
+GO
+
+CREATE PROCEDURE sp_find_Department_by_id
+@ID int
+
+AS
+BEGIN
+SELECT * FROM [dbo].DEPARTMENT
+WHERE ID = @ID
+
+END
+GO
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_find_ACCOUNT_by_id')AND type in (N'P', N'PC'))
 DROP PROCEDURE sp_find_ACCOUNT_by_id
 GO
@@ -432,6 +439,62 @@ WHERE ID = @ID
 END
 GO
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_find_Order_Detail_by_id')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_find_Order_Detail_by_id
+GO
+CREATE PROCEDURE sp_find_Order_Detail_by_id
+@ID int
+
+AS
+BEGIN
+SELECT * FROM [dbo].ORDER_DETAIL
+WHERE ORDERS_ID = @ID
+
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_find_Product_by_id')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_find_Product_by_id
+GO
+CREATE PROCEDURE sp_find_Product_by_id
+@ID int
+
+AS
+BEGIN
+SELECT * FROM [dbo].PRODUCT_ELEVATION
+WHERE ID = @ID
+
+END
+GO
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_findName_Product_by_id')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_findName_Product_by_id
+GO
+CREATE PROCEDURE sp_findName_Product_by_id
+@ID int
+
+AS
+BEGIN
+SELECT NAME FROM [dbo].PRODUCT_ELEVATION
+WHERE ID = @ID
+
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_findName_Department_by_id')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_findName_Department_by_id
+GO
+CREATE PROCEDURE sp_findName_Department_by_id
+@ID int
+
+AS
+BEGIN
+SELECT NAME FROM [dbo].DEPARTMENT
+WHERE ID = @ID
+
+END
+GO
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_delete_ACCOUNT_by_id')AND type in (N'P', N'PC'))
 DROP PROCEDURE sp_delete_ACCOUNT_by_id
@@ -443,6 +506,21 @@ CREATE PROCEDURE sp_delete_ACCOUNT_by_id
 AS
 BEGIN
 DELETE FROM [dbo].ACCOUNT
+WHERE ID = @ID
+
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_delete_Product_Elevation_by_id')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_delete_Product_Elevation_by_id
+GO
+
+CREATE PROCEDURE sp_delete_Product_Elevation_by_id
+@ID int
+
+AS
+BEGIN
+DELETE FROM [dbo].PRODUCT_ELEVATION
 WHERE ID = @ID
 
 END
@@ -462,3 +540,51 @@ WHERE ID = @ID
 
 END
 GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_getLastID_Orders')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_getLastID_Orders
+GO
+
+CREATE PROCEDURE sp_getLastID_Orders
+@ID int
+
+AS
+BEGIN
+SELECT MAX(ID) FROM FROM [dbo].ORDERS
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_select_maxID_Order')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_select_maxID_Order
+GO
+
+ CREATE PROCEDURE sp_select_maxID_Order
+
+AS
+BEGIN
+	SELECT TOP 1 ID FROM ORDERS ORDER BY ID DESC
+END
+GO
+
+
+CREATE TRIGGER trg_setDateExpire ON PRODUCT_ELEVATION AFTER INSERT AS 
+BEGIN
+	UPDATE PRODUCT_ELEVATION
+	SET WARRANTY_EXPIRE_DATE = WARRANTY_EXPIRE_DATE + (
+		SELECT DATE_OF_ORDER
+		FROM PRODUCT_ELEVATION
+		WHERE ID = ID.PRODUCT_ELEVATION
+		)
+	FROM PRODUCT_ELEVATION
+	JOIN inserted ON PRODUCT_ELEVATION.ID = inserted.ID
+END
+GO
+/* cập nhật hàng trong kho sau khi cập nhật đặt hàng */
+CREATE TRIGGER trg_CapNhatDatHang on tbl_DatHang after update AS
+BEGIN
+   UPDATE tbl_KhoHang SET SoLuongTon = SoLuongTon -
+	   (SELECT SoLuongDat FROM inserted WHERE MaHang = tbl_KhoHang.MaHang) +
+	   (SELECT SoLuongDat FROM deleted WHERE MaHang = tbl_KhoHang.MaHang)
+   FROM tbl_KhoHang 
+   JOIN deleted ON tbl_KhoHang.MaHang = deleted.MaHang
+end
