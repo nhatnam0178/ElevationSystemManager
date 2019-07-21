@@ -1,6 +1,7 @@
 package Models.CRUD;
 
 import java.awt.EventQueue;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -8,6 +9,7 @@ import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,7 +20,7 @@ import DAO.AccountDAO;
 import MainForm.SystemForm;
 import Models.Views.AccountView;
 
-public class EditAccount extends JFrame {
+public class EditAccount extends JDialog {
 	/**
 	 * 
 	 */
@@ -34,22 +36,22 @@ public class EditAccount extends JFrame {
 	private MyComboDeparts cbDepartment = new MyComboDeparts();
 	private JTextField txtEmail;
 	static int idEdit;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditAccount frame = new EditAccount(idEdit);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					EditAccount frame = new EditAccount(idEdit);
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -57,7 +59,8 @@ public class EditAccount extends JFrame {
 	 * @param idEdit
 	 */
 	public EditAccount(int idEdit) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 344, 460);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -209,7 +212,7 @@ public class EditAccount extends JFrame {
 		JButton btnOk = new JButton("OK");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String username = txtName.getText();
+				String username = txtUsername.getText();
 				String password = txtPassword.getText();
 				String name = txtName.getText();
 				boolean gender = false;
@@ -235,12 +238,17 @@ public class EditAccount extends JFrame {
 				}
 				try {
 					AccountDAO acc = new AccountDAO();
-					if (acc.editAccount(password, name, gender, email, phone, address, role_id, department_id,
-							String.valueOf(idEdit), username) == true) {
-						AccountView accv = new AccountView();
-						accv.reloadDataView();
-						dispose();
-					}
+					acc.editAccount(password, name, gender, email, phone, address, role_id, department_id,
+							String.valueOf(idEdit), username);
+					AccountView act = new AccountView();
+					act.setVisible(true);
+					SystemForm.myTables[0].removeAll();
+					SystemForm.myTables[0].validate();
+					SystemForm.myTables[0].repaint();
+					SystemForm.myTables[0].add(new AccountView());
+					SystemForm.myTables[0].validate();
+					SystemForm.myTables[0].repaint();
+					dispose();
 				} catch (Exception e) {
 					System.out.println(e.getStackTrace());
 				}

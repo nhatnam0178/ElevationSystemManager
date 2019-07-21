@@ -17,8 +17,10 @@ import entities.Status_Orders;
 
 import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JComboBox;
+import java.awt.Dialog.ModalityType;
 
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JButton;
 
 import java.awt.event.ActionEvent;
@@ -26,7 +28,7 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AddNewOrder extends JFrame {
+public class AddNewOrder extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField textTotalPrice;
@@ -41,25 +43,26 @@ public class AddNewOrder extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddNewOrder frame = new AddNewOrder();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					AddNewOrder frame = new AddNewOrder();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public AddNewOrder() {
+	public AddNewOrder(JFrame root) {
 		setTitle("ADD NEW ORDER");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 352, 401);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -260,11 +263,11 @@ public class AddNewOrder extends JFrame {
 					}
 				}
 				try {
-					orDAO.insertOrders(client_Id, account_ID, Double.parseDouble(textTotalPrice.getText()),
+					int idPut = orDAO.insertOrders(client_Id, account_ID, Double.parseDouble(textTotalPrice.getText()),
 							String.valueOf(textDateOrder.getText()), String.valueOf(textDateInstall.getText()),
 							String.valueOf(textDateComplete.getText()), status_ID);
 
-					int idPut = 0;
+				
 					AddNewOrderDetail adDetail = new AddNewOrderDetail(idPut);
 					adDetail.setVisible(true);
 					dispose();

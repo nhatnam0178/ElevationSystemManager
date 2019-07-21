@@ -1,18 +1,15 @@
 package Models.Views;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.Color;
 
 import javax.swing.JScrollPane;
-import javax.swing.border.LineBorder;
 
 import Config.ConnectionSQL;
-import DAO.AccountDAO;
-import MainForm.SystemForm;
 import entities.Complain;
 import entities.Complains;
 
@@ -30,7 +27,6 @@ public class ComplainView extends JPanel {
 	 */
 	public ComplainView() {
 		setLayout(new BorderLayout(0, 0));
-
 		JPanel panelGird = new JPanel();
 		add(panelGird);
 		panelGird.setLayout(new GridLayout(1, 1));
@@ -40,6 +36,7 @@ public class ComplainView extends JPanel {
 		//
 		JPanel pnlHeader = new JPanel();
 
+		JLabel lblOrderEmpty = new JLabel();
 		JLabel lblOrderIDj = new JLabel("ORDER_ID");
 		JLabel lblAccountIDj = new JLabel("ACCOUNT_ID");
 		JLabel lblCHARGEABLEj = new JLabel("IS_CHARGEABLE");
@@ -52,6 +49,7 @@ public class ComplainView extends JPanel {
 
 		pnlHeader.setLayout(new GridLayout(1, 1));
 
+		pnlHeader.add(lblOrderEmpty);
 		pnlHeader.add(lblOrderIDj);
 		pnlHeader.add(lblAccountIDj);
 		pnlHeader.add(lblCHARGEABLEj);
@@ -92,6 +90,8 @@ public class ComplainView extends JPanel {
 		for (Complain item : comps) {
 			JPanel panelItem = new JPanel();
 			panelItem.setLayout(new GridLayout(1, 1));
+			JLabel lblOrderID1 = new JLabel();
+			panelItem.add(lblOrderID1);
 
 			JLabel lblOrderID = new JLabel();
 			lblOrderID.setText(String.valueOf(item.getorder_id()));

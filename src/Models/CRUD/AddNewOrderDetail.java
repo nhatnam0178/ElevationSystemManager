@@ -10,11 +10,13 @@ import javax.swing.border.EmptyBorder;
 import Config.ConnectionSQL;
 import DAO.OrderDetailDAO;
 import MainForm.SystemForm;
-import entities.Account;
-import entities.Accounts;
+import entities.Product_Elevation;
+import entities.Product_Elevations;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Dialog.ModalityType;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -22,9 +24,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.DefaultComboBoxModel;
 
-public class AddNewOrderDetail extends JFrame {
+public class AddNewOrderDetail extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField textNum_Of_Sys;
@@ -33,30 +36,15 @@ public class AddNewOrderDetail extends JFrame {
 	private JComboBox comboBoxProductID;
 	private JComboBox comboBoxWarrantyPeriod;
 	static int idPut;
-	entities.Accounts accs = new Accounts();
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddNewOrderDetail frame = new AddNewOrderDetail(idPut);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	entities.Product_Elevations pros = new Product_Elevations();
 
 	/**
 	 * Create the frame.
 	 */
 	public AddNewOrderDetail(int idPut) {
 		setTitle("ADD NEW ORDER DETAIL");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 376, 332);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -123,35 +111,28 @@ public class AddNewOrderDetail extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				DAO.OrderDetailDAO orDeDAO = new OrderDetailDAO();
 				// PRODUCT
-				String strQuery = "SELECT * FROM ACCOUNT";
+				String strQuery = "SELECT * FROM PRODUCT";
 				//
 				ResultSet rs = ConnectionSQL.Query(strQuery);
 				try {
 					while (rs.next()) {
-						entities.Account accItem = new entities.Account();
-						accItem.setId(rs.getInt("ID"));
-						accItem.setusername(rs.getString("USERNAME"));
-						accItem.setpassword(rs.getString("PASSWORD"));
-						accItem.setname(rs.getString("NAME"));
-						accItem.setgender(rs.getBoolean("GENDER"));
-						accItem.setemail(rs.getString("EMAIL"));
-						accItem.setphone(rs.getString("PHONE"));
-						accItem.setaddress(rs.getString("ADDRESS"));
-						accItem.setrole_id(rs.getInt("ROLE_ID"));
-						accItem.setdepartment_id(rs.getInt("DEPARTMENT_ID"));
-						accs.add(accItem);
+						entities.Product_Elevation prodItem = new entities.Product_Elevation();
+						prodItem.setId(rs.getInt("ID"));
+						prodItem.setname(rs.getString("NAME"));
+						prodItem.setprice(rs.getDouble("PRICE"));
+						pros.add(prodItem);
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				for (Account item : accs) {
+				for (Product_Elevation item : pros) {
 					comboBoxProductID.addItem(item.getname());
 				}
 				int product_id = 0;
-				for (Account it : accs) {
-					if (comboBoxProductID.getSelectedItem().equals(it.getname())) {
-						product_id = it.getId();
+				for (Product_Elevation item : pros) {
+					if (comboBoxProductID.getSelectedItem().equals(item.getname())) {
+						product_id = item.getId();
 					}
 				}
 				// Num of System Installed
@@ -170,7 +151,7 @@ public class AddNewOrderDetail extends JFrame {
 				String warranty_expire_date = String.valueOf(textWarrantyExp);
 				orDeDAO.insertOrderDetail(idPut, product_id, num_of_system_installed, price, warranty_period,
 						warranty_expire_date);
-				
+
 				dispose();
 			}
 		});

@@ -12,38 +12,27 @@ import DAO.StatusOrder;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Dialog.ModalityType;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AddNewStatusOrder extends JFrame {
+public class AddNewStatusOrder extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField textName;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddNewStatusOrder frame = new AddNewStatusOrder();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
-	public AddNewStatusOrder() {
+	public AddNewStatusOrder(JFrame root) {
 		setTitle("ADD STATUS ORDER");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 323, 165);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

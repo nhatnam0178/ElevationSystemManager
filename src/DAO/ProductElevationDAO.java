@@ -13,17 +13,17 @@ public final class ProductElevationDAO {
 				warranty_expire_date };
 		boolean kq = ConnectionSQL.CallProcExec("sp_insert_Product_Elevation", params);
 		return kq;
-	}
+	} 
 
-	public boolean delAccount(int id) {
+	public boolean delProduct(int id) {
 		String[] params = { String.valueOf(id) };
 		boolean kq = ConnectionSQL.CallProcExec("sp_delete_Product_Elevation_by_id", params);
 
 		return kq;
 	}
 
-	public boolean editProductElevation(int id, String name, String type, double price, Date date_of_order,
-			int warranty, int warranty_expire_date) {
+	public boolean editProductElevation(int id, String name, String type, double price, String date_of_order,
+			int warranty, String warranty_expire_date) {
 		String[] params = { String.valueOf(id), name, type, String.valueOf(price), String.valueOf(date_of_order),
 				String.valueOf(warranty), String.valueOf(warranty_expire_date) };
 		boolean kq = ConnectionSQL.CallProcExec("sp_update_Product_Elevation", params);

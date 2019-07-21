@@ -9,11 +9,14 @@ import DAO.DepartmentDAO;
 import DAO.ProductElevationDAO;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Dialog.ModalityType;
 
-public class EditDepartment extends JPanel {
+public class EditDepartment extends JDialog {
 	private JTextField txtName;
 	static int idGet;
 
@@ -21,47 +24,53 @@ public class EditDepartment extends JPanel {
 	 * Create the panel.
 	 */
 	public EditDepartment(int idGet) {
-		setLayout(new BorderLayout(0, 0));
-
-		JPanel panelGird = new JPanel();
-		add(panelGird);
-		panelGird.setLayout(null);
-
-		JLabel lblDepartmentName = new JLabel("Department Name:");
-		lblDepartmentName.setBounds(32, 92, 120, 25);
-		panelGird.add(lblDepartmentName);
-
-		txtName = new JTextField();
-		txtName.setBounds(162, 92, 200, 25);
-
-		panelGird.add(txtName);
-		txtName.setColumns(10);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL);
+		setBounds(100, 100, 373, 197);
+		getContentPane().setLayout(null);
 		DAO.ProductElevationDAO proDao = new ProductElevationDAO();
 
 		String aName;
 		aName = proDao.findbyIdReturnName(idGet, "sp_findName_Department_by_id");
+
+		JLabel lblDepartmentName = new JLabel("Department Name:");
+		lblDepartmentName.setBounds(10, 52, 120, 25);
+		getContentPane().add(lblDepartmentName);
+
+		txtName = new JTextField();
+		txtName.setBounds(129, 49, 200, 25);
+		getContentPane().add(txtName);
+		txtName.setColumns(10);
 		txtName.setText(aName);
 		JButton btnOk = new JButton("OK");
-		btnOk.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-		btnOk.setBounds(198, 170, 89, 23);
-		panelGird.add(btnOk);
+		btnOk.setBounds(110, 111, 89, 23);
+		getContentPane().add(btnOk);
 
 		JButton btnNewButton = new JButton("Cancel");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnNewButton.setBounds(297, 170, 89, 23);
-		panelGird.add(btnNewButton);
+		btnNewButton.setBounds(234, 110, 89, 23);
+		getContentPane().add(btnNewButton);
 
 		JLabel lblInputNewName = new JLabel("Input New Name for Deprtment");
+		lblInputNewName.setBounds(62, 11, 285, 32);
+		getContentPane().add(lblInputNewName);
 		lblInputNewName.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblInputNewName.setBounds(101, 11, 285, 32);
-		panelGird.add(lblInputNewName);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DAO.DepartmentDAO dep = new DepartmentDAO();
+				try {
+					dep.editDepartment(idGet, String.valueOf(txtName.getText()));
+					dispose();
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+
+			}
+		});
 
 	}
 

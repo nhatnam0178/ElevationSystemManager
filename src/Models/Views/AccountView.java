@@ -1,5 +1,6 @@
 package Models.Views;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -10,6 +11,7 @@ import Config.BindingArrayList;
 import Config.ConnectionSQL;
 import DAO.AccountDAO;
 import MainForm.SystemForm;
+import Models.CRUD.AddNewClient;
 import Models.CRUD.EditAccount;
 import entities.Account;
 
@@ -77,6 +79,7 @@ public class AccountView extends JPanel {
 		JPanel pnlHeader = new JPanel();
 
 		pnlHeader.setBorder(new LineBorder(Color.CYAN));
+		JLabel lblEmptyj = new JLabel();
 		JLabel lblSTTj = new JLabel("STT");
 		JLabel lblUsernamej = new JLabel("USERNAME");
 		JLabel lblPasswordj = new JLabel("PASSWORD");
@@ -90,7 +93,7 @@ public class AccountView extends JPanel {
 		JLabel lblAction = new JLabel("ACTION");
 
 		pnlHeader.setLayout(new GridLayout(1, 1));
-
+		pnlHeader.add(lblEmptyj);
 		pnlHeader.add(lblSTTj);
 		pnlHeader.add(lblUsernamej);
 		pnlHeader.add(lblPasswordj);
@@ -121,6 +124,8 @@ public class AccountView extends JPanel {
 				pnlItem.setBackground(Color.CYAN);
 
 			}
+			JLabel lblEmpty = new JLabel();
+			pnlItem.add(lblEmpty);
 			JLabel lblSTT = new JLabel();
 			lblSTT.setText(String.valueOf(stt));
 
@@ -189,6 +194,7 @@ public class AccountView extends JPanel {
 			editBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					idEdit = account.getId();
+
 					EditAccount edc = new EditAccount(idEdit);
 					edc.setVisible(true);
 
@@ -206,11 +212,17 @@ public class AccountView extends JPanel {
 					if (result == JOptionPane.YES_OPTION) {
 						try {
 							acc.delAccount(account.getId());
-							panelGird.revalidate();
-							panelGird.repaint();
+							AccountView act = new AccountView();
+							act.setVisible(true);
+							SystemForm.myTables[0].removeAll();
+							SystemForm.myTables[0].validate();
+							SystemForm.myTables[0].repaint();
+							SystemForm.myTables[0].add(new AccountView());
+							SystemForm.myTables[0].validate();
+							SystemForm.myTables[0].repaint();
+
 						} catch (Exception e) {
 							System.out.println(e.getStackTrace());
-							MainForm.SystemForm.lblError.setText(e.getStackTrace().toString());
 						}
 
 					} else if (result == JOptionPane.NO_OPTION) {
@@ -233,111 +245,5 @@ public class AccountView extends JPanel {
 		panelGird.repaint();
 		panelGird.revalidate();
 
-	}
-
-	public void reloadDataView() {
-		String strQuery = "SELECT * FROM ACCOUNT";
-		//
-		rs = ConnectionSQL.Query(strQuery);
-		try {
-			while (rs.next()) {
-				entities.Account accItem = new entities.Account();
-				accItem.setId(rs.getInt("ID"));
-				accItem.setusername(rs.getString("USERNAME"));
-				accItem.setpassword(rs.getString("PASSWORD"));
-				accItem.setname(rs.getString("NAME"));
-				accItem.setgender(rs.getBoolean("GENDER"));
-				accItem.setemail(rs.getString("EMAIL"));
-				accItem.setphone(rs.getString("PHONE"));
-				accItem.setaddress(rs.getString("ADDRESS"));
-				accItem.setrole_id(rs.getInt("ROLE_ID"));
-				accItem.setdepartment_id(rs.getInt("DEPARTMENT_ID"));
-				accs.add(accItem);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		int stt = 1;
-		for (Account account : accs) {
-
-			JPanel pnlItem = new JPanel();
-			pnlItem.setLayout(new GridLayout(1, 1));
-			pnlItem.setPreferredSize(new Dimension(10, 10));
-
-			if (stt % 2 == 0) {
-				pnlItem.setBackground(Color.WHITE);
-			} else {
-				pnlItem.setBackground(Color.CYAN);
-
-			}
-			JLabel lblSTT = new JLabel();
-			lblSTT.setText(String.valueOf(stt));
-
-			pnlItem.add(lblSTT);
-			JLabel lblUserName = new JLabel();
-			lblUserName.setText(account.getusername());
-			pnlItem.add(lblUserName);
-
-			JLabel lblPassword = new JLabel();
-			lblPassword.setText(account.getpassword());
-			pnlItem.add(lblPassword);
-
-			JLabel lblName = new JLabel();
-			lblName.setText(account.getname());
-			pnlItem.add(lblName);
-
-			Object gStatus = 0;
-			JLabel lblGender = new JLabel();
-			if (account.getgender() == true) {
-				gStatus = 1;
-				lblGender.setText("Male");
-			} else {
-				lblGender.setText("Female");
-			}
-			pnlItem.add(lblGender);
-			//
-			JLabel lblEmail = new JLabel();
-			lblEmail.setText(account.getemail());
-			pnlItem.add(lblEmail);
-			//
-			JLabel lblPhone = new JLabel();
-			lblPhone.setText(account.getphone());
-			pnlItem.add(lblPhone);
-			//
-			JLabel lblAddress = new JLabel();
-			lblAddress.setText(account.getaddress());
-			pnlItem.add(lblAddress);
-			//
-			JLabel lblRole = new JLabel();
-			int idRole = account.getrole_id();
-
-			if (idRole == 1) {
-				lblRole.setText("ADMIN");
-			} else if (idRole == 2) {
-				lblRole.setText("EMPLOYEE");
-			} else {
-				lblRole.setText("CLIENT");
-			}
-			pnlItem.add(lblRole);
-			//
-			JLabel lblDepartment = new JLabel();
-			int intDepartment = account.getdepartment_id();
-
-			if (intDepartment == 1) {
-				lblDepartment.setText("SERVICES");
-			} else if (idRole == 2) {
-				lblDepartment.setText("COMPLAIN");
-			} else {
-				lblDepartment.setText("Order");
-			}
-			pnlItem.add(lblDepartment);
-
-			stt++;
-
-			//
-
-		}
 	}
 }

@@ -82,7 +82,7 @@ public class AddNewDepartment extends JDialog{
 				try {
 					DAO.DepartmentDAO depDao = new DepartmentDAO();
 					depDao.insertDepartment(name);
-					setVisible(false);
+				
 					dispose();
 					
 				} catch (Exception e2) {

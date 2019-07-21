@@ -2,6 +2,7 @@ package Models.CRUD;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Dialog.ModalityType;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,36 +15,23 @@ import entities.Role;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AddNewRole extends JFrame {
+public class AddNewRole extends JDialog {
 	RoleDAO rl;
 
 	private JPanel contentPane;
 	private JTextField txtRole;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddNewRole frame = new AddNewRole();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
-	public AddNewRole() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public AddNewRole(JFrame root) {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 332, 176);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

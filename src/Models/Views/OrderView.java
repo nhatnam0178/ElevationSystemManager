@@ -47,7 +47,8 @@ public class OrderView extends JPanel {
 		// Jpanel Header
 		JPanel panelHeader = new JPanel();
 		panelHeader.setLayout(new GridLayout(1, 1));
-
+		JLabel labelStt1 = new JLabel();
+		panelHeader.add(labelStt1);
 		JLabel labelStt = new JLabel("STT");
 		panelHeader.add(labelStt);
 
@@ -107,6 +108,9 @@ public class OrderView extends JPanel {
 			JPanel pnlItem = new JPanel();
 			pnlItem.setLayout(new GridLayout(1, 0));
 			pnlItem.setPreferredSize(new Dimension(10, 10));
+
+			JLabel lbStt1 = new JLabel();
+			pnlItem.add(lbStt1);
 
 			JLabel lbStt = new JLabel();
 			lbStt.setText(String.valueOf(stt));

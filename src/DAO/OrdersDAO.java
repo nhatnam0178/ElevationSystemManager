@@ -8,7 +8,7 @@ public final class OrdersDAO {
 		String[] params = { String.valueOf(client_id), String.valueOf(account_id), String.valueOf(total_price),
 				date_of_order, date_of_system_installed, date_of_complete, String.valueOf(status) };
 
-		int kq = (int)ConnectionSQL.CallProcScala("sp_insert_Orders", params);
+		int kq = (int)ConnectionSQL.CallProcScala("sp_insert_ORDERS", params);
 		return kq;
 	}
 

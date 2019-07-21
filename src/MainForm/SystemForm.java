@@ -10,7 +10,6 @@ import javax.swing.JMenu;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Dialog.ModalityType;
 
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
@@ -18,7 +17,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JPanel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 
 import Config.ConnectionSQL;
@@ -44,20 +42,12 @@ import Models.Views.StatusOrderView;
 import javax.swing.JSplitPane;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import javax.swing.ScrollPaneConstants;
-import java.awt.Dimension;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Color;
-import javax.swing.border.LineBorder;
 
 public class SystemForm {
 
 	public JFrame ElevationSystemFrame;
 	public static ConnectionSQL conn;
-//	public static JTextArea myArea = new JTextArea(1, 1);
-//	private JScrollPane myControlArea = new JScrollPane(myArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-//			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
 	private JSplitPane jSplitPane;
 	public static JPanel[] myTables = new JPanel[10];
 	public JPanel[] myPanelAdd = new JPanel[10];
@@ -65,7 +55,6 @@ public class SystemForm {
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu mFile = new JMenu("File");
-	public static JLabel lblError = new JLabel();
 
 	/**
 	 * Launch the application.
@@ -74,12 +63,12 @@ public class SystemForm {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+
 					SystemForm window = new SystemForm();
 					window.ElevationSystemFrame.setVisible(true);
 
 					window.ElevationSystemFrame.validate();
 					window.ElevationSystemFrame.repaint();
-
 				} catch (Exception e) {
 //					SystemForm.myArea.append(e.toString());
 					System.out.println(e.getStackTrace());
@@ -96,21 +85,21 @@ public class SystemForm {
 //		myArea.setPreferredSize(new Dimension(22, 1));
 
 		ElevationSystemFrame = new JFrame();
-		ElevationSystemFrame.setBounds(100, 100, 1280, 720);
+		ElevationSystemFrame.setBounds(100, 100, 1800, 800);
 		Container cp = ElevationSystemFrame.getContentPane();
-		myTables[0]=new JPanel(new BorderLayout());
-		myTables[1]=new JPanel(new BorderLayout());
-		myTables[2]=new JPanel(new BorderLayout());
-		myTables[3]=new JPanel(new BorderLayout());
-		myTables[4]=new JPanel(new BorderLayout());
-		myTables[5]=new JPanel(new BorderLayout());
-		myTables[6]=new JPanel(new BorderLayout());
-		myTables[7]=new JPanel(new BorderLayout());
-		myTables[8]=new JPanel(new BorderLayout());
+		myTables[0] = new JPanel(new BorderLayout());
+		myTables[1] = new JPanel(new BorderLayout());
+		myTables[2] = new JPanel(new BorderLayout());
+		myTables[3] = new JPanel(new BorderLayout());
+		myTables[4] = new JPanel(new BorderLayout());
+		myTables[5] = new JPanel(new BorderLayout());
+		myTables[6] = new JPanel(new BorderLayout());
+		myTables[7] = new JPanel(new BorderLayout());
+		myTables[8] = new JPanel(new BorderLayout());
 		myTables[0].add(new AccountView());
 		myTables[1].add(new ClientView());
 		myTables[2].add(new ProductView());
-		myTables[3].add( new OrderView());
+		myTables[3].add(new OrderView());
 		myTables[4].add(new DepartmentView());
 		myTables[5].add(new ComplainView());
 		myTables[6].add(new StatusComplainView());
@@ -195,14 +184,6 @@ public class SystemForm {
 		jSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, tabbedPane, null);
 		cp.add(myToolbar, BorderLayout.NORTH);
 		cp.add(jSplitPane);
-		lblError.setMinimumSize(new Dimension(2, 2));
-		lblError.setBorder(new LineBorder(Color.GREEN, 1, true));
-		lblError.setBackground(Color.CYAN);
-		lblError.setAlignmentX(1.0f);
-		lblError.setAlignmentY(1.0f);
-		lblError.setFont(new Font("Tahoma", Font.PLAIN, 13));
-
-		ElevationSystemFrame.getContentPane().add(lblError, BorderLayout.SOUTH);
 
 		ElevationSystemFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ElevationSystemFrame.setTitle("ELEVATION SYSTEM MANAGER");
@@ -239,9 +220,8 @@ class myToolbar extends JToolBar {
 
 				switch (tabbed.getSelectedIndex()) {
 				case 0:
-					
-					
-					(new AddNewAccount()).setVisible(true);
+					AddNewAccount aat = new AddNewAccount(root);
+					aat.setVisible(true);
 					SystemForm.myTables[0].removeAll();
 					SystemForm.myTables[0].validate();
 					SystemForm.myTables[0].repaint();
@@ -250,17 +230,39 @@ class myToolbar extends JToolBar {
 					SystemForm.myTables[0].repaint();
 					break;
 				case 1:
-					(new AddNewClient()).setVisible(true);
+					AddNewClient act = new AddNewClient(root);
+					act.setVisible(true);
+					SystemForm.myTables[1].removeAll();
+					SystemForm.myTables[1].validate();
+					SystemForm.myTables[1].repaint();
+					SystemForm.myTables[1].add(new ClientView());
+					SystemForm.myTables[1].validate();
+					SystemForm.myTables[1].repaint();
 					break;
 				case 2:
-					(new AddNewProduct()).setVisible(true);
+					AddNewProduct apt = new AddNewProduct(root);
+					apt.setVisible(true);
+					SystemForm.myTables[2].removeAll();
+					SystemForm.myTables[2].validate();
+					SystemForm.myTables[2].repaint();
+					SystemForm.myTables[2].add(new ProductView());
+					SystemForm.myTables[2].validate();
+					SystemForm.myTables[2].repaint();
 					break;
+
 				case 3:
-					(new AddNewOrder()).setVisible(true);
+					AddNewOrder aor = new AddNewOrder(root);
+					aor.setVisible(true);
+					SystemForm.myTables[3].removeAll();
+					SystemForm.myTables[3].validate();
+					SystemForm.myTables[3].repaint();
+					SystemForm.myTables[3].add(new OrderView());
+					SystemForm.myTables[3].validate();
+					SystemForm.myTables[3].repaint();
 					break;
 				case 4:
-					AddNewDepartment adt = new AddNewDepartment(root);	
-					
+					AddNewDepartment adt = new AddNewDepartment(root);
+
 					adt.setVisible(true);
 					SystemForm.myTables[4].removeAll();
 					SystemForm.myTables[4].validate();
@@ -268,20 +270,47 @@ class myToolbar extends JToolBar {
 					SystemForm.myTables[4].add(new DepartmentView());
 					SystemForm.myTables[4].validate();
 					SystemForm.myTables[4].repaint();
-					
-					
+
 					break;
 				case 5:
-					(new AddNewComplain()).setVisible(true);
+					AddNewComplain adcom = new AddNewComplain(root);
+					adcom.setVisible(true);
+					SystemForm.myTables[5].removeAll();
+					SystemForm.myTables[5].validate();
+					SystemForm.myTables[5].repaint();
+					SystemForm.myTables[5].add(new ComplainView());
+					SystemForm.myTables[5].validate();
+					SystemForm.myTables[5].repaint();
 					break;
 				case 6:
-					(new AddNewStatusComplain()).setVisible(true);
+					AddNewStatusComplain adsc = new AddNewStatusComplain(root);
+					adsc.setVisible(true);
+					SystemForm.myTables[6].removeAll();
+					SystemForm.myTables[6].validate();
+					SystemForm.myTables[6].repaint();
+					SystemForm.myTables[6].add(new StatusComplainView());
+					SystemForm.myTables[6].validate();
+					SystemForm.myTables[6].repaint();
 					break;
 				case 7:
-					(new AddNewStatusOrder()).setVisible(true);
+					AddNewStatusOrder adso = new AddNewStatusOrder(root);
+					adso.setVisible(true);
+					SystemForm.myTables[7].removeAll();
+					SystemForm.myTables[7].validate();
+					SystemForm.myTables[7].repaint();
+					SystemForm.myTables[7].add(new StatusOrderView());
+					SystemForm.myTables[7].validate();
+					SystemForm.myTables[7].repaint();
 					break;
 				case 8:
-					(new AddNewRole()).setVisible(true);
+					AddNewRole anr = new AddNewRole(root);
+					anr.setVisible(true);
+					SystemForm.myTables[8].removeAll();
+					SystemForm.myTables[8].validate();
+					SystemForm.myTables[8].repaint();
+					SystemForm.myTables[8].add(new RoleView());
+					SystemForm.myTables[8].validate();
+					SystemForm.myTables[8].repaint();
 					break;
 				default:
 					break;

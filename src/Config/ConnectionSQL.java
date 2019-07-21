@@ -11,6 +11,7 @@ import java.sql.Statement;
 public final class ConnectionSQL {
 	private static String url = helper.FileHelper.getConnectionString("bin\\App.xml");
 	public Connection conn;
+
 	public static Connection Connect() {
 		try {
 			Connection conn;
@@ -30,7 +31,7 @@ public final class ConnectionSQL {
 	public static ResultSet Query(String strQuery) {
 		Statement stmt;
 		try {
-			
+
 			stmt = Connect().createStatement();
 			ResultSet rs = stmt.executeQuery(strQuery);
 			return rs;
@@ -45,7 +46,7 @@ public final class ConnectionSQL {
 	public ResultSet Query(String str, String[] params) {
 		PreparedStatement stmt;
 		try {
-			
+
 			stmt = Connect().prepareStatement(str);
 			for (int i = 0; i < params.length; i++) {
 				stmt.setString(i + 1, params[i]);
@@ -164,6 +165,43 @@ public final class ConnectionSQL {
 		}
 
 		return obj;
+
+	}
+
+	/**
+	 *
+	 * 
+	 * @param storeName
+	 * @param parameters
+	 * @return value
+	 */
+	public static Object CallProcScalaV(String storeName, String[] parameters) {
+		int valueOut = 0;
+		try {
+			String str = "{ call " + storeName + "(";
+			for (int i = 0; i < parameters.length; i++) {
+				if (i + 1 == parameters.length) {
+					str += "?";
+				} else {
+					str += "?,";
+				}
+			}
+			str += ")}";
+			CallableStatement state = Connect().prepareCall(str);
+			// code truyen tham so su dung loop
+			for (int i = 0; i < parameters.length; i++) {
+				state.setString(i + 1, parameters[i]);
+
+			}
+			state.registerOutParameter(1, java.sql.Types.INTEGER);
+			state.execute();
+			valueOut = state.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch blok
+			e.printStackTrace();
+		}
+
+		return valueOut;
 
 	}
 }

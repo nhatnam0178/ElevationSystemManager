@@ -8,10 +8,14 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import DAO.ProductElevationDAO;
-import javafx.scene.control.DatePicker;
+import MainForm.SystemForm;
+import Models.Views.AccountView;
+import Models.Views.ProductView;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Dialog.ModalityType;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -20,9 +24,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.DefaultComboBoxModel;
 
-public class AddNewProduct extends JFrame {
+public class AddNewProduct extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField textName;
@@ -35,25 +40,26 @@ public class AddNewProduct extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddNewProduct frame = new AddNewProduct();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					AddNewProduct frame = new AddNewProduct();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public AddNewProduct() {
+	public AddNewProduct(JFrame root) {
 		setTitle("ADD NEW PRODUCT");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 355, 387);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -122,6 +128,14 @@ public class AddNewProduct extends JFrame {
 				try {
 					proDao.insertProductElevation(name, type, price, String.valueOf(textFieldDate.getText()), warranty,
 							String.valueOf(textFieldDateExp.getText()));
+					ProductView pvw = new ProductView();
+					pvw.setVisible(true);
+					SystemForm.myTables[2].removeAll();
+					SystemForm.myTables[2].validate();
+					SystemForm.myTables[2].repaint();
+					SystemForm.myTables[2].add(new ProductView());
+					SystemForm.myTables[2].validate();
+					SystemForm.myTables[2].repaint();
 					dispose();
 				} catch (Exception e) {
 					e.getStackTrace();
@@ -142,7 +156,9 @@ public class AddNewProduct extends JFrame {
 		contentPane.add(btnCancel);
 
 		comboBoxWarranty.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		comboBoxWarranty.setModel(new DefaultComboBoxModel(new String[] { "1 Year", "2 Years", "3 Years" }));
+		comboBoxWarranty.addItem("1 Year");
+		comboBoxWarranty.addItem("2 Years");
+		comboBoxWarranty.addItem("3 Years");
 		comboBoxWarranty.setBounds(89, 214, 82, 20);
 		contentPane.add(comboBoxWarranty);
 

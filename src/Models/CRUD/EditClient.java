@@ -1,6 +1,7 @@
 package Models.CRUD;
 
 import java.awt.EventQueue;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -8,6 +9,7 @@ import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,8 +17,10 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import DAO.ClientDAO;
+import MainForm.SystemForm;
+import Models.Views.ClientView;
 
-public class EditClient extends JFrame {
+public class EditClient extends JDialog {
 	/**
 	 * 
 	 */
@@ -29,21 +33,21 @@ public class EditClient extends JFrame {
 
 	static int idEdit;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditClient frame = new EditClient(idEdit);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					EditClient frame = new EditClient(idEdit);
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -51,7 +55,8 @@ public class EditClient extends JFrame {
 	 * @param idEdit
 	 */
 	public EditClient(int idEdit) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 354, 274);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -139,8 +144,19 @@ public class EditClient extends JFrame {
 				String phone = txtPhone.getText();
 				String address = txtAddress.getText();
 				String company_name = txtCompany.getText();
-				if (cliDao.editClient(name, phone, address, company_name, idEdit) == true) {
+				try {
+					cliDao.editClient(name, phone, address, company_name, idEdit);
+					ClientView cvt = new ClientView();
+					cvt.setVisible(true);
+					SystemForm.myTables[1].removeAll();
+					SystemForm.myTables[1].validate();
+					SystemForm.myTables[1].repaint();
+					SystemForm.myTables[1].add(new ClientView());
+					SystemForm.myTables[1].validate();
+					SystemForm.myTables[1].repaint();
 					dispose();
+				} catch (Exception e) {
+					System.err.println(e.getStackTrace());
 				}
 			}
 		});

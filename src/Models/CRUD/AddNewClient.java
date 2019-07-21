@@ -11,12 +11,16 @@ import DAO.ClientDAO;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Dialog.ModalityType;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AddNewClient extends JFrame {
+public class AddNewClient extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField txtName;
@@ -24,28 +28,29 @@ public class AddNewClient extends JFrame {
 	private JTextField txtAddress;
 	private JTextField txtCompany;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddNewClient frame = new AddNewClient();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					AddNewClient frame = new AddNewClient();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public AddNewClient() {
+	public AddNewClient(JFrame root) {
 		setTitle("ADD NEW CLIENT");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 370, 307);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

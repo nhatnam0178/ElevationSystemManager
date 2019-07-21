@@ -30,7 +30,6 @@ public class DepartmentView extends JPanel {
 	 */
 	public DepartmentView() {
 		setLayout(new BorderLayout(0, 0));
-		setBounds(new Rectangle(0, 0, 500, 400));
 		JPanel panelGird = new JPanel();
 		add(panelGird);
 		panelGird.setLayout(new GridLayout(1, 1));
@@ -43,6 +42,9 @@ public class DepartmentView extends JPanel {
 		scrollPane.add(panelHeader);
 		panelHeader.setLayout(new GridLayout(1, 1));
 
+		JLabel lbstt1 = new JLabel();
+		panelHeader.add(lbstt1);
+		
 		JLabel lbstt = new JLabel("STT");
 		panelHeader.add(lbstt);
 
@@ -53,7 +55,7 @@ public class DepartmentView extends JPanel {
 		panelHeader.add(lbAc);
 		JPanel panelData = new JPanel();
 		scrollPane.setViewportView(panelData);
-		panelData.setLayout(new GridLayout(deps.size() + 10, 1));
+		panelData.setLayout(new GridLayout(deps.size(), 1));
 
 		String str = "SELECT * FROM DEPARTMENT";
 		ResultSet rs = ConnectionSQL.Query(str);
@@ -76,6 +78,10 @@ public class DepartmentView extends JPanel {
 			pnlItem.setLayout(new GridLayout(1, 0));
 			pnlItem.setPreferredSize(new Dimension(10, 10));
 
+			
+			JLabel lbSTT1 = new JLabel();
+			pnlItem.add(lbSTT1);
+			
 			JLabel lbSTT = new JLabel();
 			lbSTT.setText(String.valueOf(stt));
 			pnlItem.add(lbSTT);

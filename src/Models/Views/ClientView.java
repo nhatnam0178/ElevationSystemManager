@@ -12,10 +12,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import Config.ConnectionSQL;
+import DAO.ClientDAO;
+import MainForm.SystemForm;
 import Models.CRUD.EditClient;
 import entities.Client;
 import entities.Clients;
@@ -38,7 +41,8 @@ public class ClientView extends JPanel {
 		panelGird.add(scrollPane);
 //Jpanel Header
 		JPanel panelHeader = new JPanel();
-
+		JLabel label1 = new JLabel();
+		panelHeader.add(label1);
 		JLabel label = new JLabel("STT");
 		panelHeader.add(label);
 
@@ -79,13 +83,14 @@ public class ClientView extends JPanel {
 		JPanel panelData = new JPanel();
 		// addPanel
 		scrollPane.setViewportView(panelData);
-		panelData.setLayout(new GridLayout(clients.size() + 10, 1));
+		panelData.setLayout(new GridLayout(clients.size() + 14, 1));
 		int stt = 1;
 		for (Client item : clients) {
 			JPanel pnlItem = new JPanel();
 			pnlItem.setLayout(new GridLayout(1, 0));
 			pnlItem.setPreferredSize(new Dimension(10, 10));
-
+			JLabel lb1 = new JLabel();
+			pnlItem.add(lb1);
 			JLabel lbStt = new JLabel();
 			lbStt.setText(String.valueOf(stt));
 			pnlItem.add(lbStt);
@@ -118,23 +123,29 @@ public class ClientView extends JPanel {
 			deleteBtn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-//					DAO.AccountDAO acc = new AccountDAO();
-//					int result = JOptionPane.showConfirmDialog(scrollPaneGird,
-//							"Delete Account : " + " ' " + account.getusername() + " ' " + " , " + " Are You Sure?",
-//							"Delete a Account?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-//					if (result == JOptionPane.YES_OPTION) {
-//						try {
-//							acc.delAccount(account.getId());
-//							panelGird.revalidate();
-//							panelGird.repaint();
-//						} catch (Exception e) {
-//							SystemForm.myArea.append(e.toString());
-//						}
-//
-//					} else if (result == JOptionPane.NO_OPTION) {
-//						revalidate();
-//					}
-//
+					DAO.ClientDAO cliDao = new ClientDAO();
+					int result = JOptionPane.showConfirmDialog(panelGird,
+							"Delete Account : " + " ' " + item.getId() + " ' " + " , " + " Are You Sure?",
+							"Delete a Account?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (result == JOptionPane.YES_OPTION) {
+						try {
+							cliDao.delClient(item.getId());
+							ClientView act = new ClientView();
+							act.setVisible(true);
+							SystemForm.myTables[1].removeAll();
+							SystemForm.myTables[1].validate();
+							SystemForm.myTables[1].repaint();
+							SystemForm.myTables[1].add(new ClientView());
+							SystemForm.myTables[1].validate();
+							SystemForm.myTables[1].repaint();
+						} catch (Exception e) {
+							System.err.println(e.getStackTrace());
+						}
+
+					} else if (result == JOptionPane.NO_OPTION) {
+						revalidate();
+					}
+
 				}
 			});
 

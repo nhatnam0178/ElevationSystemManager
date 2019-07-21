@@ -12,38 +12,28 @@ import DAO.StatusComplainDAO;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Dialog.ModalityType;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AddNewStatusComplain extends JFrame {
+public class AddNewStatusComplain extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField textName;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddNewStatusComplain frame = new AddNewStatusComplain();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
-	public AddNewStatusComplain() {
+	public AddNewStatusComplain(JFrame root) {
 		setTitle("ADD STATUS COMPLAIN");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 334, 166);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

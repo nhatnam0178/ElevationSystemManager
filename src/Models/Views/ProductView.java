@@ -18,7 +18,10 @@ import javax.swing.ScrollPaneConstants;
 import Config.ConnectionSQL;
 import DAO.AccountDAO;
 import DAO.ProductElevationDAO;
+import MainForm.SystemForm;
+import Models.CRUD.AddNewProduct;
 import Models.CRUD.EditAccount;
+import Models.CRUD.EditProduct;
 import entities.Product_Elevation;
 import entities.Product_Elevations;
 
@@ -49,6 +52,8 @@ public class ProductView extends JPanel {
 
 		JPanel panelHeader = new JPanel();
 		panelHeader.setLayout(new GridLayout(1, 1));
+		JLabel lblNewLabe1l = new JLabel();
+		panelHeader.add(lblNewLabe1l);
 
 		JLabel lblNewLabel = new JLabel("STT");
 		panelHeader.add(lblNewLabel);
@@ -106,6 +111,8 @@ public class ProductView extends JPanel {
 			pnlItem.setLayout(new GridLayout(1, 1));
 			pnlItem.setPreferredSize(new Dimension(10, 10));
 
+			JLabel lblNewLabel1 = new JLabel();
+			pnlItem.add(lblNewLabel1);
 			JLabel lbStt = new JLabel();
 			lbStt.setText(String.valueOf(stt));
 			pnlItem.add(lbStt);
@@ -141,8 +148,8 @@ public class ProductView extends JPanel {
 			editBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					idEdit = item.getId();
-					EditAccount edc = new EditAccount(idEdit);
-					edc.setVisible(true);
+					EditProduct epc = new EditProduct(idEdit);
+					epc.setVisible(true);
 
 				}
 			});
@@ -157,9 +164,16 @@ public class ProductView extends JPanel {
 							"Delete a Account?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.YES_OPTION) {
 						try {
-							proDAO.delAccount(item.getId());
-							panelGird.revalidate();
-							panelGird.repaint();
+							proDAO.delProduct(item.getId());
+							ProductView pvw = new ProductView();
+							pvw.setVisible(true);
+							SystemForm.myTables[2].removeAll();
+							SystemForm.myTables[2].validate();
+							SystemForm.myTables[2].repaint();
+							SystemForm.myTables[2].add(new ProductView());
+							SystemForm.myTables[2].validate();
+							SystemForm.myTables[2].repaint();
+							
 						} catch (Exception e) {
 							System.out.println(e.getStackTrace());
 						}

@@ -10,14 +10,16 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Dialog.ModalityType;
 
-public class AddNewAccount extends JFrame {
+public class AddNewAccount extends JDialog {
 
 	private JTextField txtUsername;
 	private JTextField txtPassword;
@@ -29,25 +31,25 @@ public class AddNewAccount extends JFrame {
 	private MyComboDepart cbDepartment = new MyComboDepart();
 	private JTextField txtEmail;
 
-	/**
-	 * Create the frame.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddNewAccount frame = new AddNewAccount();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	/**
+//	 * Create the frame.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					AddNewAccount frame = new AddNewAccount();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
-	public AddNewAccount() {
-
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public AddNewAccount(JFrame root) {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 150, 363, 451);
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -89,8 +91,8 @@ public class AddNewAccount extends JFrame {
 				try {
 					AccountDAO ad = new AccountDAO();
 					ad.insertAccount(username, password, name, gender, email, phone, address, role_id, department_id);
-					
-					setVisible(false);
+
+					dispose();
 				} catch (Exception e) {
 					System.out.println(e.getStackTrace());
 				}
