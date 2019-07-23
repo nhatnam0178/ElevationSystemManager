@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -37,7 +38,7 @@ public class EditProduct extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 373, 377);
-		getContentPane().setLayout(null); 
+		getContentPane().setLayout(null);
 
 		JLabel lblEditProduct = new JLabel("EDIT PRODUCT");
 		lblEditProduct.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -103,14 +104,14 @@ public class EditProduct extends JDialog {
 				item.setId(rs.getInt("ID"));
 				item.setname(rs.getString("NAME"));
 				item.settype(rs.getString("TYPE"));
-				item.setprice(rs.getDouble("PRICE"));
+				item.setPrice(rs.getInt("PRICE"));
 				item.setdate_of_order(rs.getString("DATE_OF_ORDER"));
 				item.setwarranty(rs.getInt("WARRANTY"));
 				item.setwarranty_expire_date(rs.getString("WARRANTY_EXPIRE_DATE"));
 // 
 				txtName.setText(item.getname());
 				txtType.setText(item.gettype());
-				txtPrice.setText(String.valueOf(item.getprice()));
+				txtPrice.setText(String.valueOf(item.getPrice()));
 				txtDateOrder.setText(item.getdate_of_order());
 				txtWarrantyEXP.setText(item.getwarranty_expire_date());
 
@@ -145,8 +146,9 @@ public class EditProduct extends JDialog {
 					}
 					String name = txtName.getText();
 					String type = txtType.getText();
-					proDao.editProductElevation(idEdit, name, type, Double.parseDouble(txtPrice.getText()),
-							String.valueOf(txtDateOrder.getText()), warranty, String.valueOf(txtWarrantyEXP.getText()));
+					int price = Integer.parseInt(txtPrice.getText());
+					proDao.editProductElevation( name, type, price, String.valueOf(txtDateOrder.getText()),
+							warranty, String.valueOf(txtWarrantyEXP.getText()),idEdit);
 					ProductView pvw = new ProductView();
 					pvw.setVisible(true);
 					SystemForm.myTables[2].removeAll();

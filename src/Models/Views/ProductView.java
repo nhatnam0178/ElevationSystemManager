@@ -93,7 +93,7 @@ public class ProductView extends JPanel {
 				pro.setId(rs.getInt("ID"));
 				pro.setname(rs.getString("NAME"));
 				pro.settype(rs.getString("TYPE"));
-				pro.setprice(rs.getDouble("PRICE"));
+				pro.setPrice(rs.getInt("PRICE"));
 				pro.setdate_of_order(rs.getString("DATE_OF_ORDER"));
 				pro.setwarranty(rs.getInt("WARRANTY"));
 				pro.setwarranty_expire_date(rs.getString("WARRANTY_EXPIRE_DATE"));
@@ -126,7 +126,7 @@ public class ProductView extends JPanel {
 			pnlItem.add(lbType);
 
 			JLabel lbPrice = new JLabel();
-			lbPrice.setText(String.valueOf(item.getprice()));
+			lbPrice.setText(String.valueOf(item.getPrice()));
 			pnlItem.add(lbPrice);
 
 			JLabel lbDateofOrder = new JLabel();
@@ -173,7 +173,7 @@ public class ProductView extends JPanel {
 							SystemForm.myTables[2].add(new ProductView());
 							SystemForm.myTables[2].validate();
 							SystemForm.myTables[2].repaint();
-							
+
 						} catch (Exception e) {
 							System.out.println(e.getStackTrace());
 						}

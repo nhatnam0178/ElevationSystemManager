@@ -35,15 +35,14 @@ public class Orders {
 		return account_id;
 	}
 
-	private double total_price;
+	private int total_price;
 
-	// total_price
-	public void settotal_price(double value) {
-		total_price = value;
+	public int getTotal_price() {
+		return total_price;
 	}
 
-	public double gettotal_price() {
-		return total_price;
+	public void setTotal_price(int total_price) {
+		this.total_price = total_price;
 	}
 
 	private String date_of_order;
@@ -90,8 +89,8 @@ public class Orders {
 		return status;
 	}
 
-	public Orders(int client_id, int account_id, double total_price, String date_of_order,
-			String date_of_system_installed, String date_of_complete, int status) {
+	public Orders(int client_id, int account_id, int total_price, String date_of_order, String date_of_system_installed,
+			String date_of_complete, int status) {
 		super();
 		this.client_id = client_id;
 		this.account_id = account_id;

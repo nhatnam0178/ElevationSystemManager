@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 
@@ -47,7 +48,7 @@ public class SystemForm {
 
 	public JFrame ElevationSystemFrame;
 	public static ConnectionSQL conn;
-
+	static boolean statusLog;
 	private JSplitPane jSplitPane;
 	public static JPanel[] myTables = new JPanel[10];
 	public JPanel[] myPanelAdd = new JPanel[10];
@@ -55,6 +56,8 @@ public class SystemForm {
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu mFile = new JMenu("File");
+	static String uname;
+	static int accountRole;
 
 	/**
 	 * Launch the application.
@@ -63,14 +66,23 @@ public class SystemForm {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					LoginForm lg = new LoginForm();
+					lg.setVisible(true);
+					if (statusLog == true) {
+						lg.dispose();
+						SystemForm window = new SystemForm(uname, accountRole);
+						window.ElevationSystemFrame.setVisible(true);
 
-					SystemForm window = new SystemForm();
-					window.ElevationSystemFrame.setVisible(true);
+						window.ElevationSystemFrame.validate();
+						window.ElevationSystemFrame.repaint();
+					} else if (statusLog == false) {
+						lg.setVisible(true);
+						SystemForm window = new SystemForm(uname, accountRole);
+						window.ElevationSystemFrame.setVisible(false);
+					}
 
-					window.ElevationSystemFrame.validate();
-					window.ElevationSystemFrame.repaint();
 				} catch (Exception e) {
-//					SystemForm.myArea.append(e.toString());
+
 					System.out.println(e.getStackTrace());
 				}
 			}
@@ -80,7 +92,7 @@ public class SystemForm {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	public SystemForm() {
+	public SystemForm(String uname, int accountRole) {
 //		myArea.setTabSize(0);
 //		myArea.setPreferredSize(new Dimension(22, 1));
 
@@ -208,7 +220,8 @@ class myToolbar extends JToolBar {
 		searchBtn = new JButton("SEARCH", SearchImag);
 
 		reportBtn = new JButton("Report", reportImag);
-
+		lbHello = new JLabel("Hello,  ");
+		lbaccountName = new JLabel();
 		addBtn.setAlignmentY(CENTER_ALIGNMENT);
 		searchBtn.setAlignmentY(CENTER_ALIGNMENT);
 		reportBtn.setAlignmentY(CENTER_ALIGNMENT);
@@ -323,4 +336,6 @@ class myToolbar extends JToolBar {
 	private JButton searchBtn;
 	private JButton reportBtn;
 	private JButton addBtn;
+	private JLabel lbHello;
+	private JLabel lbaccountName;
 }

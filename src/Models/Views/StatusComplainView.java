@@ -114,15 +114,4 @@ public class StatusComplainView extends JPanel {
 
 	}
 
-	@Override
-	public void repaint() {
-		// TODO Auto-generated method stub
-		super.repaint();
-	}
-
-	@Override
-	public void revalidate() {
-		// TODO Auto-generated method stub
-		super.revalidate();
-	}
 }

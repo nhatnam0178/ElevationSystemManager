@@ -205,7 +205,7 @@ GO
  CREATE PROCEDURE sp_insert_PRODUCT_ELEVATION
 @in_NAME varchar(250),
 @in_TYPE varchar(250),
-@in_PRICE decimal,
+@in_PRICE int,
 @in_DATE_OF_ORDER date,
 @in_WARRANTY int,
 @in_WARRANTY_EXPIRE_DATE date  
@@ -223,22 +223,17 @@ GO
  CREATE PROCEDURE sp_update_PRODUCT_ELEVATION
 @in_NAME varchar(250),
 @in_TYPE varchar(250),
-@in_PRICE decimal,
+@in_PRICE int,
 @in_DATE_OF_ORDER date,
 @in_WARRANTY int,
 @in_WARRANTY_EXPIRE_DATE date ,
-@p_ID int,
-@p_NAME varchar(250),
-@p_TYPE varchar(250),
-@p_PRICE decimal,
-@p_DATE_OF_ORDER date,
-@p_WARRANTY int,
-@p_WARRANTY_EXPIRE_DATE date 
+@p_ID int
+
 AS
 BEGIN
 
-	UPDATE [dbo].PRODUCT_ELEVATION SET [NAME]=@in_NAME,[TYPE]=@in_TYPE,PRICE=@in_PRICE,DATE_OF_ORDER=@in_DATE_OF_ORDER,WARRANTY=@in_WARRANTY,WARRANTY_EXPIRE_DATE=@in_WARRANTY_EXPIRE_DATE 
-	WHERE ID=@p_ID AND NAME=@p_NAME AND TYPE=@p_TYPE AND PRICE=@p_PRICE AND DATE_OF_ORDER=@p_DATE_OF_ORDER AND WARRANTY=@p_WARRANTY AND WARRANTY_EXPIRE_DATE=@p_WARRANTY_EXPIRE_DATE
+	UPDATE [dbo].PRODUCT_ELEVATION SET [NAME]=@in_Name,[TYPE]=@in_TYPE,PRICE=@in_PRICE,DATE_OF_ORDER=@in_DATE_OF_ORDER,WARRANTY=@in_WARRANTY,WARRANTY_EXPIRE_DATE=@in_WARRANTY_EXPIRE_DATE 
+	WHERE ID=@p_ID
 
 END
 GO
@@ -252,7 +247,7 @@ GO
 @in_ORDERS_ID int,
 @in_PRODUCT_ID int,
 @in_NUM_OF_SYSTEM_INSTALLED int,
-@in_PRICE decimal,
+@in_PRICE int,
 @in_WARRANTY_PERIOD int,
 @in_WARRANTY_EXPIRE_DATE date  
 AS
@@ -268,23 +263,52 @@ GO
 
  CREATE PROCEDURE sp_update_ORDER_DETAIL
 
-@in_ORDERS_ID int,
-@in_PRODUCT_ID int,
 @in_NUM_OF_SYSTEM_INSTALLED int,
-@in_PRICE decimal,
+@in_PRICE int,
 @in_WARRANTY_PERIOD int,
 @in_WARRANTY_EXPIRE_DATE date ,
 @p_ORDERS_ID int,
-@p_PRODUCT_ID int,
-@p_NUM_OF_SYSTEM_INSTALLED int,
-@p_PRICE decimal,
-@p_WARRANTY_PERIOD int,
-@p_WARRANTY_EXPIRE_DATE date 
+@p_PRODUCT_ID int
 AS
 BEGIN
 
-	UPDATE [dbo].ORDER_DETAIL SET ORDERS_ID=@in_ORDERS_ID,PRODUCT_ID=@in_PRODUCT_ID,NUM_OF_SYSTEM_INSTALLED=@in_NUM_OF_SYSTEM_INSTALLED,PRICE=@in_PRICE,WARRANTY_PERIOD=@in_WARRANTY_PERIOD,WARRANTY_EXPIRE_DATE=@in_WARRANTY_EXPIRE_DATE 
-	WHERE ORDERS_ID=@p_ORDERS_ID AND PRODUCT_ID=@p_PRODUCT_ID AND NUM_OF_SYSTEM_INSTALLED=@p_NUM_OF_SYSTEM_INSTALLED AND PRICE=@p_PRICE AND WARRANTY_PERIOD=@p_WARRANTY_PERIOD AND WARRANTY_EXPIRE_DATE=@p_WARRANTY_EXPIRE_DATE
+	UPDATE [dbo].ORDER_DETAIL SET NUM_OF_SYSTEM_INSTALLED=@in_NUM_OF_SYSTEM_INSTALLED,PRICE=@in_PRICE,WARRANTY_PERIOD=@in_WARRANTY_PERIOD,WARRANTY_EXPIRE_DATE=@in_WARRANTY_EXPIRE_DATE 
+	WHERE ORDERS_ID=@p_ORDERS_ID AND PRODUCT_ID=@p_PRODUCT_ID
+
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_updateStatus_ORDERS')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_updateStatus_ORDERS
+GO
+
+ CREATE PROCEDURE sp_updateStatus_ORDERS
+
+@p_ID int,
+@in_STATUS_ID int
+AS
+BEGIN
+
+	UPDATE [dbo].ORDERS SET STATUS_ID=@in_STATUS_ID
+	WHERE ID=@p_ID
+
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_updateStatus_COMPLAIN')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_updateStatus_COMPLAIN
+GO
+
+ CREATE PROCEDURE sp_updateStatus_COMPLAIN
+
+@p_ID int,
+@in_STATUS_ID int,
+@in_isCharge int
+AS
+BEGIN
+
+	UPDATE [dbo].COMPLAIN SET IS_CHARGEABLE=@in_isCharge,STATUS_ID=@in_STATUS_ID
+	WHERE ID=@p_ID
 
 END
 GO
@@ -297,7 +321,7 @@ GO
 
 @in_CLIENT_ID int,
 @in_ACCOUNT_ID int,
-@in_TOTAL_PRICE decimal,
+@in_TOTAL_PRICE int,
 @in_DATE_OF_ORDER date,
 @in_DATE_OF_SYSTEM_INSTALLED date,
 @in_DATE_OF_COMPLETE date,
@@ -324,7 +348,7 @@ GO
 
 @in_CLIENT_ID int,
 @in_ACCOUNT_ID int,
-@in_TOTAL_PRICE decimal,
+@in_TOTAL_PRICE int,
 @in_DATE_OF_ORDER date,
 @in_DATE_OF_SYSTEM_INSTALLED date,
 @in_DATE_OF_COMPLETE date,
@@ -332,7 +356,7 @@ GO
 @p_ID int,
 @p_CLIENT_ID int,
 @p_ACCOUNT_ID int,
-@p_TOTAL_PRICE decimal,
+@p_TOTAL_PRICE int,
 @p_DATE_OF_ORDER date,
 @p_DATE_OF_SYSTEM_INSTALLED date,
 @p_DATE_OF_COMPLETE date,
@@ -367,6 +391,16 @@ BEGIN
 
 END
 GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_GetLogin')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_GetLogin
+GO
+create procedure sp_GetLogin(@username varchar(100) ,@password varchar(100),@count int out)
+as
+begin
+	set @count = (select count(*) from [dbo].ACCOUNT where USERNAME = @username and PASSWORD = @password)
+	return @count
+end 
+go
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_update_COMPLAIN')AND type in (N'P', N'PC'))
 DROP PROCEDURE sp_update_COMPLAIN
@@ -413,6 +447,32 @@ WHERE ID = @ID
 END
 GO
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_find_Complain_by_id')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_find_Complain_by_id
+GO
+
+CREATE PROCEDURE sp_find_Complain_by_id
+@ID int
+
+AS
+BEGIN
+SELECT * FROM [dbo].COMPLAIN
+WHERE ID = @ID
+
+END
+GO
+
+CREATE PROCEDURE sp_find_ACCOUNT_by_Username
+@Username varchar(100)
+
+AS
+BEGIN
+SELECT * FROM [dbo].ACCOUNT
+WHERE USERNAME = @Username
+
+END
+GO
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_find_ACCOUNT_by_id')AND type in (N'P', N'PC'))
 DROP PROCEDURE sp_find_ACCOUNT_by_id
 GO
@@ -424,6 +484,24 @@ AS
 BEGIN
 SELECT * FROM [dbo].ACCOUNT
 WHERE ID = @ID
+
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_checkLogin_Account')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_checkLogin_Account
+GO
+
+CREATE PROCEDURE sp_checkLogin_Account
+@in_USERNAME varchar(100),
+@in_PASSWORD varchar(100),
+@p_count int output,
+@p_ID int,
+
+AS
+BEGIN
+SELECT * FROM [dbo].ACCOUNT
+WHERE USERNAME =@in_USERNAME and PASSWORD=@in_PASSWORD
 
 END
 GO
@@ -511,6 +589,35 @@ WHERE ID = @ID
 END
 GO
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_delete_Department_by_id')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_delete_Department_by_id
+GO
+
+CREATE PROCEDURE sp_delete_Department_by_id
+@ID int
+
+AS
+BEGIN
+DELETE FROM [dbo].DEPARTMENT
+WHERE ID = @ID
+
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_delete_OrderDetail_by_Order_id')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_delete_OrderDetail_by_Order_id
+GO
+
+CREATE PROCEDURE sp_delete_OrderDetail_by_Order_id
+@ORDERS_ID int
+
+AS
+BEGIN
+DELETE FROM [dbo].ORDER_DETAIL
+WHERE ORDERS_ID = @ORDERS_ID
+
+END
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_delete_Product_Elevation_by_id')AND type in (N'P', N'PC'))
 DROP PROCEDURE sp_delete_Product_Elevation_by_id
 GO
@@ -554,37 +661,6 @@ SELECT MAX(ID) FROM FROM [dbo].ORDERS
 END
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_select_maxID_Order')AND type in (N'P', N'PC'))
-DROP PROCEDURE sp_select_maxID_Order
-GO
-
- CREATE PROCEDURE sp_select_maxID_Order
-
-AS
-BEGIN
-	SELECT TOP 1 ID FROM ORDERS ORDER BY ID DESC
-END
-GO
 
 
-CREATE TRIGGER trg_setDateExpire ON PRODUCT_ELEVATION AFTER INSERT AS 
-BEGIN
-	UPDATE PRODUCT_ELEVATION
-	SET WARRANTY_EXPIRE_DATE = WARRANTY_EXPIRE_DATE + (
-		SELECT DATE_OF_ORDER
-		FROM PRODUCT_ELEVATION
-		WHERE ID = ID.PRODUCT_ELEVATION
-		)
-	FROM PRODUCT_ELEVATION
-	JOIN inserted ON PRODUCT_ELEVATION.ID = inserted.ID
-END
-GO
-/* cập nhật hàng trong kho sau khi cập nhật đặt hàng */
-CREATE TRIGGER trg_CapNhatDatHang on tbl_DatHang after update AS
-BEGIN
-   UPDATE tbl_KhoHang SET SoLuongTon = SoLuongTon -
-	   (SELECT SoLuongDat FROM inserted WHERE MaHang = tbl_KhoHang.MaHang) +
-	   (SELECT SoLuongDat FROM deleted WHERE MaHang = tbl_KhoHang.MaHang)
-   FROM tbl_KhoHang 
-   JOIN deleted ON tbl_KhoHang.MaHang = deleted.MaHang
-end
+

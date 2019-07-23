@@ -16,13 +16,17 @@ import javax.swing.ScrollPaneConstants;
 
 import Config.ConnectionSQL;
 import DAO.OrderDetailDAO;
+import Models.CRUD.EditStatusOrders;
 import entities.Client;
 import entities.Orders;
 import entities.Orderss;
+import entities.Status_Order;
+import entities.Status_Orders;
 
 public class OrderView extends JPanel {
 	entities.Orderss orderList = new Orderss();
 
+	Status_Orders stOr = new Status_Orders();
 	/**
 	 * Create the panel.
 	 */
@@ -40,43 +44,48 @@ public class OrderView extends JPanel {
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		panelGrid.add(scrollPane);
 
-		JPanel panelData = new JPanel();
-
-		panelData.setLayout(new GridLayout(1, 1));
-
 		// Jpanel Header
 		JPanel panelHeader = new JPanel();
-		panelHeader.setLayout(new GridLayout(1, 1));
-		JLabel labelStt1 = new JLabel();
-		panelHeader.add(labelStt1);
 		JLabel labelStt = new JLabel("STT");
-		panelHeader.add(labelStt);
-
-		JLabel lblClientID = new JLabel("Client ID");
-		panelHeader.add(lblClientID);
-		JLabel lblAccountID = new JLabel("Account ID");
-		panelHeader.add(lblAccountID);
-
-		JLabel lblTotal = new JLabel("Total Price");
-		panelHeader.add(lblTotal);
-
-		JLabel lblDateOrder = new JLabel("Date Order");
-		panelHeader.add(lblDateOrder);
-
-		JLabel lblDateInstall = new JLabel("Date Install");
-		panelHeader.add(lblDateInstall);
-
-		JLabel lblDateComplete = new JLabel("Date Complete");
-		panelHeader.add(lblDateComplete);
-
+		JLabel lblClientID = new JLabel("ClientID");
+		JLabel lblAccountID = new JLabel("AccountID");
+		JLabel lblTotal = new JLabel("TotalPrice");
+		JLabel lblDateOrder = new JLabel("DateOrder");
+		JLabel lblDateInstall = new JLabel("DateInstall");
+		JLabel lblDateComplete = new JLabel("DateComplete");
 		JLabel lblStatusOrder = new JLabel("Status");
+
+		panelHeader.setLayout(new GridLayout(1, 1));
+		panelHeader.add(labelStt);
+		panelHeader.add(lblClientID);
+		panelHeader.add(lblAccountID);
+		panelHeader.add(lblTotal);
+		panelHeader.add(lblDateOrder);
+		panelHeader.add(lblDateInstall);
+		panelHeader.add(lblDateComplete);
 		panelHeader.add(lblStatusOrder);
 
 		JLabel lblAction = new JLabel("Action");
 		panelHeader.add(lblAction);
-		panelHeader.setLayout(new GridLayout(1, 1));
 
 		scrollPane.setColumnHeaderView(panelHeader);
+		// LoadStatusView
+		String str1 = "SELECT * FROM STATUS_ORDER";
+		ResultSet rs1 = ConnectionSQL.Query(str1);
+
+		try {
+			while (rs1.next()) {
+				entities.Status_Order dep = new Status_Order();
+				dep.setid(rs1.getInt("ID"));
+				dep.setname(rs1.getString("NAME"));
+
+				stOr.add(dep);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		// LoadData
 		String strQuery = "SELECT * FROM ORDERS";
 		ResultSet rs = ConnectionSQL.Query(strQuery);
@@ -86,7 +95,7 @@ public class OrderView extends JPanel {
 				itemO.setId(rs.getInt("ID"));
 				itemO.setclient_id(rs.getInt("CLIENT_ID"));
 				itemO.setaccount_id(rs.getInt("ACCOUNT_ID"));
-				itemO.settotal_price(rs.getDouble("TOTAL_PRICE"));
+				itemO.setTotal_price(rs.getInt("TOTAL_PRICE"));
 				itemO.setdate_of_order(rs.getString("DATE_OF_ORDER"));
 				itemO.setdate_of_system_installed(rs.getString("DATE_OF_SYSTEM_INSTALLED"));
 				itemO.setdate_of_complete(rs.getString("DATE_OF_COMPLETE"));
@@ -101,17 +110,18 @@ public class OrderView extends JPanel {
 		}
 		// Jpanel Data
 		// addPanel
+
+		JPanel panelData = new JPanel();
+
+		panelData.setLayout(new GridLayout(1, 1));
+
 		scrollPane.setViewportView(panelData);
-		panelData.setLayout(new GridLayout(orderList.size() + 5, 0));
+		panelData.setLayout(new GridLayout(orderList.size(), 0));
 		int stt = 1;
 		for (Orders item : orderList) {
 			JPanel pnlItem = new JPanel();
-			pnlItem.setLayout(new GridLayout(1, 0));
+			pnlItem.setLayout(new GridLayout(1, 1));
 			pnlItem.setPreferredSize(new Dimension(10, 10));
-
-			JLabel lbStt1 = new JLabel();
-			pnlItem.add(lbStt1);
-
 			JLabel lbStt = new JLabel();
 			lbStt.setText(String.valueOf(stt));
 			pnlItem.add(lbStt);
@@ -124,7 +134,7 @@ public class OrderView extends JPanel {
 			pnlItem.add(lbAccountId);
 
 			JLabel lbTotal = new JLabel();
-			lbTotal.setText(String.valueOf(item.gettotal_price()));
+			lbTotal.setText(String.valueOf(item.getTotal_price()));
 			pnlItem.add(lbTotal);
 
 			JLabel lbDateofOrder = new JLabel();
@@ -138,6 +148,13 @@ public class OrderView extends JPanel {
 			JLabel lbDateofComplete = new JLabel();
 			lbDateofComplete.setText(item.getdate_of_complete().toString());
 			pnlItem.add(lbDateofComplete);
+			JLabel lbStatus = new JLabel();
+			pnlItem.add(lbStatus);
+			for (Status_Order it : stOr) {
+				if (item.getstatus() == it.getid()) {
+					lbStatus.setText(it.getname());
+				}
+			}
 
 			// add new Panel Action
 			JPanel acPanel = new JPanel();
@@ -145,9 +162,9 @@ public class OrderView extends JPanel {
 			JButton changeStatus = new JButton("ChangeStatus");
 			changeStatus.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-////							idEdit = account.getId();
-//							EditAccount edc = new EditAccount(idEdit);
-//							edc.setVisible(true);
+					idGet = item.getId();
+					EditStatusOrders edc = new EditStatusOrders(idGet);
+					edc.setVisible(true);
 
 				}
 			});

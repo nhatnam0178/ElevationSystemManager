@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import Config.ConnectionSQL;
 import DAO.OrderDetailDAO;
 import DAO.ProductElevationDAO;
+import Models.CRUD.EditOrderDetail;
 import entities.Order_Detail;
 
 import javax.swing.JLabel;
@@ -26,20 +27,8 @@ public class OrderDetail extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 
-	/**
-	 * Launch the application.
-	 */
 	static int idGet;
-
-	public static void main(String[] args) {
-		try {
-			OrderDetail dialog = new OrderDetail(idGet);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	static int idSend;
 
 	/**
 	 * Create the dialog.
@@ -48,7 +37,7 @@ public class OrderDetail extends JDialog {
 	 */
 	public OrderDetail(int idGet) {
 		setTitle("Order Detail");
-		setBounds(100, 100, 519, 371);
+		setBounds(100, 100, 519, 332);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -90,7 +79,7 @@ public class OrderDetail extends JDialog {
 
 			}
 		});
-		btnOk.setBounds(205, 298, 89, 23);
+		btnOk.setBounds(186, 258, 89, 23);
 		contentPanel.add(btnOk);
 
 //GET DATA FROM DB by Resulset
@@ -103,7 +92,7 @@ public class OrderDetail extends JDialog {
 				ord.setorder_id(rs.getInt("ORDERS_ID"));
 				ord.setproduct_id(rs.getInt("PRODUCT_ID"));
 				ord.setnum_of_system_installed(rs.getInt("NUM_OF_SYSTEM_INSTALLED"));
-				ord.setprice(rs.getDouble("PRICE"));
+				ord.setPrice(rs.getInt("PRICE"));
 				ord.setwarranty_period(rs.getInt("WARRANTY_PERIOD"));
 				ord.setwarranty_expire_date(rs.getString("WARRANTY_EXPIRE_DATE"));
 
@@ -138,7 +127,7 @@ public class OrderDetail extends JDialog {
 		JLabel lbPrice = new JLabel();
 		lbPrice.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lbPrice.setBounds(186, 141, 307, 21);
-		lbPrice.setText(String.valueOf(ord.getprice()));
+		lbPrice.setText(String.valueOf(ord.getPrice()));
 		contentPanel.add(lbPrice);
 
 		JLabel lbWarrantyPeriod = new JLabel();
@@ -153,5 +142,17 @@ public class OrderDetail extends JDialog {
 		lbWarrantyEx.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lbWarrantyEx.setBounds(186, 194, 307, 21);
 		contentPanel.add(lbWarrantyEx);
+
+		JButton btnEditDetail = new JButton("Edit Detail");
+		btnEditDetail.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				idSend = ord.getorder_id();
+				EditOrderDetail edod = new EditOrderDetail(idSend);
+				edod.setVisible(true);
+				dispose();
+			}
+		});
+		btnEditDetail.setBounds(306, 258, 105, 23);
+		contentPanel.add(btnEditDetail);
 	}
 }

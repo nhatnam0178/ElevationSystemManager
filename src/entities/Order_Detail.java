@@ -36,15 +36,14 @@ public class Order_Detail {
 		return num_of_system_installed;
 	}
 
-	private double price;
+	private int price;
 
-	// price
-	public void setprice(double value) {
-		price = value;
+	public int getPrice() {
+		return price;
 	}
 
-	public double getprice() {
-		return price;
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 	private int warranty_period;
@@ -69,7 +68,7 @@ public class Order_Detail {
 		return warranty_expire_date;
 	}
 
-	public Order_Detail(int order_id, int product_id, int num_of_system_installed, double price, int warranty_period,
+	public Order_Detail(int order_id, int product_id, int num_of_system_installed, int price, int warranty_period,
 			String warranty_expire_date) {
 		super();
 		this.order_id = order_id;

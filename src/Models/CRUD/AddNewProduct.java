@@ -116,7 +116,7 @@ public class AddNewProduct extends JDialog {
 				DAO.ProductElevationDAO proDao = new ProductElevationDAO();
 				String name = textName.getText();
 				String type = textType.getText();
-				double price = Double.parseDouble(textPrice.getText());
+				int price = Integer.parseInt(textPrice.getText());
 				int warranty;
 				if (comboBoxWarranty.getSelectedIndex() == 0) {
 					warranty = 1;

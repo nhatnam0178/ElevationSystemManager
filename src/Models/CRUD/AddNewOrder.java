@@ -263,11 +263,10 @@ public class AddNewOrder extends JDialog {
 					}
 				}
 				try {
-					int idPut = orDAO.insertOrders(client_Id, account_ID, Double.parseDouble(textTotalPrice.getText()),
+					int idPut = orDAO.insertOrders(client_Id, account_ID, Integer.parseInt(textTotalPrice.getText()),
 							String.valueOf(textDateOrder.getText()), String.valueOf(textDateInstall.getText()),
 							String.valueOf(textDateComplete.getText()), status_ID);
 
-				
 					AddNewOrderDetail adDetail = new AddNewOrderDetail(idPut);
 					adDetail.setVisible(true);
 					dispose();

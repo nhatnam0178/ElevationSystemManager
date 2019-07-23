@@ -10,8 +10,11 @@ import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 
 import Config.ConnectionSQL;
+import Models.CRUD.EditStatusComplain;
 import entities.Complain;
 import entities.Complains;
+import entities.Status_Complain;
+import entities.Status_Complains;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -21,6 +24,8 @@ import java.sql.SQLException;
 
 public class ComplainView extends JPanel {
 	Complains comps = new Complains();
+	entities.Status_Complains stComp = new Status_Complains();
+	static int idGet;
 
 	/**
 	 * Create the panel.
@@ -66,13 +71,30 @@ public class ComplainView extends JPanel {
 		JPanel panelData = new JPanel();
 		panelData.setLayout(new GridLayout(comps.size() + 10, 1));
 		scrollPane.setViewportView(panelData);
-////////
+//
+		String str1 = "SELECT * FROM STATUS_COMPLAIN";
+		ResultSet rs1 = ConnectionSQL.Query(str1);
+
+		try {
+			while (rs1.next()) {
+				entities.Status_Complain dep = new Status_Complain();
+				dep.setId(rs1.getInt("ID"));
+				dep.setname(rs1.getString("NAME"));
+
+				stComp.add(dep);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		String strQuery = "SELECT * FROM COMPLAIN";
 		//
 		ResultSet rs = ConnectionSQL.Query(strQuery);
 		try {
 			while (rs.next()) {
 				Complain comp = new Complain();
+				comp.setId(rs.getInt("ID"));
 				comp.setorder_id(rs.getInt("ORDER_ID"));
 				comp.setaccount_id(rs.getInt("ACCOUNT_ID"));
 				comp.setis_chargeable(rs.getBoolean("IS_CHARGEABLE"));
@@ -109,9 +131,14 @@ public class ComplainView extends JPanel {
 			lblPROBLEM.setText(item.getproblem());
 			panelItem.add(lblPROBLEM);
 
-			JLabel lblSTATUS_ID = new JLabel();
-			lblSTATUS_ID.setText(String.valueOf(item.getstatus_id()));
-			panelItem.add(lblSTATUS_ID);
+			JLabel lblSTATUS_COMPLAIN = new JLabel();
+			lblSTATUS_COMPLAIN.setText(String.valueOf(item.getstatus_id()));
+			panelItem.add(lblSTATUS_COMPLAIN);
+			for (Status_Complain it : stComp) {
+				if (item.getstatus_id() == it.getId()) {
+					lblSTATUS_COMPLAIN.setText(it.getname());
+				}
+			}
 
 			JLabel lblDATE_COMPLAIN = new JLabel();
 			lblDATE_COMPLAIN.setText(item.getdate_complain().toString());
@@ -124,27 +151,15 @@ public class ComplainView extends JPanel {
 			// add new Panel Action
 			JPanel acPanel = new JPanel();
 
-			JButton editBtn = new JButton("Edit     ");
+			JButton editBtn = new JButton("Edit Status");
 			editBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-//					idEdit = account.getId();
-//					EditAccount edc = new EditAccount(idEdit);
-//					edc.setVisible(true);
-
+					idGet = item.getId();
+					EditStatusComplain edc = new EditStatusComplain(idGet);
+					edc.setVisible(true);
 				}
 			});
-			//
-			JButton deleteBtn = new JButton("Delete");
-			deleteBtn.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-
-				}
-			});
-
 			acPanel.add(editBtn);
-			acPanel.add(deleteBtn);
-
 			panelItem.add(acPanel);
 			//
 			panelData.add(panelItem);

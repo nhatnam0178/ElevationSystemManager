@@ -35,15 +35,15 @@ public class Product_Elevation {
 		return type;
 	}
 
-	private double price;
+	private int price;
 
-// price
-	public void setprice(double value) {
-		price = value;
+
+	public int getPrice() {
+		return price;
 	}
 
-	public double getprice() {
-		return price;
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 	private String date_of_order;
@@ -84,7 +84,7 @@ public class Product_Elevation {
 
 	}
 
-	public Product_Elevation(int id, String name, String type, double price, String date_of_order, int warranty,
+	public Product_Elevation(int id, String name, String type, int price, String date_of_order, int warranty,
 			String warranty_expire_date) {
 		super();
 		this.id = id;

@@ -1,5 +1,6 @@
 package DAO;
 
+import java.sql.ResultSet;
 import java.util.Date;
 
 import Config.ConnectionSQL;
@@ -16,25 +17,16 @@ public final class ComplainDAO {
 		return kq;
 	}
 
-	public boolean delComplain(int id) {
+	public ResultSet findbyId(int id) {
 		String[] params = { String.valueOf(id) };
-		boolean kq = ConnectionSQL.CallProcExec("sp_delete_Complain_by_id", params);
+		ResultSet rs = ConnectionSQL.CallProc("sp_find_Complain_by_id", params);
 
-		return kq;
+		return rs;
 	}
 
-	public boolean editComplain(int id, Orders order_id, Account account_id, boolean is_chargeable, String problem,
-			Date date_complain, Status_Complain status_id, String technician_person) {
-
-		String[] params = { String.valueOf(id), String.valueOf(status_id) };
-		boolean kq = ConnectionSQL.CallProcExec("sp_update_Complain", params);
-		return kq;
-	}
-
-	public boolean findbyId(int id) {
-		String[] params = { String.valueOf(id) };
-		boolean kq = ConnectionSQL.CallProcExec("sp_find_Complain_by_id", params);
-
+	public boolean ChangeStatus(int id, int isChar, int status) {
+		String[] params = { String.valueOf(id), String.valueOf(isChar), String.valueOf(status) };
+		boolean kq = Config.ConnectionSQL.CallProcExec("sp_updateStatus_COMPLAIN", params);
 		return kq;
 	}
 

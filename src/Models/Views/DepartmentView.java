@@ -2,6 +2,7 @@ package Models.Views;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
@@ -13,7 +14,9 @@ import java.sql.SQLException;
 import javax.swing.JScrollPane;
 
 import Config.ConnectionSQL;
+import DAO.DepartmentDAO;
 import DAO.OrderDetailDAO;
+import MainForm.SystemForm;
 import Models.CRUD.EditDepartment;
 import entities.Department;
 import entities.Departments;
@@ -44,7 +47,7 @@ public class DepartmentView extends JPanel {
 
 		JLabel lbstt1 = new JLabel();
 		panelHeader.add(lbstt1);
-		
+
 		JLabel lbstt = new JLabel("STT");
 		panelHeader.add(lbstt);
 
@@ -78,10 +81,9 @@ public class DepartmentView extends JPanel {
 			pnlItem.setLayout(new GridLayout(1, 0));
 			pnlItem.setPreferredSize(new Dimension(10, 10));
 
-			
 			JLabel lbSTT1 = new JLabel();
 			pnlItem.add(lbSTT1);
-			
+
 			JLabel lbSTT = new JLabel();
 			lbSTT.setText(String.valueOf(stt));
 			pnlItem.add(lbSTT);
@@ -105,10 +107,29 @@ public class DepartmentView extends JPanel {
 			deleteBtn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					DAO.OrderDetailDAO detai = new OrderDetailDAO();
-					int idGet = item.getId();
-					OrderDetail or = new OrderDetail(idGet);
-					or.setVisible(true);
+					DAO.DepartmentDAO depDao = new DepartmentDAO();
+					int result = JOptionPane.showConfirmDialog(panelGird,
+							"Delete Client : " + " ' " + item.getname() + " ' " + " , " + " Are You Sure?",
+							"Delete a Client?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (result == JOptionPane.YES_OPTION) {
+						int idGet = item.getId();
+						try {
+							depDao.delDepartment(idGet);
+							DepartmentView adt = new DepartmentView();
+							adt.setVisible(true);
+							SystemForm.myTables[4].removeAll();
+							SystemForm.myTables[4].validate();
+							SystemForm.myTables[4].repaint();
+							SystemForm.myTables[4].add(new DepartmentView());
+							SystemForm.myTables[4].validate();
+							SystemForm.myTables[4].repaint();
+
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
+					} else if (result == JOptionPane.NO_OPTION) {
+						revalidate();
+					}
 				}
 			});
 			stt++;
@@ -121,15 +142,4 @@ public class DepartmentView extends JPanel {
 		repaint();
 	}
 
-//	@Override
-//	public void repaint() {
-//		// TODO Auto-generated method stub
-//		super.repaint();
-//	}
-//
-//	@Override
-//	public void revalidate() {
-//		// TODO Auto-generated method stub
-//		super.revalidate();
-//	}
 }

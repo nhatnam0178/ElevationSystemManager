@@ -3,12 +3,12 @@ package DAO;
 import Config.ConnectionSQL;
 
 public final class OrdersDAO {
-	public int insertOrders(int client_id, int account_id, double total_price, String date_of_order,
+	public int insertOrders(int client_id, int account_id, int total_price, String date_of_order,
 			String date_of_system_installed, String date_of_complete, int status) {
 		String[] params = { String.valueOf(client_id), String.valueOf(account_id), String.valueOf(total_price),
 				date_of_order, date_of_system_installed, date_of_complete, String.valueOf(status) };
 
-		int kq = (int)ConnectionSQL.CallProcScala("sp_insert_ORDERS", params);
+		int kq = (int) ConnectionSQL.CallProcScala("sp_insert_ORDERS", params);
 		return kq;
 	}
 
@@ -26,5 +26,10 @@ public final class OrdersDAO {
 		return kq;
 	}
 
-	
+	public boolean changeStatus(int idGet, int Status_id) {
+		String[] params = { String.valueOf(idGet), String.valueOf(Status_id) };
+		boolean kq = ConnectionSQL.CallProcExec("sp_updateStatus_ORDERS", params);
+		return kq;
+	}
+
 }

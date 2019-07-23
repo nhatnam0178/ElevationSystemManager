@@ -8,7 +8,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Config.ConnectionSQL;
 import DAO.AccountDAO;
+import DAO.LoginDAO;
 import entities.Accounts;
 
 import javax.swing.JLabel;
@@ -20,15 +22,18 @@ import java.awt.Dialog.ModalityType;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
 public class LoginForm extends JDialog {
 	private JTextField txtusername;
 	private JPasswordField passwordField;
-	public static JLabel lblError = new JLabel();
-	private JLabel lblMessageUser, lblMessagePass;
 	Accounts accs = new Accounts();
+	static boolean statusLog;
+	static String uname;
+	static int accountRole;
 
 	/**
 	 * Create the dialog.
@@ -42,7 +47,7 @@ public class LoginForm extends JDialog {
 
 		JLabel lblLoginToElevation = new JLabel("LOGIN TO ELEVATION MANAGER");
 		lblLoginToElevation.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblLoginToElevation.setBounds(94, 11, 245, 19);
+		lblLoginToElevation.setBounds(80, 21, 245, 19);
 		getContentPane().add(lblLoginToElevation);
 
 		JLabel lblUsername = new JLabel("Username:");
@@ -58,20 +63,45 @@ public class LoginForm extends JDialog {
 		getContentPane().add(txtusername);
 		txtusername.setColumns(10);
 
-		
 		JButton btnLogin = new JButton("LOGIN");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (txtusername.getText().trim().equals("")) {
-					lblMessageUser.setText("Username not empty");
-				} else if (passwordField.getText().trim().equals("")) {
-					lblMessagePass.setText("Password not empty");
-
+				uname = txtusername.getText();
+				String upass = String.valueOf(passwordField.getPassword());
+				if ((uname.equals("")) || (upass.equals(""))) {
+					JOptionPane.showMessageDialog(LoginForm.this, "Username or Password not Empty", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				} else {
-					try {
+					DAO.LoginDAO lgDao = new LoginDAO();
+					String[] signin = { uname, upass };
+					Object[] obj = lgDao.CheckLogin("sp_GetLogin", signin, 1);
+					if (Integer.valueOf(String.valueOf(obj[0])) > 0) {
+						statusLog = true;
+						AccountDAO accDao = new AccountDAO();
+						ResultSet rs = accDao.findAccountByUsername(uname);
+						try {
+							while (rs.next()) {
+								entities.Account accItem = new entities.Account();
+								accItem.setId(rs.getInt("ID"));
+								accItem.setusername(rs.getString("USERNAME"));
+								accItem.setpassword(rs.getString("PASSWORD"));
+								accItem.setname(rs.getString("NAME"));
+								accItem.setrole_id(rs.getInt("ROLE_ID"));
 
-					} catch (Exception e2) {
-						System.err.println(e2.getStackTrace());
+								accountRole = accItem.getrole_id();
+							}
+							dispose();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(LoginForm.this, "Username or Password Invalid", "Error",
+								JOptionPane.ERROR_MESSAGE);
+						statusLog = false;
+						dispose();
 					}
 				}
 			}
@@ -93,27 +123,5 @@ public class LoginForm extends JDialog {
 		passwordField.setBounds(128, 116, 211, 20);
 		getContentPane().add(passwordField);
 
-		JLabel lblMessageUser = new JLabel();
-		lblMessageUser.setForeground(Color.RED);
-		lblMessageUser.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblMessageUser.setBounds(128, 51, 148, 14);
-		getContentPane().add(lblMessageUser);
-
-		JLabel lblMessagePass = new JLabel();
-		lblMessagePass.setForeground(Color.RED);
-		lblMessagePass.setBackground(Color.WHITE);
-		lblMessagePass.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblMessagePass.setBounds(128, 97, 175, 14);
-		getContentPane().add(lblMessagePass);
-
-		JButton btnClearlogin = new JButton("ClearLogin");
-		btnClearlogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				txtusername.setText("");
-				passwordField.setText("");
-			}
-		});
-		btnClearlogin.setBounds(10, 174, 89, 23);
-		getContentPane().add(btnClearlogin);
 	}
 }

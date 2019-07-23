@@ -119,7 +119,7 @@ public class AddNewOrderDetail extends JDialog {
 						entities.Product_Elevation prodItem = new entities.Product_Elevation();
 						prodItem.setId(rs.getInt("ID"));
 						prodItem.setname(rs.getString("NAME"));
-						prodItem.setprice(rs.getDouble("PRICE"));
+						prodItem.setPrice(rs.getInt("PRICE"));
 						pros.add(prodItem);
 					}
 				} catch (SQLException e1) {
@@ -138,7 +138,7 @@ public class AddNewOrderDetail extends JDialog {
 				// Num of System Installed
 				int num_of_system_installed = Integer.parseInt(textNum_Of_Sys.getText());
 				// Price
-				double price = Double.parseDouble(textPrice.getText());
+				int price = Integer.parseInt(textPrice.getText());
 				// WarrantyPeriod
 				String[] str1 = { "1 Year", "2 Years", "3 Years" };
 				int warranty_period = 0;

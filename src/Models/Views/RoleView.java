@@ -94,8 +94,8 @@ public class RoleView extends JPanel {
 			editBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					idGet = item.getId();
-					EditDepartment edDepart = new EditDepartment(idGet);
-					edDepart.setVisible(true);
+//					EditRole edDepart = new EditRole(idGet);
+//					edDepart.setVisible(true);
 
 				}
 			});

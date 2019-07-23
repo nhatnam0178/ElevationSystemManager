@@ -36,12 +36,11 @@ public final class AccountDAO {
 
 		return rs;
 	}
-	
-	public static boolean authenticate(String username, String password) {
-        // hardcoded username and password
-        if (username.equals("admin") && password.equals("123456")) {
-            return true;
-        }
-        return false;
-    }
+
+	public ResultSet findAccountByUsername(String username) {
+		String[] params = { username };
+		ResultSet rs = ConnectionSQL.CallProc("sp_find_ACCOUNT_by_Username", params);
+		return rs;
+	}
+
 }

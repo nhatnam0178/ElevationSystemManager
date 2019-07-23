@@ -11,7 +11,7 @@ import java.sql.Statement;
 public final class ConnectionSQL {
 	private static String url = helper.FileHelper.getConnectionString("bin\\App.xml");
 	public Connection conn;
-
+	private static Parameters pars;
 	public static Connection Connect() {
 		try {
 			Connection conn;
@@ -130,6 +130,46 @@ public final class ConnectionSQL {
 
 	}
 
+	/**
+	 *
+	 * 
+	 * @param storeName
+	 * @param parameters
+	 * @return
+	 */
+	public static Object[] CallProcScala(String storeName, String[] parameters, int paraout) {
+		String[] obj = new String[paraout];
+
+		int len = parameters.length + paraout;
+		pars = new Parameters();
+		try {
+			String str = "{ call " + storeName + "(" + pars.getpara(parameters, paraout) + ")}";
+			CallableStatement state = Connect().prepareCall(str);
+			// code truyen tham so su dung loop
+			for (int i = 0; i < parameters.length; i++) {
+				state.setString(i + 1, parameters[i]);
+			}
+			for (int i = parameters.length; i < len; i++) {
+				state.registerOutParameter(i + 1, java.sql.Types.JAVA_OBJECT);
+			}
+
+			state.execute();
+			int j = 0;
+			for (int i = parameters.length; i < len; i++) {
+				obj[j] = state.getString(i + 1);
+				j++;
+			}
+
+			return obj;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch blok
+			e.printStackTrace();
+		}
+
+		return null;
+
+	}
 	/**
 	 *
 	 * 
