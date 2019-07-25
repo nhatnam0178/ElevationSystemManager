@@ -2,6 +2,7 @@ package Models.Views;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -116,7 +117,12 @@ public class ProductView extends JPanel {
 			JLabel lbStt = new JLabel();
 			lbStt.setText(String.valueOf(stt));
 			pnlItem.add(lbStt);
+			if (stt % 2 == 0) {
+				pnlItem.setBackground(Color.WHITE);
+			} else {
+				pnlItem.setBackground(Color.CYAN);
 
+			}
 			JLabel lbName = new JLabel();
 			lbName.setText(item.getname());
 			pnlItem.add(lbName);

@@ -21,6 +21,7 @@ import MainForm.SystemForm;
 import Models.Views.AccountView;
 
 public class EditAccount extends JDialog {
+	public static int roleId;
 	/**
 	 * 
 	 */
@@ -36,22 +37,6 @@ public class EditAccount extends JDialog {
 	private MyComboDeparts cbDepartment = new MyComboDeparts();
 	private JTextField txtEmail;
 	static int idEdit;
-//
-//	/**
-//	 * Launch the application.
-//	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					EditAccount frame = new EditAccount(idEdit);
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 	/**
 	 * Create the frame.
@@ -101,7 +86,8 @@ public class EditAccount extends JDialog {
 
 		MyComboDeparts cbDepartment = new MyComboDeparts();
 		cbDepartment.setBounds(87, 324, 147, 20);
-		cbDepartment.setEditable(false);
+		cbDepartment.setEditable(true);
+
 		contentPane.add(cbDepartment);
 
 		MyComboBoxs cbGender = new MyComboBoxs();
@@ -229,9 +215,9 @@ public class EditAccount extends JDialog {
 					role_id = 1;
 				}
 				int department_id = 0;
-				if (cbDepartment.equals("Services")) {
+				if (cbDepartment.equals("Order")) {
 					department_id = 1;
-				} else if (cbDepartment.equals("Complain")) {
+				} else if (cbDepartment.equals("Services")) {
 					department_id = 2;
 				} else {
 					department_id = 3;

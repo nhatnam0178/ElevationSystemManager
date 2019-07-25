@@ -137,6 +137,7 @@ public class EditOrderDetail extends JDialog {
 		getContentPane().add(btnCancel);
 
 		txtOrderId = new JTextField();
+		txtOrderId.setEditable(false);
 		txtOrderId.setBounds(163, 49, 207, 20);
 		getContentPane().add(txtOrderId);
 		txtOrderId.setColumns(10);
@@ -148,6 +149,7 @@ public class EditOrderDetail extends JDialog {
 		pName = proDao.findbyIdReturnName(ord.getproduct_id(), "sp_findName_Product_by_id");
 		//
 		txtProductName = new JTextField();
+		txtProductName.setEditable(false);
 		txtProductName.setBounds(163, 83, 207, 20);
 		getContentPane().add(txtProductName);
 		txtProductName.setColumns(10);

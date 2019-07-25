@@ -8,6 +8,8 @@ import javax.swing.border.EmptyBorder;
 
 import Config.ConnectionSQL;
 import DAO.OrdersDAO;
+import MainForm.SystemForm;
+import Models.Views.OrderView;
 import entities.Account;
 import entities.Accounts;
 import entities.Client;
@@ -263,12 +265,17 @@ public class AddNewOrder extends JDialog {
 					}
 				}
 				try {
-					int idPut = orDAO.insertOrders(client_Id, account_ID, Integer.parseInt(textTotalPrice.getText()),
+					orDAO.insertOrders(client_Id, account_ID, Integer.parseInt(textTotalPrice.getText()),
 							String.valueOf(textDateOrder.getText()), String.valueOf(textDateInstall.getText()),
 							String.valueOf(textDateComplete.getText()), status_ID);
-
-					AddNewOrderDetail adDetail = new AddNewOrderDetail(idPut);
-					adDetail.setVisible(true);
+					OrderView aor = new OrderView();
+					aor.setVisible(true);
+					SystemForm.myTables[3].removeAll();
+					SystemForm.myTables[3].validate();
+					SystemForm.myTables[3].repaint();
+					SystemForm.myTables[3].add(new OrderView());
+					SystemForm.myTables[3].validate();
+					SystemForm.myTables[3].repaint();
 					dispose();
 				} catch (Exception e2) {
 					System.err.println(e2.getStackTrace());

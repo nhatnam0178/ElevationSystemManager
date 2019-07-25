@@ -31,9 +31,9 @@ public class LoginForm extends JDialog {
 	private JTextField txtusername;
 	private JPasswordField passwordField;
 	Accounts accs = new Accounts();
-	static boolean statusLog;
-	static String uname;
-	static int accountRole;
+	public boolean statusLog;
+	public static int idAccount;
+	public static int roleId;
 
 	/**
 	 * Create the dialog.
@@ -66,7 +66,7 @@ public class LoginForm extends JDialog {
 		JButton btnLogin = new JButton("LOGIN");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				uname = txtusername.getText();
+				String uname = txtusername.getText();
 				String upass = String.valueOf(passwordField.getPassword());
 				if ((uname.equals("")) || (upass.equals(""))) {
 					JOptionPane.showMessageDialog(LoginForm.this, "Username or Password not Empty", "Error",
@@ -76,7 +76,8 @@ public class LoginForm extends JDialog {
 					String[] signin = { uname, upass };
 					Object[] obj = lgDao.CheckLogin("sp_GetLogin", signin, 1);
 					if (Integer.valueOf(String.valueOf(obj[0])) > 0) {
-						statusLog = true;
+						int idAccount = 0;
+						int roleId = 0;
 						AccountDAO accDao = new AccountDAO();
 						ResultSet rs = accDao.findAccountByUsername(uname);
 						try {
@@ -88,20 +89,24 @@ public class LoginForm extends JDialog {
 								accItem.setname(rs.getString("NAME"));
 								accItem.setrole_id(rs.getInt("ROLE_ID"));
 
-								accountRole = accItem.getrole_id();
+								idAccount = accItem.getId();
+								roleId = accItem.getrole_id();
+								statusLog = true;
 							}
-							dispose();
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+						SystemForm window = new SystemForm(idAccount, roleId);
+						window.ElevationSystemFrame.setVisible(true);
+						window.ElevationSystemFrame.validate();
+						window.ElevationSystemFrame.repaint();
 
 						dispose();
 					} else {
 						JOptionPane.showMessageDialog(LoginForm.this, "Username or Password Invalid", "Error",
 								JOptionPane.ERROR_MESSAGE);
 						statusLog = false;
-						dispose();
 					}
 				}
 			}

@@ -110,7 +110,7 @@ public class AccountView extends JPanel {
 		JPanel pnlData = new JPanel();
 
 		scrollPaneGird.setViewportView(pnlData);
-		pnlData.setLayout(new GridLayout(accs.size(), 1));
+		pnlData.setLayout(new GridLayout(accs.size()+5, 1));
 		int stt = 1;
 		for (Account account : accs) {
 

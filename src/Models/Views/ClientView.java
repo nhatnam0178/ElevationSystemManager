@@ -4,6 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -89,10 +90,17 @@ public class ClientView extends JPanel {
 			JPanel pnlItem = new JPanel();
 			pnlItem.setLayout(new GridLayout(1, 0));
 			pnlItem.setPreferredSize(new Dimension(10, 10));
+			
 			JLabel lb1 = new JLabel();
 			pnlItem.add(lb1);
 			JLabel lbStt = new JLabel();
 			lbStt.setText(String.valueOf(stt));
+			if (stt % 2 == 0) {
+				pnlItem.setBackground(Color.WHITE);
+			} else {
+				pnlItem.setBackground(Color.CYAN);
+
+			}
 			pnlItem.add(lbStt);
 			JLabel lbName = new JLabel();
 			lbName.setText(item.getname());

@@ -116,7 +116,7 @@ public class OrderView extends JPanel {
 		panelData.setLayout(new GridLayout(1, 1));
 
 		scrollPane.setViewportView(panelData);
-		panelData.setLayout(new GridLayout(orderList.size(), 0));
+		panelData.setLayout(new GridLayout(orderList.size()+9, 0));
 		int stt = 1;
 		for (Orders item : orderList) {
 			JPanel pnlItem = new JPanel();

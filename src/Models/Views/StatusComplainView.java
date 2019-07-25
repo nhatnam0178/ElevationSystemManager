@@ -39,10 +39,10 @@ public class StatusComplainView extends JPanel {
 		panelGird.add(scrollPane);
 
 		JPanel panelHeader = new JPanel();
-		scrollPane.setColumnHeaderView(panelHeader);
-		scrollPane.add(panelHeader);
-		panelHeader.setLayout(new GridLayout(1, 1));
 
+		panelHeader.setLayout(new GridLayout(1, 1));
+		JLabel lbstt1 = new JLabel("");
+		panelHeader.add(lbstt1);
 		JLabel lbstt = new JLabel("STT");
 		panelHeader.add(lbstt);
 
@@ -51,9 +51,11 @@ public class StatusComplainView extends JPanel {
 
 		JLabel lbAc = new JLabel("ACTION");
 		panelHeader.add(lbAc);
+		scrollPane.setColumnHeaderView(panelHeader);
+		scrollPane.add(panelHeader);
 		JPanel panelData = new JPanel();
 		scrollPane.setViewportView(panelData);
-		panelData.setLayout(new GridLayout(stComp.size() + 10, 1));
+		panelData.setLayout(new GridLayout(stComp.size() + 13, 1));
 
 		String str = "SELECT * FROM STATUS_COMPLAIN";
 		ResultSet rs = ConnectionSQL.Query(str);
@@ -74,8 +76,10 @@ public class StatusComplainView extends JPanel {
 		for (Status_Complain item : stComp) {
 			JPanel pnlItem = new JPanel();
 			pnlItem.setLayout(new GridLayout(1, 0));
-			pnlItem.setPreferredSize(new Dimension(10, 10));
+			pnlItem.setPreferredSize(new Dimension(20, 10));
 
+			JLabel lbSTT1j = new JLabel("");
+			pnlItem.add(lbSTT1j);
 			JLabel lbSTT = new JLabel();
 			lbSTT.setText(String.valueOf(stt));
 			pnlItem.add(lbSTT);
@@ -94,20 +98,8 @@ public class StatusComplainView extends JPanel {
 
 				}
 			});
-			//
-			JButton deleteBtn = new JButton("Delete");
-			deleteBtn.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					DAO.OrderDetailDAO detai = new OrderDetailDAO();
-					int idGet = item.getId();
-					OrderDetail or = new OrderDetail(idGet);
-					or.setVisible(true);
-				}
-			});
 			stt++;
 			acPanel.add(editBtn);
-			acPanel.add(deleteBtn);
 			pnlItem.add(acPanel);
 			panelData.add(pnlItem);
 		}

@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JMenu;
 
 import java.awt.BorderLayout;
@@ -56,8 +57,8 @@ public class SystemForm {
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu mFile = new JMenu("File");
-	static String uname;
-	static int accountRole;
+	public static int idAccount;
+	public static int roleId;
 
 	/**
 	 * Launch the application.
@@ -68,18 +69,6 @@ public class SystemForm {
 				try {
 					LoginForm lg = new LoginForm();
 					lg.setVisible(true);
-					if (statusLog == true) {
-						lg.dispose();
-						SystemForm window = new SystemForm(uname, accountRole);
-						window.ElevationSystemFrame.setVisible(true);
-
-						window.ElevationSystemFrame.validate();
-						window.ElevationSystemFrame.repaint();
-					} else if (statusLog == false) {
-						lg.setVisible(true);
-						SystemForm window = new SystemForm(uname, accountRole);
-						window.ElevationSystemFrame.setVisible(false);
-					}
 
 				} catch (Exception e) {
 
@@ -91,8 +80,11 @@ public class SystemForm {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * 
+	 * @param roleId
+	 * @param idAccount
 	 */
-	public SystemForm(String uname, int accountRole) {
+	public SystemForm(int idAccount, int roleId) {
 //		myArea.setTabSize(0);
 //		myArea.setPreferredSize(new Dimension(22, 1));
 
@@ -108,7 +100,12 @@ public class SystemForm {
 		myTables[6] = new JPanel(new BorderLayout());
 		myTables[7] = new JPanel(new BorderLayout());
 		myTables[8] = new JPanel(new BorderLayout());
-		myTables[0].add(new AccountView());
+		if (roleId == 1) {
+			myTables[0].add(new AccountView());
+		} else {
+			JLabel lbNull = new JLabel("ACCESS DENY");
+			myTables[0].add(lbNull);
+		}
 		myTables[1].add(new ClientView());
 		myTables[2].add(new ProductView());
 		myTables[3].add(new OrderView());
@@ -143,7 +140,7 @@ public class SystemForm {
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
 //
-		JToolBar myToolbar = new myToolbar(tabbedPane, ElevationSystemFrame, conn);
+		JToolBar myToolbar = new myToolbar(tabbedPane, ElevationSystemFrame, conn, roleId, idAccount);
 
 		tabbedPane.addTab("Account", mySps[0]);
 		tabbedPane.addTab("Client", mySps[1]);
@@ -159,7 +156,11 @@ public class SystemForm {
 			public void stateChanged(ChangeEvent arg0) {
 				switch (tabbedPane.getSelectedIndex()) {
 				case 0:
-					myTables[0].setVisible(true);
+					if (roleId == 1) {
+						myTables[0].setVisible(true);
+					} else {
+						myTables[0].setVisible(false);
+					}
 					break;
 				case 1:
 					myTables[1].setVisible(true);
@@ -208,7 +209,7 @@ public class SystemForm {
 }
 
 class myToolbar extends JToolBar {
-	public myToolbar(final JTabbedPane tabbed, final JFrame root, final ConnectionSQL conn) {
+	public myToolbar(final JTabbedPane tabbed, final JFrame root, final ConnectionSQL conn, int roleId, int accountID) {
 		JPanel[] myPanels = new JPanel[10];
 		// setLayout(null);
 		Icon SearchImag = new ImageIcon("../ElevationSystemManager/src/icons/search.png");
@@ -220,27 +221,39 @@ class myToolbar extends JToolBar {
 		searchBtn = new JButton("SEARCH", SearchImag);
 
 		reportBtn = new JButton("Report", reportImag);
-		lbHello = new JLabel("Hello,  ");
-		lbaccountName = new JLabel();
+
+		logoutBtn = new JButton("Logout");
 		addBtn.setAlignmentY(CENTER_ALIGNMENT);
 		searchBtn.setAlignmentY(CENTER_ALIGNMENT);
 		reportBtn.setAlignmentY(CENTER_ALIGNMENT);
+		logoutBtn.setAlignmentY(CENTER_ALIGNMENT);
 		add(addBtn);
 		add(reportBtn);
 		add(searchBtn);
+		add(logoutBtn);
+		logoutBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				root.dispose();
+				LoginForm lg = new LoginForm();
+				lg.setVisible(true);
+			}
+		});
+
 		addBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				switch (tabbed.getSelectedIndex()) {
 				case 0:
-					AddNewAccount aat = new AddNewAccount(root);
-					aat.setVisible(true);
-					SystemForm.myTables[0].removeAll();
-					SystemForm.myTables[0].validate();
-					SystemForm.myTables[0].repaint();
-					SystemForm.myTables[0].add(new AccountView());
-					SystemForm.myTables[0].validate();
-					SystemForm.myTables[0].repaint();
+					if (roleId == 1) {
+						AddNewAccount aat = new AddNewAccount(root);
+						aat.setVisible(true);
+						SystemForm.myTables[0].removeAll();
+						SystemForm.myTables[0].validate();
+						SystemForm.myTables[0].repaint();
+						SystemForm.myTables[0].add(new AccountView());
+						SystemForm.myTables[0].validate();
+						SystemForm.myTables[0].repaint();
+					}
 					break;
 				case 1:
 					AddNewClient act = new AddNewClient(root);
@@ -336,6 +349,6 @@ class myToolbar extends JToolBar {
 	private JButton searchBtn;
 	private JButton reportBtn;
 	private JButton addBtn;
-	private JLabel lbHello;
-	private JLabel lbaccountName;
+
+	private JButton logoutBtn;
 }

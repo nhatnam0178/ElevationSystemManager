@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.JScrollPane;
 
@@ -40,7 +41,7 @@ public class ComplainView extends JPanel {
 		panelGird.add(scrollPane);
 		//
 		JPanel pnlHeader = new JPanel();
-
+		JLabel lbSTT = new JLabel();
 		JLabel lblOrderEmpty = new JLabel();
 		JLabel lblOrderIDj = new JLabel("ORDER_ID");
 		JLabel lblAccountIDj = new JLabel("ACCOUNT_ID");
@@ -53,7 +54,7 @@ public class ComplainView extends JPanel {
 		JLabel lblAction = new JLabel("ACTION");
 
 		pnlHeader.setLayout(new GridLayout(1, 1));
-
+		pnlHeader.add(lbSTT);
 		pnlHeader.add(lblOrderEmpty);
 		pnlHeader.add(lblOrderIDj);
 		pnlHeader.add(lblAccountIDj);
@@ -109,11 +110,20 @@ public class ComplainView extends JPanel {
 			e.printStackTrace();
 		}
 		//
+		int stt = 1;
 		for (Complain item : comps) {
 			JPanel panelItem = new JPanel();
 			panelItem.setLayout(new GridLayout(1, 1));
 			JLabel lblOrderID1 = new JLabel();
 			panelItem.add(lblOrderID1);
+			JLabel lbSTTj = new JLabel(String.valueOf(stt));
+			panelItem.add(lbSTTj);
+			if (stt % 2 == 0) {
+				panelItem.setBackground(Color.WHITE);
+			} else {
+				panelItem.setBackground(Color.CYAN);
+
+			}
 
 			JLabel lblOrderID = new JLabel();
 			lblOrderID.setText(String.valueOf(item.getorder_id()));
@@ -159,6 +169,7 @@ public class ComplainView extends JPanel {
 					edc.setVisible(true);
 				}
 			});
+			stt++;
 			acPanel.add(editBtn);
 			panelItem.add(acPanel);
 			//
