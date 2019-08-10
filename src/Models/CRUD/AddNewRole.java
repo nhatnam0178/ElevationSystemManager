@@ -67,7 +67,7 @@ public class AddNewRole extends JDialog {
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
+				dispose();
 			}
 		});
 		btnCancel.setBounds(217, 103, 89, 23);

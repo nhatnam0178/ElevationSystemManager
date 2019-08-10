@@ -2,12 +2,16 @@ package Models.Views;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import Config.ConnectionSQL;
 import DAO.OrderDetailDAO;
+import MainForm.SystemForm;
 import Models.CRUD.EditDepartment;
+import Models.CRUD.EditNameStatusComplain;
+import Models.CRUD.EditStatusComplain;
 import entities.Department;
 import entities.Departments;
 import entities.Status_Complain;
@@ -93,13 +97,44 @@ public class StatusComplainView extends JPanel {
 			editBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					idGet = item.getId();
-					EditDepartment edDepart = new EditDepartment(idGet);
-					edDepart.setVisible(true);
+					EditNameStatusComplain edc = new EditNameStatusComplain(idGet);
+					edc.setVisible(true);
+				}
+			});
+			//
+			JButton deleteBtn = new JButton("Delete");
+			deleteBtn.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					DAO.StatusComplainDAO stDao = new DAO.StatusComplainDAO();
+					int result = JOptionPane.showConfirmDialog(panelGird,
+							"Delete Account : " + " ' " + item.getId() + " ' " + " , " + " Are You Sure?",
+							"Delete a Account?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (result == JOptionPane.YES_OPTION) {
+						try {
+							stDao.delStatusComplain(item.getId());
+							StatusComplainView act = new StatusComplainView();
+							act.setVisible(true);
+							SystemForm.myTables[6].removeAll();
+							SystemForm.myTables[6].validate();
+							SystemForm.myTables[6].repaint();
+							SystemForm.myTables[6].add(new StatusComplainView());
+							SystemForm.myTables[6].validate();
+							SystemForm.myTables[6].repaint();
+						} catch (Exception e) {
+							System.err.println(e.getStackTrace());
+						}
+
+					} else if (result == JOptionPane.NO_OPTION) {
+						revalidate();
+					}
 
 				}
 			});
+
 			stt++;
 			acPanel.add(editBtn);
+			acPanel.add(deleteBtn);
 			pnlItem.add(acPanel);
 			panelData.add(pnlItem);
 		}

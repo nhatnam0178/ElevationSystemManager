@@ -48,7 +48,7 @@ public class ComplainView extends JPanel {
 		JLabel lblCHARGEABLEj = new JLabel("IS_CHARGEABLE");
 		JLabel lblPROBLEMj = new JLabel("PROBLEM");
 		JLabel lblDATE_COMPLAINj = new JLabel("DATE_COMPLAIN");
-		JLabel lblSTATUS_IDj = new JLabel("STATUS_ID");
+		JLabel lblSTATUS_IDj = new JLabel("STATUS_COMPLAIN");
 		JLabel lblTECHNICIAN_PERSONj = new JLabel("TECHNICIAN_PERSON");
 
 		JLabel lblAction = new JLabel("ACTION");
@@ -78,7 +78,7 @@ public class ComplainView extends JPanel {
 
 		try {
 			while (rs1.next()) {
-				entities.Status_Complain dep = new Status_Complain();
+				entities.Status_Complain dep = new entities.Status_Complain();
 				dep.setId(rs1.getInt("ID"));
 				dep.setname(rs1.getString("NAME"));
 
@@ -142,7 +142,6 @@ public class ComplainView extends JPanel {
 			panelItem.add(lblPROBLEM);
 
 			JLabel lblSTATUS_COMPLAIN = new JLabel();
-			lblSTATUS_COMPLAIN.setText(String.valueOf(item.getstatus_id()));
 			panelItem.add(lblSTATUS_COMPLAIN);
 			for (Status_Complain it : stComp) {
 				if (item.getstatus_id() == it.getId()) {

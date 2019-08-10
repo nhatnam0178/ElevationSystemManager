@@ -1,21 +1,15 @@
 package Models.CRUD;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Config.ConnectionSQL;
 import DAO.OrderDetailDAO;
-import MainForm.SystemForm;
 import entities.Product_Elevation;
 import entities.Product_Elevations;
 
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.Dialog.ModalityType;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -25,7 +19,6 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.DefaultComboBoxModel;
 
 public class AddNewOrderDetail extends JDialog {
 
@@ -33,8 +26,8 @@ public class AddNewOrderDetail extends JDialog {
 	private JTextField textNum_Of_Sys;
 	private JTextField textPrice;
 	private JTextField textWarrantyExp;
-	private JComboBox comboBoxProductID;
-	private JComboBox comboBoxWarrantyPeriod;
+	private JComboBox comboBoxProductID = new JComboBox();;
+	private JComboBox comboBoxWarrantyPeriod = new JComboBox();;
 	static int idPut;
 	entities.Product_Elevations pros = new Product_Elevations();
 
@@ -111,7 +104,7 @@ public class AddNewOrderDetail extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				DAO.OrderDetailDAO orDeDAO = new OrderDetailDAO();
 				// PRODUCT
-				String strQuery = "SELECT * FROM PRODUCT";
+				String strQuery = "SELECT * FROM PRODUCT_ELEVATION";
 				//
 				ResultSet rs = ConnectionSQL.Query(strQuery);
 				try {
@@ -126,10 +119,7 @@ public class AddNewOrderDetail extends JDialog {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				for (Product_Elevation item : pros) {
-					comboBoxProductID.addItem(item.getname());
-				}
-				int product_id = 0;
+				int product_id = 1;
 				for (Product_Elevation item : pros) {
 					if (comboBoxProductID.getSelectedItem().equals(item.getname())) {
 						product_id = item.getId();
@@ -148,24 +138,41 @@ public class AddNewOrderDetail extends JDialog {
 					}
 				}
 				// WarrantyDate
-				String warranty_expire_date = String.valueOf(textWarrantyExp);
 				orDeDAO.insertOrderDetail(idPut, product_id, num_of_system_installed, price, warranty_period,
-						warranty_expire_date);
+						String.valueOf(textWarrantyExp.getText()));
 
 				dispose();
 			}
 		});
 		btnOk.setBounds(163, 264, 89, 23);
 		contentPane.add(btnOk);
-
-		JComboBox comboBoxProductID = new JComboBox();
 		comboBoxProductID.setBounds(146, 48, 200, 20);
-		// loadList Product
-
 		contentPane.add(comboBoxProductID);
+		// loadList Product
+		// PRODUCT
+		String strQuery = "SELECT * FROM PRODUCT_ELEVATION";
+		//
+		ResultSet rs = ConnectionSQL.Query(strQuery);
+		try {
+			while (rs.next()) {
+				entities.Product_Elevation prodItem = new entities.Product_Elevation();
+				prodItem.setId(rs.getInt("ID"));
+				prodItem.setname(rs.getString("NAME"));
+				prodItem.setPrice(rs.getInt("PRICE"));
+				pros.add(prodItem);
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (Product_Elevation it : pros) {
+			comboBoxProductID.addItem(it.getname());
+		}
 		String[] str1 = { "1 Year", "2 Years", "3 Years" };
-		JComboBox comboBoxWarrantyPeriod = new JComboBox();
-		comboBoxWarrantyPeriod.addItem(str1);
+
+		for (String st : str1) {
+			comboBoxWarrantyPeriod.addItem(st);
+		}
 		comboBoxWarrantyPeriod.setBounds(146, 161, 98, 20);
 		contentPane.add(comboBoxWarrantyPeriod);
 

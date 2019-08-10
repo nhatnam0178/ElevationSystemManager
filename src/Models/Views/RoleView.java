@@ -16,10 +16,13 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 
 import Config.ConnectionSQL;
 import DAO.OrderDetailDAO;
+import MainForm.LoginForm;
+import MainForm.SystemForm;
 import Models.CRUD.EditDepartment;
 import entities.Role;
 import entities.Roles;
@@ -104,10 +107,28 @@ public class RoleView extends JPanel {
 			deleteBtn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					DAO.OrderDetailDAO detai = new OrderDetailDAO();
-					int idGet = item.getId();
-					OrderDetail or = new OrderDetail(idGet);
-					or.setVisible(true);
+					DAO.RoleDAO stDao = new DAO.RoleDAO();
+					int result = JOptionPane.showConfirmDialog(panelGird,
+							"Delete Role : " + " ' " + item.getId() + " ' " + " , " + " Are You Sure?",
+							"Delete a Role?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (result == JOptionPane.YES_OPTION) {
+						try {
+							stDao.delRole(item.getId());
+							RoleView act = new RoleView();
+							act.setVisible(true);
+							SystemForm.myTables[8].removeAll();
+							SystemForm.myTables[8].validate();
+							SystemForm.myTables[8].repaint();
+							SystemForm.myTables[8].add(new RoleView());
+							SystemForm.myTables[8].validate();
+							SystemForm.myTables[8].repaint();
+						} catch (Exception e) {
+						}
+
+					} else if (result == JOptionPane.NO_OPTION) {
+						revalidate();
+					}
+
 				}
 			});
 			stt++;

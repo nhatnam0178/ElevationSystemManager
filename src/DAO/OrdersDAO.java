@@ -1,5 +1,10 @@
 package DAO;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import Config.ConnectionSQL;
 
 public final class OrdersDAO {
@@ -30,6 +35,26 @@ public final class OrdersDAO {
 		String[] params = { String.valueOf(idGet), String.valueOf(Status_id) };
 		boolean kq = ConnectionSQL.CallProcExec("sp_updateStatus_ORDERS", params);
 		return kq;
+	}
+	public int GetInsertId(String query, String[] params) {
+		PreparedStatement stmt;
+		try {
+			int key = -1;
+			stmt = ConnectionSQL.Connect().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			for (int i = 0; i < params.length; i++) {
+				stmt.setString(i + 1, params[i]);
+			}
+			stmt.executeUpdate();
+			ResultSet rs = stmt.getGeneratedKeys();
+			if (rs != null && rs.next()) {
+				key = rs.getInt(1);
+			}
+			return key;
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		return -1;
 	}
 
 }

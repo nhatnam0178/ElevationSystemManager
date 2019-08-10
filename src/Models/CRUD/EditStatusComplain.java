@@ -129,7 +129,7 @@ public class EditStatusComplain extends JDialog {
 					status = 3;
 				}
 				try {
-					cmDao.ChangeStatus(idGet, isChar, status);
+					cmDao.ChangeStatus(idGet, status, isChar);
 					ComplainView adcom = new ComplainView();
 					adcom.setVisible(true);
 					SystemForm.myTables[5].removeAll();

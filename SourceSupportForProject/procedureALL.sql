@@ -19,15 +19,48 @@ DROP PROCEDURE sp_update_DEPARTMENT
 GO
 
  CREATE PROCEDURE sp_update_DEPARTMENT
+@in_ID int,
+@in_NAME varchar(250) 
 
-@in_NAME varchar(250) ,
-@p_ID int,
-@p_NAME varchar(250) 
 AS
 BEGIN
 
 	UPDATE [dbo].DEPARTMENT SET [NAME]=@in_NAME 
-	WHERE ID=@p_ID AND NAME=@p_NAME
+	WHERE ID=@in_ID
+
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_update_StatusComplain')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_update_StatusComplain
+GO
+
+ CREATE PROCEDURE sp_update_StatusComplain
+@in_ID int,
+@in_NAME varchar(250) 
+
+AS
+BEGIN
+
+	UPDATE [dbo].STATUS_COMPLAIN SET [NAME]=@in_NAME 
+	WHERE ID=@in_ID
+
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_update_StatusOrder')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_update_StatusOrder
+GO
+
+ CREATE PROCEDURE sp_update_StatusOrder
+@in_ID int,
+@in_NAME varchar(250) 
+
+AS
+BEGIN
+
+	UPDATE [dbo].STATUS_ORDER SET [NAME]=@in_NAME 
+	WHERE ID=@in_ID
 
 END
 GO
@@ -488,23 +521,7 @@ WHERE ID = @ID
 END
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_checkLogin_Account')AND type in (N'P', N'PC'))
-DROP PROCEDURE sp_checkLogin_Account
-GO
 
-CREATE PROCEDURE sp_checkLogin_Account
-@in_USERNAME varchar(100),
-@in_PASSWORD varchar(100),
-@p_count int output,
-@p_ID int,
-
-AS
-BEGIN
-SELECT * FROM [dbo].ACCOUNT
-WHERE USERNAME =@in_USERNAME and PASSWORD=@in_PASSWORD
-
-END
-GO
 
 CREATE PROCEDURE sp_find_CLIENT_by_id
 @ID int
@@ -574,6 +591,34 @@ WHERE ID = @ID
 END
 GO
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_findName_STATUS_COMPLAIN_by_id')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_findName_STATUS_COMPLAIN_by_id
+GO
+CREATE PROCEDURE sp_findName_STATUS_COMPLAIN_by_id
+@ID int
+
+AS
+BEGIN
+SELECT NAME FROM [dbo].STATUS_COMPLAIN
+WHERE ID = @ID
+
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_findName_STATUS_ORDERNAME_by_id')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_findName_STATUS_ORDERNAME_by_id
+GO
+CREATE PROCEDURE sp_findName_STATUS_ORDERNAME_by_id
+@ID int
+
+AS
+BEGIN
+SELECT NAME FROM [dbo].STATUS_ORDER
+WHERE ID = @ID
+
+END
+GO
+
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_delete_ACCOUNT_by_id')AND type in (N'P', N'PC'))
 DROP PROCEDURE sp_delete_ACCOUNT_by_id
 GO
@@ -584,6 +629,51 @@ CREATE PROCEDURE sp_delete_ACCOUNT_by_id
 AS
 BEGIN
 DELETE FROM [dbo].ACCOUNT
+WHERE ID = @ID
+
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_delete_StatusOrder_by_id')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_delete_StatusOrder_by_id
+GO
+
+CREATE PROCEDURE sp_delete_StatusOrder_by_id
+@ID int
+
+AS
+BEGIN
+DELETE FROM [dbo].STATUS_ORDER
+WHERE ID = @ID
+
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_delete_Role_by_id')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_delete_Role_by_id
+GO
+
+CREATE PROCEDURE sp_delete_Role_by_id
+@ID int
+
+AS
+BEGIN
+DELETE FROM [dbo].ROLE
+WHERE ID = @ID
+
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'sp_delete_StatusComplain_by_id')AND type in (N'P', N'PC'))
+DROP PROCEDURE sp_delete_StatusComplain_by_id
+GO
+
+CREATE PROCEDURE sp_delete_StatusComplain_by_id
+@ID int
+
+AS
+BEGIN
+DELETE FROM [dbo].STATUS_COMPLAIN
 WHERE ID = @ID
 
 END

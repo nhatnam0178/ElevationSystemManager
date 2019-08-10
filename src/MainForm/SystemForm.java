@@ -218,18 +218,18 @@ class myToolbar extends JToolBar {
 
 		addBtn = new JButton("ADD", addImag);
 
-		searchBtn = new JButton("SEARCH", SearchImag);
+		
 
 		reportBtn = new JButton("Report", reportImag);
 
 		logoutBtn = new JButton("Logout");
 		addBtn.setAlignmentY(CENTER_ALIGNMENT);
-		searchBtn.setAlignmentY(CENTER_ALIGNMENT);
+		
 		reportBtn.setAlignmentY(CENTER_ALIGNMENT);
 		logoutBtn.setAlignmentY(CENTER_ALIGNMENT);
 		add(addBtn);
 		add(reportBtn);
-		add(searchBtn);
+	
 		add(logoutBtn);
 		logoutBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -238,7 +238,7 @@ class myToolbar extends JToolBar {
 				lg.setVisible(true);
 			}
 		});
-
+		
 		addBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -344,6 +344,7 @@ class myToolbar extends JToolBar {
 
 			}
 		});
+
 	}
 
 	private JButton searchBtn;

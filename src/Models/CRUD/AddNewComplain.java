@@ -111,7 +111,6 @@ public class AddNewComplain extends JDialog {
 				entities.Account accItem = new entities.Account();
 				accItem.setId(rs.getInt("ID"));
 				accItem.setusername(rs.getString("USERNAME"));
-
 				accItem.setname(rs.getString("NAME"));
 				accs.add(accItem);
 			}

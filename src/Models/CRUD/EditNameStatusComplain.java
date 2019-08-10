@@ -9,6 +9,7 @@ import DAO.DepartmentDAO;
 import DAO.ProductElevationDAO;
 import MainForm.SystemForm;
 import Models.Views.DepartmentView;
+import Models.Views.StatusComplainView;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -18,14 +19,14 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Dialog.ModalityType;
 
-public class EditDepartment extends JDialog {
+public class EditNameStatusComplain extends JDialog {
 	private JTextField txtName;
 	static int idGet;
 
 	/**
 	 * Create the panel.
 	 */
-	public EditDepartment(int idGet) {
+	public EditNameStatusComplain(int idGet) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 373, 197);
@@ -33,9 +34,9 @@ public class EditDepartment extends JDialog {
 		DAO.ProductElevationDAO proDao = new ProductElevationDAO();
 
 		String aName;
-		aName = proDao.findbyIdReturnName(idGet, "sp_findName_Department_by_id");
+		aName = proDao.findbyIdReturnName(idGet, "sp_findName_STATUS_COMPLAIN_by_id");
 
-		JLabel lblDepartmentName = new JLabel("Department Name:");
+		JLabel lblDepartmentName = new JLabel("Status Name:");
 		lblDepartmentName.setBounds(10, 52, 120, 25);
 		getContentPane().add(lblDepartmentName);
 
@@ -49,7 +50,7 @@ public class EditDepartment extends JDialog {
 		btnNewButton.setBounds(234, 110, 89, 23);
 		getContentPane().add(btnNewButton);
 
-		JLabel lblInputNewName = new JLabel("Input New Name for Deprtment");
+		JLabel lblInputNewName = new JLabel("Input Name for Status Compalain");
 		lblInputNewName.setBounds(62, 11, 285, 32);
 		getContentPane().add(lblInputNewName);
 		lblInputNewName.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -63,19 +64,19 @@ public class EditDepartment extends JDialog {
 		getContentPane().add(btnOk);
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DAO.DepartmentDAO dep = new DepartmentDAO();
+				DAO.StatusComplainDAO dep = new DAO.StatusComplainDAO();
+				
 				try {
-					dep.editDepartment(idGet, String.valueOf(txtName.getText()));
-					DepartmentView adt = new DepartmentView();
-					adt.setVisible(true);
-					SystemForm.myTables[4].removeAll();
-					SystemForm.myTables[4].validate();
-					SystemForm.myTables[4].repaint();
-					SystemForm.myTables[4].add(new DepartmentView());
-					SystemForm.myTables[4].validate();
-					SystemForm.myTables[4].repaint();
+					dep.editStatusComplain(idGet, String.valueOf(txtName.getText()));
+					StatusComplainView adsc = new StatusComplainView();
+					adsc.setVisible(true);
+					SystemForm.myTables[6].removeAll();
+					SystemForm.myTables[6].validate();
+					SystemForm.myTables[6].repaint();
+					SystemForm.myTables[6].add(new StatusComplainView());
+					SystemForm.myTables[6].validate();
+					SystemForm.myTables[6].repaint();
 
-					
 					dispose();
 				} catch (Exception e2) {
 					// TODO: handle exception

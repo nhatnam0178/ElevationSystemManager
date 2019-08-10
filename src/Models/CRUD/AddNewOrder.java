@@ -265,9 +265,16 @@ public class AddNewOrder extends JDialog {
 					}
 				}
 				try {
-					orDAO.insertOrders(client_Id, account_ID, Integer.parseInt(textTotalPrice.getText()),
-							String.valueOf(textDateOrder.getText()), String.valueOf(textDateInstall.getText()),
-							String.valueOf(textDateComplete.getText()), status_ID);
+//					orDAO.insertOrders(client_Id, account_ID, Integer.parseInt(textTotalPrice.getText()),
+//							String.valueOf(textDateOrder.getText()), String.valueOf(textDateInstall.getText()),
+//							String.valueOf(textDateComplete.getText()), status_ID);
+					String str = "insert into orders values(?,?,?,?,?,?,?)";
+					String[] parameters = { String.valueOf(client_Id), String.valueOf(account_ID),
+							String.valueOf(textTotalPrice.getText()), String.valueOf(textDateOrder.getText()),
+							String.valueOf(textDateInstall.getText()),String.valueOf(textDateComplete.getText()),String.valueOf(status_ID) };
+					idPut = orDAO.GetInsertId(str, parameters);
+					AddNewOrderDetail adn = new AddNewOrderDetail(idPut);
+					adn.setVisible(true);
 					OrderView aor = new OrderView();
 					aor.setVisible(true);
 					SystemForm.myTables[3].removeAll();

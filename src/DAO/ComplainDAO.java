@@ -24,8 +24,8 @@ public final class ComplainDAO {
 		return rs;
 	}
 
-	public boolean ChangeStatus(int id, int isChar, int status) {
-		String[] params = { String.valueOf(id), String.valueOf(isChar), String.valueOf(status) };
+	public boolean ChangeStatus(int id, int status,int isChar) {
+		String[] params = { String.valueOf(id),String.valueOf(status),String.valueOf(isChar) };
 		boolean kq = Config.ConnectionSQL.CallProcExec("sp_updateStatus_COMPLAIN", params);
 		return kq;
 	}
